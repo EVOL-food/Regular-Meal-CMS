@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Subscription(models.Model):
-    days = models.CharField(max_length=50, blank=True)
+    days = models.PositiveIntegerField(max_length=50, blank=True)
     menu = models.ForeignKey(Menu, blank=True, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     delivery_schedule = models.ForeignKey(Delivery, on_delete=models.SET_NULL, null=True)
