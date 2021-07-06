@@ -13,6 +13,11 @@ class Subscription(models.Model):
     delivery_schedule = models.ForeignKey(Delivery, on_delete=models.SET_NULL, null=True)
 
 
+@receiver(signals.pre_save, sender=Subscription)
+def pre_save_order(sender, instance, **kwargs):
+    print("Subscription created")
+
+
 class Order(models.Model):
     profile = models.ForeignKey(Profile, blank=True, on_delete=models.CASCADE, null=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
@@ -25,6 +30,6 @@ class Order(models.Model):
 
 @receiver(signals.pre_save, sender=Order)
 def pre_save_order(sender, instance, **kwargs):
-    print("order created")
+    print("Order created")
 
 
