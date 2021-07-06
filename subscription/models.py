@@ -32,5 +32,3 @@ class Order(models.Model):
 @receiver(signals.pre_save, sender=Order)
 def pre_save_order(sender, instance, **kwargs):
     print("Order created")
-
-

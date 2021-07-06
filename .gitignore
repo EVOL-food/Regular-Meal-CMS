@@ -1,2 +1,6 @@
 virtualenv
 .idea
+db.sqlite3
+menu/migrations
+subscription/migrations
+delivery/migrations
