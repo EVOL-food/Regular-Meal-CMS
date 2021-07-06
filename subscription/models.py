@@ -9,7 +9,7 @@ from menu.models import Menu
 
 
 class Subscription(models.Model):
-    days = models.PositiveIntegerField(max_length=50, blank=True)
+    days = models.PositiveIntegerField(blank=True, default=0)
     menu = models.ForeignKey(Menu, blank=True, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
