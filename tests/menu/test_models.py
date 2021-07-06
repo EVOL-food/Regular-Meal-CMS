@@ -50,5 +50,5 @@ class DeliveryScheduleTestCase(TestCase):
         DeliverySchedule.objects.create(delivery_vendor='test_food', delivery_time='11.30')
 
     def test_get(self):
-        deliveryschedule = DeliverySchedule.objects.get(delivery_vendor='test_food')
-        self.assertEqual(deliveryschedule.delivery_vendor, 'test_food')
+        delivery_schedule = DeliverySchedule.objects.get(delivery_vendor='test_food')
+        self.assertEqual(delivery_schedule.delivery_vendor, 'test_food')

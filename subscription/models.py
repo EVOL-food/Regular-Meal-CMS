@@ -2,7 +2,8 @@ from django.db.models.signals import pre_save
 from django.db import models
 from django.db.models import signals
 from django.dispatch import receiver
-
+from delivery.models import DeliverySchedule
+from menu.models import Menu
 # Create your models here.
 
 
@@ -10,7 +11,7 @@ class Subscription(models.Model):
     days = models.PositiveIntegerField(max_length=50, blank=True)
     menu = models.ForeignKey(Menu, blank=True, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    delivery_schedule = models.ForeignKey(Delivery, on_delete=models.SET_NULL, null=True)
+    delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
 
 
 @receiver(signals.pre_save, sender=Subscription)
