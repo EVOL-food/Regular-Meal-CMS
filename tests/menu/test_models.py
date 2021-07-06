@@ -28,6 +28,7 @@ class OrderTestCase(TestCase):
     def test_get(self):
         pass
 
+
 class SubscriptionTestCase(TestCase):
     def setUp(self):
         Subscription.objects.create(days='30', menu="Body", price='6005', delivery_schedule="11.30")
