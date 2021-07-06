@@ -2,6 +2,7 @@ from django.db.models.signals import pre_save
 from django.db import models
 from django.db.models import signals
 from django.dispatch import receiver
+from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
 # Create your models here.
@@ -20,7 +21,8 @@ def pre_save_order(sender, instance, **kwargs):
 
 
 class Order(models.Model):
-    profile = models.ForeignKey(Profile, blank=True, on_delete=models.CASCADE, null=True)
+#    profile = models.ForeignKey(Profile, blank=True, on_delete=models.CASCADE, null=True)
+    profile = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, null=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
     data_start = models.DateField(auto_now=True)
     data_end = models.DateField(auto_now=True)
