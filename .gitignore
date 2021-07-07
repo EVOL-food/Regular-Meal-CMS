@@ -1,6 +1,8 @@
-virtualenv
-.idea
+/virtualenv/
+/.idea/
 db.sqlite3
-menu/migrations
-subscription/migrations
-delivery/migrations
+/menu/migrations/
+/subscription/migrations/
+/delivery/migrations/
+/client/migrations/
+/venv/
