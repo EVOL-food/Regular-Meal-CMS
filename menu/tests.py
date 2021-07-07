@@ -20,3 +20,10 @@ class DishTestCase(TestCase):
                        'Редис', 'Черные кунжутные семечки', 'Соль', 'Черный перец']
         self.assertEqual([str(ingredient) for ingredient in dish.ingredients.all()],
                          ingredients)
+
+
+class MenuTestCase(TestCase):
+    fixtures = ['menu.json']
+
+    def test_get(self):
+        menu = Menu.objects.get(title="Тест меню")
