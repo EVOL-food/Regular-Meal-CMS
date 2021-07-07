@@ -27,9 +27,7 @@ class DailyMealTestCase(TestCase):
         self.assertEqual(daily_meal.title, 'Разнообразный понедельник')
         self.assertEqual(daily_meal.calories, 3257)
 
-        dishes = [daily_meal.dish_1.title, daily_meal.dish_2.title,
-                  daily_meal.dish_3.title, daily_meal.dish_4.title,
-                  daily_meal.dish_5.title]
+        dishes = [str(dish) for dish in daily_meal.get_all_dishes]
         dishes_example = ['Гречневый завтрак', 'Печеная камбала с капустой и пореем',
                           'Салат с пряной говядиной и овощами', 'Супертост с авокадо',
                           'Тыквенный суп с имбирем']
@@ -45,9 +43,7 @@ class MenuTestCase(TestCase):
         self.assertIsNone(menu.category)
         self.assertEqual(menu.calories_daily, 0)
 
-        days = [menu.day_1.title, menu.day_2.title, menu.day_3.title,
-                menu.day_4.title, menu.day_5.title, menu.day_6.title,
-                menu.day_7.title]
+        days = [str(day) for day in menu.get_all_days]
         days_example = ['Вторник', 'Вторник', 'Вторник', 'Понедельник',
                         'Понедельник', 'Понедельник', 'Понедельник']
 
