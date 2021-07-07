@@ -11,6 +11,9 @@ class Category(models.Model):
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=30, unique=True)
