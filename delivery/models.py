@@ -15,40 +15,49 @@ def delivery_vendor_pre_save(sender, instance, **kwargs):
 
 
 class DeliverySchedule(models.Model):
+    CHOICES_FOR_MODE = (
+        (1, 'Все дни.'),
+        (2, 'Рабочие дни, выходные.'),
+        (3, 'Каждый жень в одно время.'),
+    )
+    CHOICES_FOR_DAYS = (
+        (1, 'Рабочие дни'),
+        (2, 'Выходные дни'),
+    )
 
     delivery_vendor = models.ForeignKey(DeliveryVendor, on_delete=models.CASCADE, null=True)
 
     delivery_time_start = models.TimeField()
     delivery_time_end = models.TimeField()
 
-    work_days_mode = models.IntegerChoices()
-    all_days_the_same = models.BooleanField()
-    mode = models.Choices()
+    work_days_mode = models.SmallIntegerField(choices=CHOICES_FOR_DAYS)
+    all_days = models.BooleanField(default=False)
+    mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE)
 
-    delivery_time_day1_start = models.TimeField()
-    delivery_time_day1_end = models.TimeField()
+    delivery_time_day1_start = models.TimeField(auto_now=False)
+    delivery_time_day1_end = models.TimeField(auto_now=False)
 
-    delivery_time_day2_start = models.TimeField()
-    delivery_time_day2_end = models.TimeField()
+    delivery_time_day2_start = models.TimeField(auto_now=False)
+    delivery_time_day2_end = models.TimeField(auto_now=False)
 
-    delivery_time_day3_start = models.TimeField()
-    delivery_time_day3_end = models.TimeField()
+    delivery_time_day3_start = models.TimeField(auto_now=False)
+    delivery_time_day3_end = models.TimeField(auto_now=False)
 
-    delivery_time_day4_start = models.TimeField()
-    delivery_time_day4_end = models.TimeField()
+    delivery_time_day4_start = models.TimeField(auto_now=False)
+    delivery_time_day4_end = models.TimeField(auto_now=False)
 
-    delivery_time_day5_start = models.TimeField()
-    delivery_time_day5_end = models.TimeField()
+    delivery_time_day5_start = models.TimeField(auto_now=False)
+    delivery_time_day5_end = models.TimeField(auto_now=False)
 
-    delivery_time_day6_start = models.TimeField()
-    delivery_time_day6_end = models.TimeField()
+    delivery_time_day6_start = models.TimeField(auto_now=False)
+    delivery_time_day6_end = models.TimeField(auto_now=False)
 
-    delivery_time_day7_start = models.TimeField()
-    delivery_time_day7_end = models.TimeField()
+    delivery_time_day7_start = models.TimeField(auto_now=False)
+    delivery_time_day7_end = models.TimeField(auto_now=False)
 
 
 
 @receiver(pre_save, sender=DeliverySchedule)
-def delivery_vendor_pre_save(sender, instance, **kwargs):
+def delivery_schedule_pre_save(sender, instance, **kwargs):
     print('DeliverySchedule created.')
 
