@@ -86,5 +86,10 @@ def pre_save_ingredient(sender, instance, *args, **kwargs):
 
 
 @receiver(pre_save, sender=DailyMeal)
-def delivery_vendor_pre_save(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
+def pre_save_daily_meal(sender, instance, *args, **kwargs):
+    calories = [instance.dish_1.calories,
+                instance.dish_2.calories,
+                instance.dish_3.calories,
+                instance.dish_4.calories,
+                instance.dish_5.calories]
+    instance.calories = sum(calories)
