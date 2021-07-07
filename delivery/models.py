@@ -15,8 +15,37 @@ def delivery_vendor_pre_save(sender, instance, **kwargs):
 
 
 class DeliverySchedule(models.Model):
+
     delivery_vendor = models.ForeignKey(DeliveryVendor, on_delete=models.CASCADE, null=True)
-    delivery_time = models.DurationField()
+
+    delivery_time_start = models.TimeField()
+    delivery_time_end = models.TimeField()
+
+    work_days_mode = models.IntegerChoices()
+    all_days_the_same = models.BooleanField()
+    mode = models.Choices()
+
+    delivery_time_day1_start = models.TimeField()
+    delivery_time_day1_end = models.TimeField()
+
+    delivery_time_day2_start = models.TimeField()
+    delivery_time_day2_end = models.TimeField()
+
+    delivery_time_day3_start = models.TimeField()
+    delivery_time_day3_end = models.TimeField()
+
+    delivery_time_day4_start = models.TimeField()
+    delivery_time_day4_end = models.TimeField()
+
+    delivery_time_day5_start = models.TimeField()
+    delivery_time_day5_end = models.TimeField()
+
+    delivery_time_day6_start = models.TimeField()
+    delivery_time_day6_end = models.TimeField()
+
+    delivery_time_day7_start = models.TimeField()
+    delivery_time_day7_end = models.TimeField()
+
 
 
 @receiver(pre_save, sender=DeliverySchedule)

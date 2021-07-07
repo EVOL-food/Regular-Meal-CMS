@@ -15,7 +15,7 @@ class Subscription(models.Model):
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
 
 
-@receiver(signals.pre_save, sender=Subscription)
+@receiver(pre_save, sender=Subscription)
 def pre_save_order(sender, instance, **kwargs):
     print("Subscription created")
 
@@ -31,6 +31,6 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-@receiver(signals.pre_save, sender=Order)
+@receiver(pre_save, sender=Order)
 def pre_save_order(sender, instance, **kwargs):
     print("Order created")
