@@ -8,12 +8,14 @@ from django.utils.text import slugify
 class Category(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(max_length=1000)
-    slug = models.SlugField(max_length=30, unique=True, default="")
+    slug = models.SlugField(max_length=30, unique=True,
+                            default="", blank=True, null=True)
 
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=30, unique=True)
-    slug = models.SlugField(max_length=30, unique=True, default="")
+    slug = models.SlugField(max_length=30, unique=True,
+                            default="", blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -24,7 +26,8 @@ class Dish(models.Model):
     calories = models.PositiveIntegerField(default=0)
     meal_of_the_day = models.PositiveIntegerField(
         choices=[(i, str(i)) for i in range(1, 6)])
-    slug = models.SlugField(max_length=60, unique=True, default="")
+    slug = models.SlugField(max_length=60, unique=True,
+                            default="", blank=True, null=True)
 
     ingredients = models.ManyToManyField(Ingredient, blank=True)
 
@@ -56,7 +59,8 @@ class Menu(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(max_length=1000)
     calories_daily = models.PositiveIntegerField(default=0)
-    slug = models.SlugField(max_length=30, unique=True, default="")
+    slug = models.SlugField(max_length=30, unique=True,
+                            default="", blank=True, null=True)
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,
                                  null=True, blank=True)
