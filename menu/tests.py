@@ -4,11 +4,11 @@ from menu.models import Menu, Dish, Category, Ingredient
 
 
 # Дамп данных с поддержкой Юникода:
-# python -Xutf8 ./manage.py dumpdata menu > dish.json
+# python -Xutf8 ./manage.py dumpdata menu > daily_meal.json
 
 
 class DishTestCase(TestCase):
-    fixtures = ['dish.json']
+    fixtures = ['daily_meal.json']
 
     def test_get(self):
         dish = Dish.objects.get(title="Супертост с авокадо")
