@@ -78,6 +78,11 @@ class Menu(models.Model):
     day_6 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="saturday")
     day_7 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="sunday")
 
+    @property
+    def get_all_days(self):
+        days = [self.day_1, self.day_2, self.day_3, self.day_4, self.day_5, self.day_6]
+        return days
+
 
 @receiver(pre_save, sender=Dish)
 def pre_save_dish(sender, instance, *args, **kwargs):

@@ -531,5 +531,18 @@
         159
       ]
     }
+  },
+  {
+    "model": "menu.dailymeal",
+    "pk": 4,
+    "fields": {
+      "title": "Разнообразный понедельник",
+      "dish_1": 17,
+      "dish_2": 18,
+      "dish_3": 19,
+      "dish_4": 20,
+      "dish_5": 21,
+      "calories": 3257
+    }
   }
 ]

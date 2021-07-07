@@ -1,0 +1,2 @@
+Дамп данных с поддержкой Юникода:
+python -Xutf8 ./manage.py dumpdata menu > daily_meal.json
