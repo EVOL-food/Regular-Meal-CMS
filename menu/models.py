@@ -54,6 +54,12 @@ class DailyMeal(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def get_all_dishes(self):
+        dishes = [self.dish_1, self.dish_2,
+                self.dish_3, self.dish_4, self.dish_5]
+        return dishes
+
 
 class Menu(models.Model):
     title = models.CharField(max_length=30)
@@ -80,7 +86,8 @@ class Menu(models.Model):
 
     @property
     def get_all_days(self):
-        days = [self.day_1, self.day_2, self.day_3, self.day_4, self.day_5, self.day_6]
+        days = [self.day_1, self.day_2, self.day_3,
+                self.day_4, self.day_5, self.day_6, self.day_7]
         return days
 
 
