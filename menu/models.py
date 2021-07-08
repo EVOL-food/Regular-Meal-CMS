@@ -1,3 +1,5 @@
+import calendar
+import datetime
 import unidecode
 from django.db import models
 from django.db.models.signals import pre_save
@@ -87,6 +89,9 @@ class Menu(models.Model):
     day_6 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="saturday")
     day_7 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="sunday")
 
+    def __str__(self):
+        return self.title
+
     @property
     def get_all_days(self):
         days = [self.day_1, self.day_2, self.day_3,
@@ -117,4 +122,10 @@ def pre_save_daily_meal(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=Menu)
 def pre_save_dish(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
+    if not instance.price_custom:
+        instance.price_weekly = instance.price_daily * 7
+        now = datetime.datetime.now()
+        days_in_month = calendar.monthrange(now.year, now.month)[1]
+        instance.price_monthly = instance.price_daily * days_in_month
+
 
