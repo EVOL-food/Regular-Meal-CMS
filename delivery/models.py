@@ -8,9 +8,14 @@ class DeliveryVendor(models.Model):
     description = models.TextField(max_length=300)
     price_one_delivery = models.DecimalField(default=0.0, max_digits=12, decimal_places=2)
 
+    def __str__(self):
+        return self.title
+
+
 @receiver(pre_save, sender=DeliveryVendor)
 def delivery_schedule_pre_save(sender, instance, **kwargs):
     print('DeliverySchedule created.')
+
 
 class DeliverySchedule(models.Model):
     CHOICES_FOR_MODE = (
