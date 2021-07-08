@@ -60,7 +60,7 @@ class DailyMeal(models.Model):
     @property
     def get_all_dishes(self):
         dishes = [self.dish_1, self.dish_2,
-                self.dish_3, self.dish_4, self.dish_5]
+                  self.dish_3, self.dish_4, self.dish_5]
         return dishes
 
 
@@ -94,13 +94,13 @@ class Menu(models.Model):
         return days
 
 
-@receiver(pre_save, sender=Dish)
-def pre_save_dish(sender, instance, *args, **kwargs):
+@receiver(pre_save, sender=Ingredient)
+def pre_save_ingredient(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
 
 
-@receiver(pre_save, sender=Ingredient)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
+@receiver(pre_save, sender=Dish)
+def pre_save_dish(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
 
 
@@ -112,3 +112,9 @@ def pre_save_daily_meal(sender, instance, *args, **kwargs):
                 instance.dish_4.calories,
                 instance.dish_5.calories]
     instance.calories = sum(calories)
+
+
+@receiver(pre_save, sender=Menu)
+def pre_save_dish(sender, instance, *args, **kwargs):
+    instance.slug = slugify(unidecode.unidecode(instance.title))
+
