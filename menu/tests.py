@@ -3,7 +3,6 @@ from django.test import TestCase
 from menu.models import Menu, DailyMeal, Dish, Category, Ingredient
 
 
-
 class DishTestCase(TestCase):
     fixtures = ['dish.json']
 
