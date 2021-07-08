@@ -1,5 +1,6 @@
 from django.test import TestCase
 from subscription.models import Subscription, Order
+from delivery.models import DeliveryVendor, DeliverySchedule
 
 
 class SubscriptionTestCase(TestCase):
@@ -10,7 +11,7 @@ class SubscriptionTestCase(TestCase):
         self.assertEqual(subscription.days, 7)
         self.assertEqual(subscription.menu, 1)
         self.assertEqual(subscription.price, '3000.00')
-        self.assertEqual(subscription.delivery_schedule, 3)
+        self.assertIsInstance(subscription.delivery_schedule, DeliverySchedule)
 
 
 class OrderTestCase(TestCase):
