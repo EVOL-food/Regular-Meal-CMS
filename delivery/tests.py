@@ -1,25 +1,28 @@
 from django.test import TestCase
 from delivery.models import DeliveryVendor, DeliverySchedule
+import datetime
 
 
 class DeliveryVendorTestCase(TestCase):
-    def setUp(self):
-        DeliveryVendor.objects.create(title='monday', description='address',
-                                      price_one_delivery='12.50')
-        DeliveryVendor.objects.create(title='tuesday', description='address',
-                                      price_one_delivery='15')
+    fixtures = ['delivery_schedule.json']
 
     def test_get(self):
-        delivery = DeliveryVendor.objects.get(title='monday')
-        delivery2 = DeliveryVendor.objects.get(title='tuesday')
-        self.assertEqual(delivery.title, 'monday')
-        self.assertEqual(delivery2.title, 'tuesday')
+        delivery_vendor = DeliveryVendor.objects.get(title='Быстрая доставка')
+        self.assertEqual(delivery_vendor.title, 'Быстрая доставка')
+        self.assertEqual(delivery_vendor.description, "Компания быстрой доставки")
+        self.assertEqual(delivery_vendor.price_one_delivery, 200.00)
 
 
 class DeliveryScheduleTestCase(TestCase):
-    def setUp(self):
-        DeliverySchedule.objects.create(delivery_vendor='test_food', delivery_time='11.30')
+    fixtures = ['delivery_schedule.json']
 
     def test_get(self):
-        delivery_schedule = DeliverySchedule.objects.get(delivery_vendor='test_food')
-        self.assertEqual(delivery_schedule.delivery_vendor, 'test_food')
+        delivery_schedule = DeliverySchedule.objects.get(pk='3')
+
+        self.assertIsInstance(delivery_schedule.delivery_vendor, DeliveryVendor)
+        self.assertEqual(delivery_schedule.delivery_time_start_weekday, datetime.time(11, 0))
+        self.assertEqual(delivery_schedule.delivery_time_end_weekday, datetime.time(12, 0))
+        self.assertEqual(delivery_schedule.delivery_time_start_weekend, datetime.time(11, 0))
+        self.assertEqual(delivery_schedule.delivery_time_end_weekend, datetime.time(12, 0))
+        self.assertEqual(delivery_schedule.mode, 1)
+
