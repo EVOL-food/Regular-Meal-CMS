@@ -86,3 +86,14 @@ class MenuTestCase(TestCase):
     def test_slug_pre_save(self):
         slug = slugify(unidecode.unidecode(self.menu.title))
         self.assertEqual(self.menu.slug, slug)
+
+    def test_price_pre_save(self):
+        self.assertEqual(self.menu.price_daily, 600)
+        if self.menu.price_custom:
+            self.assertEqual(self.menu.price_weekly, 3000)
+            self.assertEqual(self.menu.price_monthly, 10000)
+        self.menu.price_custom = False
+        self.menu.save()
+        if not self.menu.price_custom:
+            self.assertEqual(self.menu.price_weekly, 4200)
+            self.assertEqual(self.menu.price_monthly, 18600)
