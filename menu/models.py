@@ -75,9 +75,9 @@ class Menu(models.Model):
                                  null=True, blank=True)
 
     price_custom = models.BooleanField(default=False)
-    price_daily = models.DecimalField(default=0.0, max_digits=5, decimal_places=2)
-    price_weekly = models.DecimalField(default=0.0, max_digits=7, decimal_places=2)
-    price_monthly = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
+    price_daily = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    price_weekly = models.DecimalField(default=0, max_digits=7, decimal_places=2)
+    price_monthly = models.DecimalField(default=0, max_digits=10, decimal_places=2)
 
     day_1 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="monday")
     day_2 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="tuesday")
