@@ -1,0 +1,23 @@
+[
+  {
+    "model": "delivery.deliveryvendor",
+    "pk": 1,
+    "fields": {
+      "title": "Быстрая доставка",
+      "description": "Компания быстрой доставки",
+      "price_one_delivery": "200.00"
+    }
+  },
+  {
+    "model": "delivery.deliveryschedule",
+    "pk": 3,
+    "fields": {
+      "delivery_vendor": 1,
+      "delivery_time_start_weekday": "11:00:00",
+      "delivery_time_end_weekday": "12:00:00",
+      "delivery_time_start_weekend": "11:00:00",
+      "delivery_time_end_weekend": "12:00:00",
+      "mode": 1
+    }
+  }
+]
