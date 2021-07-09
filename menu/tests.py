@@ -88,7 +88,6 @@ class MenuTestCase(TestCase):
     def test_field(self):
         self.assertEqual(self.menu.title, "Тест меню")
         self.assertIsNotNone(self.menu.category)
-        self.assertEqual(self.menu.calories_daily, 0)
 
     def test_foreign_key_days(self):
         days = [str(day) for day in self.menu.get_all_days
@@ -111,3 +110,7 @@ class MenuTestCase(TestCase):
         if not self.menu.price_custom:
             self.assertEqual(self.menu.price_weekly, 4200)
             self.assertEqual(self.menu.price_monthly, 18000)
+
+    def test_calories_pre_save(self):
+        self.menu.save()
+        self.assertEqual(self.menu.calories_daily, 2650)
