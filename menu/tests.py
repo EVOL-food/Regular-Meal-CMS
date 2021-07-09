@@ -4,6 +4,20 @@ from django.test import TestCase
 from menu.models import Menu, DailyMeal, Dish, Category, Ingredient
 
 
+class CategoryTestCase(TestCase):
+    fixtures = ['menu.json']
+
+    def setUp(self) -> None:
+        self.category = Category.objects.get(pk=1)
+
+    def test_field_value(self):
+        self.assertEqual(self.category.title, "Боди меню")
+
+    def test_pre_save_slug(self):
+        slug = slugify(unidecode.unidecode(self.category.title))
+        self.assertEqual(self.category.slug, slug)
+
+
 class IngredientTestCase(TestCase):
     fixtures = ['dish.json']
 
