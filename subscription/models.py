@@ -21,12 +21,19 @@ def pre_save_order(sender, instance, **kwargs):
 
 
 class Order(models.Model):
+    STATUS = (
+        (1, 'New'),
+        (2, 'Accepted'),
+        (3, 'OnShipping'),
+        (4, 'Completed'),
+        (5, 'Canceled'),
+    )
     profile = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, null=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
     data_start = models.DateField(auto_now=True)
     data_end = models.DateField(auto_now=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    status = models.BooleanField(default=False, blank=False)
+    status = models.SmallIntegerField(choices=STATUS, default=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
