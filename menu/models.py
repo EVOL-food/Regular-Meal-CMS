@@ -99,6 +99,11 @@ class Menu(models.Model):
         return days
 
 
+@receiver(pre_save, sender=Category)
+def pre_save_ingredient(sender, instance, *args, **kwargs):
+    instance.slug = slugify(unidecode.unidecode(instance.title))
+
+
 @receiver(pre_save, sender=Ingredient)
 def pre_save_ingredient(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
