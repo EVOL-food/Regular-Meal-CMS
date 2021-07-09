@@ -28,15 +28,18 @@ class DeliverySchedule(models.Model):
     delivery_time_start_weekday = models.TimeField()
     delivery_time_end_weekday = models.TimeField()
 
-    delivery_time_start_weekend = models.TimeField()
-    delivery_time_end_weekend = models.TimeField()
+    delivery_time_start_weekend = models.TimeField(blank=True, null=True)
+    delivery_time_end_weekend = models.TimeField(blank=True, null=True)
 
     mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE, default=1)
 
     def __str__(self):
         return self.delivery_vendor.title
 
+
 @receiver(pre_save, sender=DeliverySchedule)
 def delivery_schedule_pre_save(sender, instance, **kwargs):
-    print('DeliverySchedule created.')
+    if instance.mode == 1:
+        instance.delivery_time_start_weekend = instance.delivery_time_start_weekday
+        instance.delivery_time_end_weekend = instance.delivery_time_end_weekday
 
