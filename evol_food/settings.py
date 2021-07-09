@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'adminlte3',
-    'adminlte3_theme',
+    'baton',
     'django.contrib.admin',
+    'baton.autodiscover',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

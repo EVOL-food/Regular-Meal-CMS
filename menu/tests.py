@@ -96,4 +96,4 @@ class MenuTestCase(TestCase):
         self.menu.save()
         if not self.menu.price_custom:
             self.assertEqual(self.menu.price_weekly, 4200)
-            self.assertEqual(self.menu.price_monthly, 18600)
+            self.assertEqual(self.menu.price_monthly, 18000)
