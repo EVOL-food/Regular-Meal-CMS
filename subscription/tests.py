@@ -18,12 +18,14 @@ class SubscriptionTestCase(TestCase):
 class OrderTestCase(TestCase):
     fixtures = ['subscription.json']
 
+    def setUp(self) -> None:
+        self.order = Order.objects.get(pk='1')
+
     def test_get(self):
-        order = Order.objects.get(pk='1')
-        self.assertIsInstance(order.profile, Client)
-        self.assertIsInstance(order.subscription, Subscription)
-        self.assertEqual(order.data_start, "2021-07-08")
-        self.assertEqual(order.data_end, "2021-07-08")
-        self.assertEqual(order.price, "18000.00")
-        self.assertTrue(order.status, True)
-        self.assertEqual(order.created_at, "2021-07-08T12:42:34.029Z")
+        self.assertIsInstance(self.order.profile, Client)
+        self.assertIsInstance(self.order.subscription, Subscription)
+        self.assertEqual(self.order.data_start, "2021-07-08")
+        self.assertEqual(self.order.data_end, "2021-07-08")
+        self.assertEqual(self.order.price, "18000.00")
+        self.assertTrue(self.order.status, True)
+        self.assertEqual(self.order.created_at, "2021-07-08T12:42:34.029Z")
