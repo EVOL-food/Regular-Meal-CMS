@@ -2,4 +2,4 @@ django 3.2.5
 pillow 8.3.0
 unidecode 1.2.0
 coverage
-django-adminlte3 0.1.6
+django-baton
