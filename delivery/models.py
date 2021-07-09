@@ -33,6 +33,8 @@ class DeliverySchedule(models.Model):
 
     mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE, default=1)
 
+    def __str__(self):
+        return self.delivery_vendor.title
 
 @receiver(pre_save, sender=DeliverySchedule)
 def delivery_schedule_pre_save(sender, instance, **kwargs):
