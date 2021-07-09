@@ -34,7 +34,8 @@ class DeliverySchedule(models.Model):
     mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE, default=1)
 
     def __str__(self):
-        return self.delivery_vendor.title
+        return f"{self.delivery_vendor.title}: " \
+               f"from {self.delivery_time_start_weekday.hour} to {self.delivery_time_end_weekday.hour}"
 
 
 @receiver(pre_save, sender=DeliverySchedule)
