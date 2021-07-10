@@ -137,7 +137,7 @@ def pre_save_daily_meal(sender, instance, *args, **kwargs):
 @receiver(pre_save, sender=Menu)
 def pre_save_dish(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
-    if not instance.price_custom:
+    if instance.price_auto:
         instance.price_weekly = instance.price_daily * 7
         #        now = datetime.datetime.now()
         #        days_in_month = calendar.monthrange(now.year, now.month)[1]
