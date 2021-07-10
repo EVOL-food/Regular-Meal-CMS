@@ -755,7 +755,7 @@
       "calories_daily": 0,
       "slug": "test-menu",
       "category": 1,
-      "price_custom": true,
+      "price_auto": false,
       "price_daily": "600.00",
       "price_weekly": "3000.00",
       "price_monthly": "10000.00",
