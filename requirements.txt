@@ -4,3 +4,4 @@ unidecode 1.2.0
 coverage
 django-baton
 django-admin-numeric-filter
+django_admin_generator
