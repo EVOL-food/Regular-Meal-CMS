@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'baton',
     'django.contrib.admin',
     'baton.autodiscover',
+    'django_admin_generator',
+    'admin_numeric_filter',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
