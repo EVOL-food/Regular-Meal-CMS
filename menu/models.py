@@ -76,7 +76,7 @@ class Menu(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,
                                  null=True, blank=True)
 
-    price_custom = models.BooleanField(default=False)
+    price_custom = models.BooleanField(default=True)
     price_daily = models.DecimalField(default=0, max_digits=5,
                                       decimal_places=2, verbose_name='Daily costs')
     price_weekly = models.DecimalField(default=0, max_digits=7,
