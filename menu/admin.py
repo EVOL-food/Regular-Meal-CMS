@@ -64,7 +64,7 @@ class MenuAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     )
     list_filter = (
         'category',
-        'price_custom',
+        'price_auto',
         ('calories_daily', SliderNumericFilter),
     )
     search_fields = ('title',) + tuple(f'day_{num}__title' for num in range(1, 8))
