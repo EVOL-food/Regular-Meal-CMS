@@ -44,15 +44,15 @@ class DailyMeal(models.Model):
     title = models.CharField(default="", max_length=100)
 
     dish_1 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='breakfast')
+                               related_name='breakfast', verbose_name='breakfast')
     dish_2 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='brunch')
+                               related_name='brunch', verbose_name='brunch')
     dish_3 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='lunch')
+                               related_name='lunch', verbose_name='lunch')
     dish_4 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='dinner')
+                               related_name='dinner', verbose_name='dinner')
     dish_5 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='supper')
+                               related_name='supper', verbose_name='supper')
 
     calories = models.PositiveIntegerField(default=0)
 
@@ -69,7 +69,7 @@ class DailyMeal(models.Model):
 class Menu(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(max_length=1000)
-    calories_daily = models.PositiveIntegerField(default=0)
+    calories_daily = models.PositiveIntegerField(default=0, verbose_name='Calories average')
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
 
@@ -77,17 +77,27 @@ class Menu(models.Model):
                                  null=True, blank=True)
 
     price_custom = models.BooleanField(default=False)
-    price_daily = models.DecimalField(default=0, max_digits=5, decimal_places=2)
-    price_weekly = models.DecimalField(default=0, max_digits=7, decimal_places=2)
-    price_monthly = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    price_daily = models.DecimalField(default=0, max_digits=5,
+                                      decimal_places=2, verbose_name='Daily costs')
+    price_weekly = models.DecimalField(default=0, max_digits=7,
+                                       decimal_places=2, verbose_name='Weekly costs')
+    price_monthly = models.DecimalField(default=0, max_digits=10,
+                                        decimal_places=2, verbose_name='Monthly costs')
 
-    day_1 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="monday")
-    day_2 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="tuesday")
-    day_3 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="wednesday")
-    day_4 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="thursday")
-    day_5 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="friday")
-    day_6 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="saturday")
-    day_7 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE, related_name="sunday")
+    day_1 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="monday", verbose_name='monday')
+    day_2 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="tuesday", verbose_name="tuesday")
+    day_3 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="wednesday", verbose_name="wednesday")
+    day_4 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="thursday", verbose_name="thursday")
+    day_5 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="friday", verbose_name="friday")
+    day_6 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="saturday", verbose_name="saturday")
+    day_7 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
+                              related_name="sunday", verbose_name="sunday")
 
     def __str__(self):
         return self.title

@@ -3,3 +3,4 @@ pillow 8.3.0
 unidecode 1.2.0
 coverage
 django-baton
+django-admin-numeric-filter

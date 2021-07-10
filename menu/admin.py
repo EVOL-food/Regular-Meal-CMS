@@ -1,23 +1,89 @@
+# vim: set fileencoding=utf-8 :
 from django.contrib import admin
-from .models import Menu, DailyMeal, Dish, Ingredient, Category
+from admin_numeric_filter.admin import NumericFilterModelAdmin, SingleNumericFilter, RangeNumericFilter, \
+    SliderNumericFilter
 
-# Register your models here.
-
-
-class MenuAdmin(admin.ModelAdmin):
-    list_display = ('title', 'calories_daily')
+from . import models
 
 
-class DailyMealAdmin(admin.ModelAdmin):
-    list_display = ('title', 'calories')
+class CategoryAdmin(admin.ModelAdmin):
+
+    list_display = ('title', 'description', 'id')
+    list_filter = ('title', 'description', 'id')
+    search_fields = ('title',)
+    readonly_fields = ('slug',)
 
 
-class DishAdmin(admin.ModelAdmin):
-    list_display = ('title', 'calories', 'meal_of_the_day')
+class IngredientAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'title', 'slug')
+    search_fields = ('title', 'id')
+    readonly_fields = ('slug',)
 
 
-admin.site.register(Menu, MenuAdmin)
-admin.site.register(DailyMeal, DailyMealAdmin)
-admin.site.register(Dish, DishAdmin)
-admin.site.register(Ingredient)
-admin.site.register(Category)
+class DishAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+
+    list_display = ('title', 'calories', 'meal_of_the_day', 'id')
+    list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
+    autocomplete_fields = ('ingredients',)
+    search_fields = ('title', 'calories', 'ingredients__title')
+    readonly_fields = ('slug',)
+
+
+class DailyMealAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+    list_display = (
+        'title',
+        'dish_1',
+        'dish_2',
+        'dish_3',
+        'dish_4',
+        'dish_5',
+        'calories',
+        'id',
+    )
+    list_filter = (
+        ('calories', SliderNumericFilter),
+    )
+    autocomplete_fields = ('dish_1', 'dish_2', 'dish_3', 'dish_4', 'dish_5')
+    search_fields = ('title', 'dish_1__title', 'dish_2__title',
+                     'dish_3__title', 'dish_4__title', 'dish_5__title')
+    readonly_fields = ('calories',)
+
+
+class MenuAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+
+    list_display = (
+        'title',
+        'category',
+        'calories_daily',
+        'price_daily',
+        'price_monthly',
+        'id',
+    )
+    list_filter = (
+        'category',
+        'price_custom',
+        ('calories_daily', SliderNumericFilter),
+    )
+    search_fields = ('title', 'calories', 'ingredients__title')
+    readonly_fields = ('calories_daily',  'slug')
+
+    def get_readonly_fields(self, request, obj=None):
+        try:
+            if not obj.price_custom:
+                return self.readonly_fields + ('price_weekly', 'price_monthly',)
+        except AttributeError:
+            return self.readonly_fields + ('price_weekly', 'price_monthly',)
+        else:
+            return self.readonly_fields
+
+
+def _register(model, admin_class):
+    admin.site.register(model, admin_class)
+
+
+_register(models.Category, CategoryAdmin)
+_register(models.Ingredient, IngredientAdmin)
+_register(models.Dish, DishAdmin)
+_register(models.DailyMeal, DailyMealAdmin)
+_register(models.Menu, MenuAdmin)
