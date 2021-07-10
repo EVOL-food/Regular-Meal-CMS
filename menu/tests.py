@@ -102,12 +102,12 @@ class MenuTestCase(TestCase):
 
     def test_price_pre_save(self):
         self.assertEqual(self.menu.price_daily, 600)
-        if self.menu.price_custom:
+        if not self.menu.price_auto:
             self.assertEqual(self.menu.price_weekly, 3000)
             self.assertEqual(self.menu.price_monthly, 10000)
-        self.menu.price_custom = False
+        self.menu.price_auto = True
         self.menu.save()
-        if not self.menu.price_custom:
+        if self.menu.price_auto:
             self.assertEqual(self.menu.price_weekly, 4200)
             self.assertEqual(self.menu.price_monthly, 18000)
 
