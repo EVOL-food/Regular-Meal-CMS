@@ -44,8 +44,7 @@ class DailyMealAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
         ('calories', SliderNumericFilter),
     )
     autocomplete_fields = ('dish_1', 'dish_2', 'dish_3', 'dish_4', 'dish_5')
-    search_fields = ('title', 'dish_1__title', 'dish_2__title',
-                     'dish_3__title', 'dish_4__title', 'dish_5__title')
+    search_fields = ('title',) + tuple(f'dish_{num}__title' for num in range(1, 6))
     readonly_fields = ('calories',)
 
     def get_form(self, request, obj=None, **kwargs):
@@ -68,7 +67,7 @@ class MenuAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
         'price_custom',
         ('calories_daily', SliderNumericFilter),
     )
-    search_fields = ('title', 'calories', 'ingredients__title')
+    search_fields = ('title',) + tuple(f'day_{num}__title' for num in range(1, 8))
     readonly_fields = ('calories_daily', 'slug')
 
     def get_readonly_fields(self, request, obj=None):
