@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'client',
     'delivery',
     'menu',
-    'subscription'
+    'subscription',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FIXTURE_DIRS = ["fixtures"]
+
+MEDIA_URL = "/media/"
+
