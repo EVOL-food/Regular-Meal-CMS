@@ -4,9 +4,15 @@ from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFil
 from . import models
 
 
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'id')
+    search_fields = ('title',)
+
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'slug', 'id')
     search_fields = ('title', 'description')
+    autocomplete_fields = ('photo',)
     readonly_fields = ('slug',)
 
 
@@ -19,7 +25,7 @@ class IngredientAdmin(admin.ModelAdmin):
 class DishAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
-    autocomplete_fields = ('ingredients',)
+    autocomplete_fields = ('ingredients', 'photo')
     search_fields = ('title', 'calories', 'ingredients__title')
     readonly_fields = ('slug',)
 
@@ -64,18 +70,20 @@ class MenuAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     )
     list_filter = (
         'category',
-        'price_auto',
         ('calories_daily', SliderNumericFilter),
+        'price_auto',
+        ('price_daily', SliderNumericFilter),
     )
-    search_fields = ('title',) + tuple(f'day_{num}__title' for num in range(1, 8))
+    search_fields = ('title', 'category__title') + tuple(f'day_{num}__title' for num in range(1, 8))
+    autocomplete_fields = ('photo',) + tuple(f'day_{num}' for num in range(1, 8))
     readonly_fields = ('calories_daily', 'slug')
 
     def get_readonly_fields(self, request, obj=None):
         try:
             if obj.price_auto:
-                return self.readonly_fields + ('price_weekly', 'price_monthly',)
+                return ('price_weekly', 'price_monthly',) + self.readonly_fields
         except AttributeError:
-            return self.readonly_fields + ('price_weekly', 'price_monthly',)
+            return ('price_auto', 'price_weekly', 'price_monthly',) + self.readonly_fields
         else:
             return self.readonly_fields
 
@@ -94,3 +102,4 @@ _register(models.Ingredient, IngredientAdmin)
 _register(models.Dish, DishAdmin)
 _register(models.DailyMeal, DailyMealAdmin)
 _register(models.Menu, MenuAdmin)
+_register(models.Photo, PhotoAdmin)

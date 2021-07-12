@@ -5,16 +5,38 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
+
+class Photo(models.Model):
+    title = models.CharField(max_length=60, default="")
+    image = models.ImageField(upload_to='menu/photos/', null=True, blank=True)
+    image_large = ImageSpecField(source='image', processors=[ResizeToFill(512, 512)], format='PNG',
+                                 options={'quality': 70})
+    image_medium = ImageSpecField(source='image', processors=[ResizeToFill(256, 256)], format='PNG',
+                                  options={'quality': 70})
+    image_small = ImageSpecField(source='image', processors=[ResizeToFill(128, 128)], format='PNG',
+                                 options={'quality': 70})
+    image_tag = ImageSpecField(source='image', processors=[ResizeToFill(28, 28)], format='PNG',
+                               options={'quality': 70})
+
+    def __str__(self):
+        return self.title
 
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(max_length=1000)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Categories'
 
 
 class Ingredient(models.Model):
@@ -31,13 +53,16 @@ class Dish(models.Model):
     calories = models.PositiveIntegerField(default=0)
     meal_of_the_day = models.PositiveIntegerField(
         choices=[(i, str(i)) for i in range(1, 6)])
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=60, unique=True,
                             default="", blank=True, null=True)
 
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
-
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = 'Dishes'
 
 
 class DailyMeal(models.Model):
@@ -70,11 +95,10 @@ class Menu(models.Model):
     title = models.CharField(max_length=30)
     description = models.TextField(max_length=1000)
     calories_daily = models.PositiveIntegerField(default=0, verbose_name='Calories average')
-    slug = models.SlugField(max_length=30, unique=True,
-                            default="", blank=True, null=True)
-
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,
                                  null=True, blank=True)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
+    slug = models.SlugField(max_length=30, unique=True, default="", blank=True, null=True)
 
     price_auto = models.BooleanField(default=True)
     price_daily = models.DecimalField(default=0, max_digits=5,
