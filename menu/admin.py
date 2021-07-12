@@ -74,9 +74,9 @@ class MenuAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         try:
             if obj.price_auto:
-                return self.readonly_fields + ('price_weekly', 'price_monthly',)
+                return ('price_weekly', 'price_monthly',) + self.readonly_fields
         except AttributeError:
-            return self.readonly_fields + ('price_weekly', 'price_monthly',)
+            return ('price_auto', 'price_weekly', 'price_monthly',) + self.readonly_fields
         else:
             return self.readonly_fields
 

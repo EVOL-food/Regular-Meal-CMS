@@ -10,6 +10,13 @@ class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
                    'delivery_schedule__delivery_vendor',
                    ('menu__calories_daily', SliderNumericFilter),)
     search_fields = ('menu__title', 'menu__description',)
+    readonly_fields = ('price_menu', 'price_delivery', 'price_total')
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ('menu',) + self.readonly_fields
+        else:
+            return self.readonly_fields
 
 
 class OrderAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
@@ -18,6 +25,13 @@ class OrderAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     search_fields = ('profile__first_name', 'profile__last_name',)
     list_filter = ('status', ('price', SliderNumericFilter), 'created_at',
                    'data_end', 'subscription__delivery_schedule__delivery_vendor', )
+    readonly_fields = ('price',)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ('profile', 'subscription',) + self.readonly_fields
+        else:
+            return self.readonly_fields
 
 
 admin.site.register(Subscription, SubscriptionAdmin)
