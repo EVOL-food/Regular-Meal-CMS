@@ -8,16 +8,16 @@ import datetime
 class SubscriptionTestCase(TestCase):
     fixtures = ['subscription.json']
 
+    def setUp(self) -> None:
+        self.subscription = Subscription.objects.get(pk='2')
+
     def test_get(self):
-        subscription = Subscription.objects.get(pk='2')
-        self.assertEqual(subscription.days, 10)
-        #self.assertEqual(subscription.menu, '<Menu: Тест меню>')
-        #self.assertEqual(subscription.delivery_schedule,
-        #                <DeliverySchedule: Быстрая доставка: from 11 to 12>)
-        self.assertEqual(subscription.price_menu, 6000.00)
-        self.assertEqual(subscription.price_delivery, 2000.00)
-        self.assertEqual(subscription.price_total, 8000.00)
-        self.assertIsInstance(subscription.delivery_schedule, DeliverySchedule)
+        self.assertEqual(self.subscription.days, 10)
+        self.assertEqual(self.subscription.menu.title, 'Тест меню')
+        self.assertEqual(self.subscription.price_menu, 6000.00)
+        self.assertEqual(self.subscription.price_delivery, 2000.00)
+        self.assertEqual(self.subscription.price_total, 8000.00)
+        self.assertIsInstance(self.subscription.delivery_schedule, DeliverySchedule)
 
 
 class OrderTestCase(TestCase):
@@ -33,5 +33,4 @@ class OrderTestCase(TestCase):
         self.assertEqual(self.order.data_end, datetime.date(2021, 7, 21))
         self.assertEqual(self.order.price, 8000.00)
         self.assertTrue(self.order.status, True)
-        #self.assertEqual(self.order.created_at,
-                         #datetime.datetime(2021, 7, 11, 23, 55, 27, 534000, tzinfo=<UTC>))
+        self.assertEqual(self.order.created_at.day, datetime.date(2021, 7, 11).day)
