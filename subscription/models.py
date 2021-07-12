@@ -12,7 +12,7 @@ from client.models import Client
 
 class Subscription(models.Model):
     days = models.PositiveIntegerField(blank=True, default=0)
-    menu = models.ForeignKey(Menu, blank=True, on_delete=models.CASCADE, null=True)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True)
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
     price_menu = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     price_delivery = models.DecimalField(max_digits=12, decimal_places=2, default=0)
