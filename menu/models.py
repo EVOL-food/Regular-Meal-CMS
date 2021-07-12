@@ -6,12 +6,12 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill, ResizeToFill
+from imagekit.processors import ResizeToFill
 
 
 class Photo(models.Model):
     title = models.CharField(max_length=60, default="")
-    image = models.ImageField(upload_to='menu/media/photos', null=True, blank=True)
+    image = models.ImageField(upload_to='menu/photos/', null=True, blank=True)
     image_large = ImageSpecField(source='image', processors=[ResizeToFill(512, 512)], format='PNG',
                                  options={'quality': 70})
     image_medium = ImageSpecField(source='image', processors=[ResizeToFill(256, 256)], format='PNG',
@@ -20,7 +20,6 @@ class Photo(models.Model):
                                  options={'quality': 70})
     image_tag = ImageSpecField(source='image', processors=[ResizeToFill(28, 28)], format='PNG',
                                options={'quality': 70})
-    slug = models.SlugField(unique=True, max_length=60, default='', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -132,11 +131,6 @@ class Menu(models.Model):
         days = [self.day_1, self.day_2, self.day_3,
                 self.day_4, self.day_5, self.day_6, self.day_7]
         return days
-
-
-@receiver(pre_save, sender=Photo)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
 
 
 @receiver(pre_save, sender=Category)

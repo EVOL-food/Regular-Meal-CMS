@@ -1,6 +1,6 @@
-django 3.2.5
-pillow 8.3.0
-unidecode 1.2.0
+django
+pillow
+unidecode
 coverage
 django-baton
 django-admin-numeric-filter

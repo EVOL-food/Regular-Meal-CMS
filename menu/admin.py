@@ -5,9 +5,8 @@ from . import models
 
 
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'id')
-    search_fields = ('title', 'slug',)
-    readonly_fields = ('slug',)
+    list_display = ('title', 'id')
+    search_fields = ('title',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
