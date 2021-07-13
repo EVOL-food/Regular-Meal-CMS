@@ -13,7 +13,6 @@ class SubscriptionTestCase(TestCase):
         self.subscription = Subscription.objects.get(pk='2')
 
     def test_get(self):
-
         self.assertEqual(self.subscription.days, 10)
         self.assertEqual(self.subscription.menu.title, 'Тест меню')
         self.assertIsInstance(self.subscription.delivery_schedule, DeliverySchedule)
