@@ -163,8 +163,6 @@ def pre_save_dish(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
     if instance.price_auto:
         instance.price_weekly = instance.price_daily * 7
-        #        now = datetime.datetime.now()
-        #        days_in_month = calendar.monthrange(now.year, now.month)[1]
-        instance.price_monthly = instance.price_daily * 30
+        instance.price_monthly = instance.price_weekly * 4
 
     instance.calories_daily = round(sum(day.calories for day in instance.get_all_days) / 7)
