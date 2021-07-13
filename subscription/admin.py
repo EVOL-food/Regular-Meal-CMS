@@ -4,7 +4,7 @@ from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFil
 
 
 class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
-    list_display = ('menu', 'days', 'delivery_schedule',
+    list_display = ('menu', 'days', 'weekdays_only', 'delivery_schedule',
                     'price_menu', 'price_delivery', 'price_total')
     list_filter = ('menu', ('price_total', SliderNumericFilter),
                    'delivery_schedule__delivery_vendor',

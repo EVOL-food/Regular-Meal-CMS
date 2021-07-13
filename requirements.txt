@@ -2,6 +2,7 @@ django
 pillow
 unidecode
 coverage
-django-baton
+django-baton 2.2.1
 django-admin-numeric-filter
 django_admin_generator
+django-imagekit

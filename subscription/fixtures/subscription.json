@@ -104,6 +104,58 @@
     }
   },
   {
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+      "action_time": "2021-07-13T10:56:02.116Z",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "2",
+      "object_repr": "Тест меню, 10 days, Быстрая доставка",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Weekdays only\"]}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+      "action_time": "2021-07-13T10:56:15.680Z",
+      "user": 2,
+      "content_type": 15,
+      "object_id": "1",
+      "object_repr": "Тест меню, 7 days, Быстрая доставка",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+      "action_time": "2021-07-13T10:56:27.607Z",
+      "user": 2,
+      "content_type": 16,
+      "object_id": "1",
+      "object_repr": "Тест имя Тест фамилия, None",
+      "action_flag": 3,
+      "change_message": ""
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+      "action_time": "2021-07-13T10:57:12.437Z",
+      "user": 2,
+      "content_type": 7,
+      "object_id": "2",
+      "object_repr": "Саша Озеров",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
     "model": "auth.permission",
     "pk": 1,
     "fields": {
@@ -680,6 +732,42 @@
     }
   },
   {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can add photo",
+      "content_type": 17,
+      "codename": "add_photo"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can change photo",
+      "content_type": 17,
+      "codename": "change_photo"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can delete photo",
+      "content_type": 17,
+      "codename": "delete_photo"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can view photo",
+      "content_type": 17,
+      "codename": "view_photo"
+    }
+  },
+  {
     "model": "auth.user",
     "pk": 1,
     "fields": {
@@ -698,6 +786,32 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$tAGuihmdpfgG6ftfpx6yY4$EXrvdWudASmW7YnZp8VSW9Htp0Oq37XTqjhpNmJJAp4=",
+      "last_login": "2021-07-13T10:55:27.881Z",
+      "is_superuser": true,
+      "username": "san_sanych",
+      "first_name": "",
+      "last_name": "",
+      "email": "sasha.ozerov98@gmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-07-13T10:55:18.422Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "pxnn1mtg27izabtk97lha72cb58j2k49",
+    "fields": {
+      "session_data": ".eJxVjMsOwiAQRf-FtSEMYXi4dO83kIEBqRqalHZl_Hdt0oVu7znnvkSkbW1xG2WJE4uz0OL0uyXKj9J3wHfqt1nmua_LlOSuyIMOeZ25PC-H-3fQaLRvrUCbDMpldgUQlXHkDQVtySv0UBCyZReCp1opUNKmolbE4NkGjUm8P72gNz8:1m3G4V:qeCuWt0XZoUPwHDQnofPsY23FO7HTbZfIknmJU_p8oY",
+      "expire_date": "2021-07-27T10:55:27.893Z"
+    }
+  },
+  {
     "model": "client.client",
     "pk": 1,
     "fields": {
@@ -708,6 +822,19 @@
       "address": "Тестовый адрес",
       "gender": "Мужчина",
       "created_at": "2021-07-11T09:13:59.996Z"
+    }
+  },
+  {
+    "model": "client.client",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "first_name": "Саша",
+      "last_name": "Озеров",
+      "phone_number": "0993784016",
+      "address": "Чумаченко 15г",
+      "gender": "Мужчина",
+      "created_at": "2021-07-13T10:57:12.436Z"
     }
   },
   {
@@ -737,6 +864,7 @@
     "fields": {
       "title": "Боди меню",
       "description": "боди меню",
+      "photo": null,
       "slug": "bodi-meniu"
     }
   },
@@ -1251,6 +1379,7 @@
       "title": "Гречневый завтрак",
       "calories": 283,
       "meal_of_the_day": 1,
+      "photo": null,
       "slug": "grechnevyi-zavtrak",
       "ingredients": [
         109,
@@ -1270,6 +1399,7 @@
       "title": "Супертост с авокадо",
       "calories": 713,
       "meal_of_the_day": 2,
+      "photo": null,
       "slug": "supertost-s-avokado",
       "ingredients": [
         114,
@@ -1293,6 +1423,7 @@
       "title": "Тыквенный суп с имбирем",
       "calories": 217,
       "meal_of_the_day": 3,
+      "photo": null,
       "slug": "tykvennyi-sup-s-imbirem",
       "ingredients": [
         111,
@@ -1318,6 +1449,7 @@
       "title": "Салат с пряной говядиной и овощами",
       "calories": 1715,
       "meal_of_the_day": 4,
+      "photo": null,
       "slug": "salat-s-prianoi-goviadinoi-i-ovoshchami",
       "ingredients": [
         114,
@@ -1356,6 +1488,7 @@
       "title": "Печеная камбала с капустой и пореем",
       "calories": 329,
       "meal_of_the_day": 5,
+      "photo": null,
       "slug": "pechenaia-kambala-s-kapustoi-i-poreem",
       "ingredients": [
         113,
@@ -1376,6 +1509,7 @@
       "title": "Сырники из творога",
       "calories": 1029,
       "meal_of_the_day": 1,
+      "photo": null,
       "slug": "syrniki-iz-tvoroga",
       "ingredients": [
         144,
@@ -1393,6 +1527,7 @@
       "title": "Овсяный десерт с орехами и черносливом",
       "calories": 335,
       "meal_of_the_day": 2,
+      "photo": null,
       "slug": "ovsianyi-desert-s-orekhami-i-chernoslivom",
       "ingredients": [
         153,
@@ -1410,6 +1545,7 @@
       "title": "Томатный суп из морепродуктов",
       "calories": 132,
       "meal_of_the_day": 3,
+      "photo": null,
       "slug": "tomatnyi-sup-iz-moreproduktov",
       "ingredients": [
         129,
@@ -1427,6 +1563,7 @@
       "title": "Салат «Газапхули»",
       "calories": 160,
       "meal_of_the_day": 4,
+      "photo": null,
       "slug": "salat-gazapkhuli",
       "ingredients": [
         129,
@@ -1443,6 +1580,7 @@
       "title": "Паровой куриный рулет с мандаринами и черносливом",
       "calories": 185,
       "meal_of_the_day": 5,
+      "photo": null,
       "slug": "parovoi-kurinyi-rulet-s-mandarinami-i-chernoslivom",
       "ingredients": [
         110,
@@ -1485,8 +1623,9 @@
       "title": "Тест меню",
       "description": "Тест описание",
       "calories_daily": 2650,
-      "slug": "test-meniu",
       "category": 1,
+      "photo": null,
+      "slug": "test-meniu",
       "price_auto": false,
       "price_daily": "600.00",
       "price_weekly": "3000.00",
@@ -1507,6 +1646,7 @@
       "days": 10,
       "menu": 1,
       "delivery_schedule": 3,
+      "weekdays_only": 0,
       "price_menu": "6000.00",
       "price_delivery": "2000.00",
       "price_total": "8000.00"
