@@ -12,11 +12,6 @@ class DeliveryVendor(models.Model):
         return self.title
 
 
-@receiver(pre_save, sender=DeliveryVendor)
-def delivery_schedule_pre_save(sender, instance, **kwargs):
-    print('DeliverySchedule created.')
-
-
 class DeliverySchedule(models.Model):
     CHOICES_FOR_MODE = (
         (1, 'Каждый день в одно время.'),
