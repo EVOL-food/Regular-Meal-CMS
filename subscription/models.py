@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save
 from django.db import models
 from django.db.models import signals
 from django.dispatch import receiver
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
