@@ -11,9 +11,14 @@ from client.models import Client
 
 
 class Subscription(models.Model):
+    CHOICES_DAYS = (
+        (1, '7 days'),
+        (2, '5 days')
+    )
     days = models.PositiveIntegerField(blank=True, default=0)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True)
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
+    weekdays_only = models.SmallIntegerField(choices=CHOICES_DAYS, default=False, blank=False)
     price_menu = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     price_delivery = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     price_total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
