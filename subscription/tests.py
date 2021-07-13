@@ -47,13 +47,17 @@ class OrderTestCase(TestCase):
     def setUp(self) -> None:
         self.order = baker.make_recipe('subscription.fixtures.order')
 
-    def test_get(self):
+    def test_field(self):
+        self.assertEqual(self.order.data_start, datetime.date(year=2020, month=1, day=1))
+        self.assertTrue(self.order.status, 1)
+
+    def test_foreign_key(self):
         self.assertIsInstance(self.order.profile, Client)
         self.assertIsInstance(self.order.subscription, Subscription)
-        self.assertEqual(self.order.data_start, datetime.date(2021, 7, 11))
-        self.assertTrue(self.order.status, True)
-        self.assertEqual(self.order.created_at.day, datetime.date(2021, 7, 11).day)
+        self.assertEqual(self.order.profile.first_name, 'Mario')
+        self.assertEqual(self.order.subscription.days, 28)
 
     def test_pre_save(self):
-        self.assertEqual(self.order.price, 8000.00)
-        self.assertEqual(self.order.data_end.day, datetime.date(2021, 7, 21).day)
+        self.assertEqual(self.order.price, self.order.subscription.price_total)
+        self.assertEqual(self.order.data_end,
+                         self.order.data_start + datetime.timedelta(days=self.order.subscription.days))

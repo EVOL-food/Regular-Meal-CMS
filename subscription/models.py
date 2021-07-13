@@ -13,7 +13,7 @@ from client.models import Client
 class Subscription(models.Model):
     CHOISES = ((7, 'Week (7 days)'), (28, 'Month (28 days)'))
 
-    days = models.PositiveSmallIntegerField(choices=CHOISES)
+    days = models.PositiveSmallIntegerField(choices=CHOISES, default=28)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True)
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
     weekdays_only = models.BooleanField(default=False)
@@ -38,7 +38,7 @@ class Order(models.Model):
     data_start = models.DateField()
     data_end = models.DateField(blank=True, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    status = models.SmallIntegerField(choices=STATUS, default=False, blank=False)
+    status = models.SmallIntegerField(choices=STATUS, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
