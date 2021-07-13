@@ -1,7 +1,9 @@
 import unidecode
+from unittest import mock
 from django.utils.text import slugify
 from django.test import TestCase
-from menu.models import Menu, DailyMeal, Dish, Category, Ingredient
+from django.core.files.images import ImageFile
+from menu.models import Menu, DailyMeal, Dish, Category, Ingredient, Photo
 
 
 class CategoryTestCase(TestCase):
@@ -9,6 +11,10 @@ class CategoryTestCase(TestCase):
 
     def setUp(self) -> None:
         self.category = Category.objects.get(pk=1)
+        # Photo instance setup
+        file = mock.MagicMock(spec=ImageFile)
+        file.name = 'Photo'
+        self.photo = Photo(title='Photo', image=file)
 
     def test_field_value(self):
         self.assertEqual(self.category.title, "Боди меню")
@@ -16,6 +22,11 @@ class CategoryTestCase(TestCase):
     def test_pre_save_slug(self):
         slug = slugify(unidecode.unidecode(self.category.title))
         self.assertEqual(self.category.slug, slug)
+
+    def test_photo(self):
+        self.category.photo = self.photo
+        self.assertIsInstance(self.category.photo, Photo)
+        self.assertEqual(self.category.photo.image.name, 'Photo')
 
 
 class IngredientTestCase(TestCase):
@@ -37,6 +48,10 @@ class DishTestCase(TestCase):
 
     def setUp(self) -> None:
         self.dish = Dish.objects.get(title="Супертост с авокадо")
+        # Photo instance setup
+        file = mock.MagicMock(spec=ImageFile)
+        file.name = 'Photo'
+        self.photo = Photo(title='Photo', image=file)
 
     def test_field_value(self):
         self.assertEqual(self.dish.title, "Супертост с авокадо")
@@ -55,6 +70,11 @@ class DishTestCase(TestCase):
                                if isinstance(ingredient, Ingredient)]
 
         self.assertListEqual(sorted(ingredients_example), sorted(ingredients))
+
+    def test_photo(self):
+        self.dish.photo = self.photo
+        self.assertIsInstance(self.dish.photo, Photo)
+        self.assertEqual(self.dish.photo.image.name, 'Photo')
 
 
 class DailyMealTestCase(TestCase):
@@ -84,6 +104,10 @@ class MenuTestCase(TestCase):
 
     def setUp(self) -> None:
         self.menu = Menu.objects.filter(title="Тест меню").first()
+        # Photo instance setup
+        file = mock.MagicMock(spec=ImageFile)
+        file.name = 'Photo'
+        self.photo = Photo(title='Photo', image=file)
 
     def test_field(self):
         self.assertEqual(self.menu.title, "Тест меню")
@@ -114,3 +138,22 @@ class MenuTestCase(TestCase):
     def test_calories_pre_save(self):
         self.menu.save()
         self.assertEqual(self.menu.calories_daily, 2650)
+
+    def test_photo(self):
+        self.menu.photo = self.photo
+        self.assertIsInstance(self.menu.photo, Photo)
+        self.assertEqual(self.menu.photo.image.name, 'Photo')
+
+
+class PhotoTestCase(TestCase):
+    @mock.patch('menu.models.Photo.objects.create')
+    def setUp(self, mocked_create) -> None:
+        file = mock.MagicMock(spec=ImageFile)
+        file.name = 'Photo'
+        self.photo = mocked_create(title='Photo', image=file)
+
+    def test_thumbnail(self):
+        self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
+        self.assertEqual(Photo.image_medium.spec_id, 'menu:photo:image_medium')
+        self.assertEqual(Photo.image_small.spec_id, 'menu:photo:image_small')
+        self.assertEqual(Photo.image_tag.spec_id, 'menu:photo:image_tag')
