@@ -3,6 +3,7 @@ from django.db.models.signals import pre_save
 from django.db import models
 from django.db.models import signals
 from django.dispatch import receiver
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
@@ -11,14 +12,12 @@ from client.models import Client
 
 
 class Subscription(models.Model):
-    CHOICES_DAYS = (
-        (1, '7 days'),
-        (2, '5 days')
-    )
-    days = models.PositiveIntegerField(blank=True, default=0)
+    CHOISES = ((7, 'Week (7 days)'), (28, 'Month (28 days)'))
+
+    days = models.PositiveSmallIntegerField(choices=CHOISES)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True)
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True)
-    weekdays_only = models.SmallIntegerField(choices=CHOICES_DAYS, default=False, blank=False)
+    weekdays_only = models.BooleanField(default=False)
     price_menu = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     price_delivery = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     price_total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -49,9 +48,15 @@ class Order(models.Model):
 
 @receiver(pre_save, sender=Subscription)
 def pre_save_subscription(sender, instance, **kwargs):
-    instance.price_menu = instance.menu.price_daily * instance.days
-    instance.price_delivery = instance.delivery_schedule.delivery_vendor.price_one_delivery * instance.days
-    instance.price_total = instance.price_menu + instance.price_delivery
+    if not instance.weekdays_only:
+        instance.price_menu = instance.menu.price_daily * instance.days
+        instance.price_delivery = instance.delivery_schedule.delivery_vendor.price_one_delivery * instance.days
+        instance.price_total = instance.price_menu + instance.price_delivery
+    else:
+        days = round(instance.days / 7) * 5
+        instance.price_menu = days * instance.menu.price_daily
+        instance.price_delivery = instance.delivery_schedule.delivery_vendor.price_one_delivery * days
+        instance.price_total = instance.price_menu + instance.price_delivery
 
 
 @receiver(pre_save, sender=Order)
