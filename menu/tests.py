@@ -1,156 +1,145 @@
 import unidecode
+from model_bakery import baker
+from PIL import Image
 from unittest import mock
 from django.utils.text import slugify
 from django.test import TestCase
-from django.core.files.images import ImageFile
+from io import BytesIO
+from django.core.files.base import ContentFile
 from menu.models import Menu, DailyMeal, Dish, Category, Ingredient, Photo
 
 
-class CategoryTestCase(TestCase):
-    fixtures = ['menu.json']
+class TestCaseWithPhoto(TestCase):
+    @mock.patch.object(Photo.objects, 'create',
+                       side_effect=lambda **params: Photo(**params))
+    def create_photo(self, mocked_create):
+        image = BytesIO()
+        Image.new('RGBA', size=(20, 20), color=(155, 0, 0)).save(image, 'png')
+        thumb_file = ContentFile(image.getvalue(), name='Test Photo')
+        return mocked_create(title='Test Photo', image=thumb_file)
 
+
+class CategoryTestCase(TestCaseWithPhoto):
     def setUp(self) -> None:
-        self.category = Category.objects.get(pk=1)
-        # Photo instance setup
-        file = mock.MagicMock(spec=ImageFile)
-        file.name = 'Photo'
-        self.photo = Photo(title='Photo', image=file)
+        self.category = baker.make_recipe('menu.fixtures.category')
 
     def test_field_value(self):
-        self.assertEqual(self.category.title, "Боди меню")
+        self.assertEqual(self.category.title, "Test Category")
 
     def test_pre_save_slug(self):
         slug = slugify(unidecode.unidecode(self.category.title))
         self.assertEqual(self.category.slug, slug)
 
     def test_photo(self):
-        self.category.photo = self.photo
+        self.category.photo = self.create_photo()
         self.assertIsInstance(self.category.photo, Photo)
-        self.assertEqual(self.category.photo.image.name, 'Photo')
+        self.assertEqual(self.category.photo.image.width, 20)
 
 
 class IngredientTestCase(TestCase):
-    fixtures = ['dish.json']
-
     def setUp(self) -> None:
-        self.ingredient = Ingredient.objects.get(title="Авокадо")
+        self.ingredient = baker.make_recipe('menu.fixtures.ingredient',
+                                            title='Test Ingredient')
 
     def test_field_value(self):
-        self.assertEqual(self.ingredient.title, "Авокадо")
+        self.assertEqual(self.ingredient.title, "Test Ingredient")
 
     def test_pre_save_slug(self):
         slug = slugify(unidecode.unidecode(self.ingredient.title))
         self.assertEqual(self.ingredient.slug, slug)
 
 
-class DishTestCase(TestCase):
-    fixtures = ['dish.json']
-
+class DishTestCase(TestCaseWithPhoto):
     def setUp(self) -> None:
-        self.dish = Dish.objects.get(title="Супертост с авокадо")
-        # Photo instance setup
-        file = mock.MagicMock(spec=ImageFile)
-        file.name = 'Photo'
-        self.photo = Photo(title='Photo', image=file)
+        ingredients = baker.prepare_recipe('menu.fixtures.ingredient', _quantity=5)
+        self.dish = baker.make_recipe('menu.fixtures.dish',
+                                      title='Test Dish',
+                                      ingredients=ingredients)
 
     def test_field_value(self):
-        self.assertEqual(self.dish.title, "Супертост с авокадо")
-        self.assertEqual(self.dish.calories, 713)
-        self.assertEqual(self.dish.meal_of_the_day, 2)
+        self.assertEqual(self.dish.title, "Test Dish")
+        self.assertEqual(self.dish.calories, 42)
+        self.assertEqual(self.dish.meal_of_the_day, 1)
 
     def test_pre_save_slug(self):
         slug = slugify(unidecode.unidecode(self.dish.title))
         self.assertEqual(self.dish.slug, slug)
 
     def test_many_to_many_ingredients(self):
-        ingredients = ['Авокадо', 'Вяленые помидоры', 'Лимонный сок', 'Молотый сушеный чеснок',
-                       'Ржаной хлеб', 'Перепелиное яйцо', 'Редис', 'Черные кунжутные семечки',
-                       'Соль', 'Черный перец', 'Оливковое масло']
-        ingredients_example = [str(ingredient) for ingredient in self.dish.ingredients.all()
-                               if isinstance(ingredient, Ingredient)]
-
-        self.assertListEqual(sorted(ingredients_example), sorted(ingredients))
+        self.assertEqual(self.dish.ingredients.count(), 5)
 
     def test_photo(self):
-        self.dish.photo = self.photo
+        self.dish.photo = self.create_photo()
         self.assertIsInstance(self.dish.photo, Photo)
-        self.assertEqual(self.dish.photo.image.name, 'Photo')
+        self.assertEqual(self.dish.photo.image.width, 20)
 
 
 class DailyMealTestCase(TestCase):
-    fixtures = ['daily_meal.json']
-
     def setUp(self) -> None:
-        self.daily_meal = DailyMeal.objects.filter(title='Разнообразный понедельник').first()
+        self.daily_meal = baker.make_recipe('menu.fixtures.daily_meal',
+                                            title='Test DailyMeal')
 
     def test_field_value(self):
-        self.assertEqual(self.daily_meal.title, 'Разнообразный понедельник')
+        self.assertEqual(self.daily_meal.title, 'Test DailyMeal')
 
     def test_pre_save_calories(self):
         calories = sum([dish.calories for dish in self.daily_meal.get_all_dishes])
         self.assertEqual(self.daily_meal.calories, calories)
 
     def test_foreign_key_dishes(self):
-        dishes = [str(dish) for dish in self.daily_meal.get_all_dishes
-                  if isinstance(dish, Dish)]
-        dishes_example = ['Гречневый завтрак', 'Печеная камбала с капустой и пореем',
-                          'Салат с пряной говядиной и овощами', 'Супертост с авокадо',
-                          'Тыквенный суп с имбирем']
-        self.assertListEqual(sorted(dishes), dishes_example)
+        for dish in self.daily_meal.get_all_dishes:
+            self.assertIsInstance(dish, Dish)
 
 
-class MenuTestCase(TestCase):
-    fixtures = ['menu.json']
-
+class MenuTestCase(TestCaseWithPhoto):
     def setUp(self) -> None:
-        self.menu = Menu.objects.filter(title="Тест меню").first()
-        # Photo instance setup
-        file = mock.MagicMock(spec=ImageFile)
-        file.name = 'Photo'
-        self.photo = Photo(title='Photo', image=file)
+        self.menu = baker.make_recipe('menu.fixtures.menu')
 
     def test_field(self):
-        self.assertEqual(self.menu.title, "Тест меню")
-        self.assertIsNotNone(self.menu.category)
+        self.assertEqual(self.menu.title, "Test Menu")
+        self.assertIsInstance(self.menu.category, Category)
 
     def test_foreign_key_days(self):
-        days = [str(day) for day in self.menu.get_all_days
-                if isinstance(day, DailyMeal)]
-        days_example = ['Вторник', 'Вторник', 'Вторник', 'Понедельник',
-                        'Понедельник', 'Понедельник', 'Понедельник']
-        self.assertListEqual(sorted(days), days_example)
+        for day in self.menu.get_all_days:
+            self.assertIsInstance(day, DailyMeal)
 
     def test_slug_pre_save(self):
         slug = slugify(unidecode.unidecode(self.menu.title))
         self.assertEqual(self.menu.slug, slug)
 
     def test_price_pre_save(self):
-        self.assertEqual(self.menu.price_daily, 600)
-        if not self.menu.price_auto:
-            self.assertEqual(self.menu.price_weekly, 3000)
-            self.assertEqual(self.menu.price_monthly, 10000)
+        price_weekly = self.menu.price_daily * len(self.menu.get_all_days)
+        self.menu.price_auto = False
+        self.menu.price_weekly -= 42
+        self.menu.price_monthly -= 42
+        self.menu.save()
+        self.assertFalse(self.menu.price_auto)
+        self.assertEqual(self.menu.price_weekly, price_weekly - 42)
+        self.assertEqual(self.menu.price_monthly, price_weekly * 4 - 42)
         self.menu.price_auto = True
         self.menu.save()
-        if self.menu.price_auto:
-            self.assertEqual(self.menu.price_weekly, 4200)
-            self.assertEqual(self.menu.price_monthly, 18000)
+        self.assertEqual(self.menu.price_weekly, price_weekly)
+        self.assertEqual(self.menu.price_monthly, price_weekly * 4)
 
     def test_calories_pre_save(self):
-        self.menu.save()
-        self.assertEqual(self.menu.calories_daily, 2650)
+        self.assertEqual(self.menu.calories_daily,
+                         round(sum(day.calories for day
+                                   in self.menu.get_all_days) / 7))
 
     def test_photo(self):
+        self.photo = self.create_photo()
         self.menu.photo = self.photo
         self.assertIsInstance(self.menu.photo, Photo)
-        self.assertEqual(self.menu.photo.image.name, 'Photo')
+        self.assertEqual(self.menu.photo.image.width, 20)
 
 
-class PhotoTestCase(TestCase):
-    @mock.patch('menu.models.Photo.objects.create')
-    def setUp(self, mocked_create) -> None:
-        file = mock.MagicMock(spec=ImageFile)
-        file.name = 'Photo'
-        self.photo = mocked_create(title='Photo', image=file)
+class PhotoTestCase(TestCaseWithPhoto):
+    def setUp(self) -> None:
+        self.photo = self.create_photo()
+
+    def test_image(self):
+        self.assertEqual(self.photo.image.name, 'Test Photo')
+        self.assertEqual(self.photo.image.width, 20)
 
     def test_thumbnail(self):
         self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
