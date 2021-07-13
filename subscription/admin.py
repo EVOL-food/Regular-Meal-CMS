@@ -14,7 +14,7 @@ class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ('menu',) + self.readonly_fields
+            return ('menu', 'days', 'weekdays_only') + self.readonly_fields
         else:
             return self.readonly_fields
 
@@ -29,7 +29,7 @@ class OrderAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ('profile', 'subscription',) + self.readonly_fields
+            return ('profile', 'subscription', 'data_start', 'data_end') + self.readonly_fields
         else:
             return self.readonly_fields
 
