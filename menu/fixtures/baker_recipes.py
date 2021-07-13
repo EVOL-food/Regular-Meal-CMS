@@ -1,6 +1,6 @@
 from model_bakery.recipe import Recipe, foreign_key
 
-from menu.models import Menu, DailyMeal, Dish, Category, Ingredient, Photo
+from menu.models import Menu, DailyMeal, Dish, Category, Ingredient
 
 category = Recipe(
     Category,
