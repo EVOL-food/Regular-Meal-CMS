@@ -4,6 +4,7 @@ from delivery.models import DeliverySchedule, DeliveryVendor
 
 delivery_vendor = Recipe(
     DeliveryVendor,
+    title='Test Delivery Vendor',
     price_one_delivery=42
 )
 

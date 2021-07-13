@@ -1,7 +1,7 @@
-from django.test import TestCase
-from delivery.models import DeliveryVendor, DeliverySchedule
 import datetime
+from django.test import TestCase
 from model_bakery import baker
+from delivery.models import DeliveryVendor
 
 
 class DeliveryVendorTestCase(TestCase):
@@ -9,6 +9,7 @@ class DeliveryVendorTestCase(TestCase):
         self.delivery_vendor = baker.make_recipe('delivery.fixtures.delivery_vendor')
 
     def test_field(self):
+        self.assertEqual(self.delivery_vendor.title, 'Test Delivery Vendor')
         self.assertEqual(self.delivery_vendor.price_one_delivery, 42)
 
 
