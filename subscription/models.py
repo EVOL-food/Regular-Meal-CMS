@@ -43,7 +43,7 @@ class Order(models.Model):
 
 
 @receiver(pre_save, sender=Subscription)
-def pre_save_order(sender, instance, **kwargs):
+def pre_save_subscription(sender, instance, **kwargs):
     instance.price_menu = instance.menu.price_daily * instance.days
     instance.price_delivery = instance.delivery_schedule.delivery_vendor.price_one_delivery * instance.days
     instance.price_total = instance.price_menu + instance.price_delivery
