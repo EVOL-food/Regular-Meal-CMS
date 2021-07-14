@@ -9,8 +9,9 @@ class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     list_filter = ('menu', ('price_total', SliderNumericFilter),
                    'delivery_schedule__delivery_vendor',
                    ('menu__calories_daily', SliderNumericFilter),)
-    search_fields = ('menu__title', 'menu__description',)
+    search_fields = ('menu__title', 'menu__description', 'delivery_schedule')
     readonly_fields = ('price_menu', 'price_delivery', 'price_total')
+    autocomplete_fields = ('menu', 'delivery_schedule')
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
