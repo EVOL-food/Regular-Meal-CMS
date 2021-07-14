@@ -7,19 +7,29 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from imagekit.cachefiles.strategies import LazyObject
+
+
+class CustomImageStrategy(object):
+    def on_existence_required(self, file):
+        file.generate()
+
+    def on_content_required(self, file):
+        file.generate()
+
+    def on_source_saved(self, file):
+        file.generate()
 
 
 class Photo(models.Model):
     title = models.CharField(max_length=60, default="")
     image = models.ImageField(upload_to='menu/photos/', null=True, blank=True)
     image_large = ImageSpecField(source='image', processors=[ResizeToFill(512, 512)], format='PNG',
-                                 options={'quality': 70})
+                                 options={'quality': 70}, cachefile_strategy=CustomImageStrategy)
     image_medium = ImageSpecField(source='image', processors=[ResizeToFill(256, 256)], format='PNG',
-                                  options={'quality': 70})
+                                  options={'quality': 70}, cachefile_strategy=CustomImageStrategy)
     image_small = ImageSpecField(source='image', processors=[ResizeToFill(128, 128)], format='PNG',
-                                 options={'quality': 70})
-    image_tag = ImageSpecField(source='image', processors=[ResizeToFill(28, 28)], format='PNG',
-                               options={'quality': 70})
+                                 options={'quality': 70}, cachefile_strategy=CustomImageStrategy)
 
     def __str__(self):
         return self.title
@@ -131,6 +141,7 @@ class Menu(models.Model):
         days = [self.day_1, self.day_2, self.day_3,
                 self.day_4, self.day_5, self.day_6, self.day_7]
         return days
+
 
 
 @receiver(pre_save, sender=Category)

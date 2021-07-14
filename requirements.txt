@@ -7,3 +7,6 @@ django-admin-numeric-filter
 django_admin_generator
 django-imagekit
 model_bakery
+djangorestframework
+markdown
+django-filter
