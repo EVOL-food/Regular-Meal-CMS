@@ -1,3 +1,4 @@
+from datetime import time
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -17,14 +18,18 @@ class DeliverySchedule(models.Model):
         (1, 'Каждый день в одно время.'),
         (2, 'Рабочие дни, выходные.'),
     )
+    CHOICES_FOR_TIME = tuple((time(hour=hour), f'{hour}:00')
+                             for hour in range(10, 21))
 
     delivery_vendor = models.ForeignKey(DeliveryVendor, on_delete=models.CASCADE, null=True)
 
-    delivery_time_start_weekday = models.TimeField()
-    delivery_time_end_weekday = models.TimeField()
+    delivery_time_start_weekday = models.TimeField(choices=CHOICES_FOR_TIME, default=10)
+    delivery_time_end_weekday = models.TimeField(choices=CHOICES_FOR_TIME, default=11)
 
-    delivery_time_start_weekend = models.TimeField(blank=True, null=True)
-    delivery_time_end_weekend = models.TimeField(blank=True, null=True)
+    delivery_time_start_weekend = models.TimeField(choices=CHOICES_FOR_TIME, default=10,
+                                                   blank=True, null=True)
+    delivery_time_end_weekend = models.TimeField(choices=CHOICES_FOR_TIME, default=11,
+                                                 blank=True, null=True)
 
     mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE, default=1)
 
