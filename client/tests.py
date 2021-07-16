@@ -12,7 +12,7 @@ from client.models import Profile
 
 class ProfileTestCase(TestCase):
     def setUp(self) -> None:
-        user = baker.make_recipe('client.fixtures.user')
+        user = baker.make_recipe('client.fixtures.user',)
         self.client = baker.make_recipe('client.fixtures.client',
                                         user=user)
 
@@ -30,6 +30,12 @@ class ProfileTestCase(TestCase):
             self.client.full_clean()
         except ValidationError:
             self.fail("ValidationError has been raised!")
+
+    def test_signal_post_save(self):
+        user = baker.make_recipe('client.fixtures.user')
+        profile = Profile.objects.get(user=user)
+        self.assertIsInstance(profile, Profile)
+        self.assertIsInstance(profile.user, User)
 
 
 # API authentication tests
