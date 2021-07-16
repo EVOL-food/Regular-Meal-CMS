@@ -33,7 +33,7 @@ class Order(models.Model):
         (4, 'Completed'),
         (5, 'Canceled'),
     )
-    profile = models.ForeignKey(Client, blank=True, on_delete=models.CASCADE, null=True)
+    profile = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, null=True)
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
     data_start = models.DateField()
     data_end = models.DateField(blank=True, null=True)
