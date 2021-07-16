@@ -171,7 +171,6 @@ DJOSER = {
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,
     'SERIALIZERS': {
-#        'user_create': 'client.serializers.ClientSerializer',
-#        'user': 'client.serializers.ClientSerializer',
+        'user_create': 'client.serializers.UserSerializer',
     }
 }

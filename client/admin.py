@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Client
+from .models import Profile
+from django.contrib.auth.models import User
 from admin_numeric_filter.admin import NumericFilterModelAdmin
 
 
@@ -11,4 +12,5 @@ class CustomUserAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
                      'gender', 'address', 'created_at')
 
 
-admin.site.register(Client)
+admin.site.register(Profile, CustomUserAdmin)
+admin.site.register(User)

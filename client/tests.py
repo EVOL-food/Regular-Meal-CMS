@@ -2,7 +2,7 @@ from django.test import TestCase
 from model_bakery import baker
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from client.models import Client
+from client.models import Profile
 
 
 class ClientCase(TestCase):

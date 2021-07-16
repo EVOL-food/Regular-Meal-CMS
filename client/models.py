@@ -8,7 +8,7 @@ from uuid import uuid4
 # Create your models here.
 
 
-class Client(models.Model):
+class Profile(models.Model):
     GENDER_CHOICES = (
         ('Мужчина', 'Мужчина'),
         ('Женщина', 'Женщина'),
@@ -18,7 +18,7 @@ class Client(models.Model):
                                  message="Номер телефона должен быть в формате '+999999999'")
 
     user = models.OneToOneField(User, on_delete=models.CASCADE,
-                                unique=True, primary_key=True, blank=False)
+                                unique=True, primary_key=True, blank=False, related_name='profile')
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
@@ -29,8 +29,11 @@ class Client(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+    class Meta:
+        app_label = 'auth'
+
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Client.objects.create(user=instance)
+        Profile.objects.create(user=instance)
