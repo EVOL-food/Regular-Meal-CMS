@@ -8,3 +8,4 @@ db.sqlite3
 /venv/
 .coverage
 /files/
+/ENV/
