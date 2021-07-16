@@ -4,7 +4,7 @@ from model_bakery import baker
 from subscription.models import Subscription, Order
 from delivery.models import DeliverySchedule
 from menu.models import Menu
-from client.models import Client
+from client.models import Profile
 
 
 class SubscriptionTestCase(TestCase):
@@ -52,7 +52,7 @@ class OrderTestCase(TestCase):
         self.assertTrue(self.order.status, 1)
 
     def test_foreign_key(self):
-        self.assertIsInstance(self.order.profile, Client)
+        self.assertIsInstance(self.order.profile, Profile)
         self.assertIsInstance(self.order.subscription, Subscription)
         self.assertEqual(self.order.profile.first_name, 'Mario')
         self.assertEqual(self.order.subscription.days, 28)

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
-from .models import Client
+from .models import Profile
 from .permissions import IsOwnerProfileOrReadOnly
 from .serializers import ClientSerializer
 
 
 class ClientListCreateView(ListCreateAPIView):
-    queryset = Client.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = ClientSerializer
     permission_classes = IsAuthenticated
 
@@ -17,6 +17,6 @@ class ClientListCreateView(ListCreateAPIView):
 
 
 class ClientDetailView(RetrieveUpdateDestroyAPIView):
-    queryset = Client.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = ClientSerializer
     permission_classes = [IsOwnerProfileOrReadOnly, IsAuthenticated]

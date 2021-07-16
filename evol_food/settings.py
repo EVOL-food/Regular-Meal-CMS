@@ -154,7 +154,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ),
 }
 
@@ -171,7 +172,6 @@ DJOSER = {
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': False,
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': False,
     'SERIALIZERS': {
-#        'user_create': 'client.serializers.ClientSerializer',
-#        'user': 'client.serializers.ClientSerializer',
+        'user_create': 'client.serializers.UserSerializer',
     }
 }

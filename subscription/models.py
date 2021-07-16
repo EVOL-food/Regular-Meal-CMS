@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
-from client.models import Client
+from client.models import Profile
 # Create your models here.
 
 
