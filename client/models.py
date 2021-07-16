@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from uuid import uuid4
 
@@ -10,9 +10,9 @@ from uuid import uuid4
 
 class Profile(models.Model):
     GENDER_CHOICES = (
-        ('Мужчина', 'Мужчина'),
-        ('Женщина', 'Женщина'),
-        ('Иначе', 'Иначе'),
+        (1, 'Мужчина'),
+        (2, 'Женщина'),
+        (3, 'Иначе'),
     )
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
                                  message="Номер телефона должен быть в формате '+999999999'")
@@ -23,7 +23,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=64)
     phone_number = models.CharField(validators=[phone_regex], max_length=17)
     address = models.CharField(max_length=300)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, default=3)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

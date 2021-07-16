@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from admin_numeric_filter.admin import NumericFilterModelAdmin
 
 
-class CustomUserAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+class ProfileAdmin(admin.StackedInline):
+    model = Profile
     list_display = ('user', 'first_name', 'last_name', 'phone_number',
                     'gender', 'address', 'created_at')
     list_filter = ('gender',)
@@ -12,5 +13,13 @@ class CustomUserAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
                      'gender', 'address', 'created_at')
 
 
-admin.site.register(Profile, CustomUserAdmin)
-admin.site.register(User)
+class UserAdmin(admin.ModelAdmin):
+    fields = ('username', 'password', 'email', 'last_login', 'is_superuser',
+              'is_staff', 'groups', 'user_permissions')
+    search_fields = ("profile__last_name", "profile__phone_number", "profile__address")
+    list_display = ('username', 'email', 'is_staff', 'is_superuser')
+    list_filter = ('is_staff', 'is_superuser', 'profile__gender', 'profile__created_at')
+    inlines = (ProfileAdmin,)
+
+
+admin.site.register(User, UserAdmin)
