@@ -10,3 +10,5 @@ model_bakery
 djangorestframework
 markdown
 django-filter
+restframework-simplejwt
+djoser
