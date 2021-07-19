@@ -37,14 +37,16 @@ class Photo(models.Model):
         return self.title
 
 
-class Category(models.Model):
-    title = models.CharField(max_length=30)
-    description = models.TextField(max_length=1000)
+class Category(TranslatableModel):
+    translations = TranslatedFields(
+        title=models.CharField(_("Title"), max_length=30),
+        description=models.TextField(_("Description"), max_length=1000)
+    )
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     class Meta:
@@ -142,7 +144,6 @@ class Menu(models.Model):
         days = [self.day_1, self.day_2, self.day_3,
                 self.day_4, self.day_5, self.day_6, self.day_7]
         return days
-
 
 
 @receiver(pre_save, sender=Category)

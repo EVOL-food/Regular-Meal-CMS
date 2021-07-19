@@ -116,10 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 PARLER_LANGUAGES = {
     None: (
-        {'code': 'en',},
         {'code': 'en-us',},
-        {'code': 'it',},
-        {'code': 'nl',},
+        {'code': 'ru',},
     ),
     'default': {
         'fallback': 'en',             # defaults to PARLER_DEFAULT_LANGUAGE_CODE
@@ -129,12 +127,8 @@ PARLER_LANGUAGES = {
 LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
-    ('en', _("English")),
     ('en-us', _("US English")),
-    ('it', _('Italian')),
-    ('nl', _('Dutch')),
-    ('fr', _('French')),
-    ('es', _('Spanish')),
+    ('ru', _("Russian")),
 )
 
 PARLER_DEFAULT_LANGUAGE_CODE = 'en-us'
