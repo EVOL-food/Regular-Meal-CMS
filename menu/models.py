@@ -84,7 +84,7 @@ class DailyMeal(models.Model):
     calories = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.title_en + self.title_ru
+        return self.title
 
     @property
     def get_all_dishes(self):
@@ -137,12 +137,14 @@ class Menu(models.Model):
 
 @receiver(pre_save, sender=Category)
 def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
+    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
+    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
 
 
 @receiver(pre_save, sender=Dish)
 def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
+    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
+    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
 
 
 @receiver(pre_save, sender=DailyMeal)
