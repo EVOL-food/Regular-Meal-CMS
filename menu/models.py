@@ -2,11 +2,13 @@ import calendar
 import datetime
 import unidecode
 from django.db import models
+from parler.models import TranslatableModel, TranslatedFields
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from django.utils.translation import gettext_lazy as _
 from imagekit.cachefiles.strategies import LazyObject
 
 
@@ -77,7 +79,6 @@ class Dish(models.Model):
 
 class DailyMeal(models.Model):
     title = models.CharField(default="", max_length=100)
-
     dish_1 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
                                related_name='breakfast', verbose_name='breakfast')
     dish_2 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
