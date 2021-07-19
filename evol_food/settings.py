@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 import datetime
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'parler',
     'djoser',
     'imagekit',
     'django_filters',
@@ -112,8 +114,30 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en',},
+        {'code': 'en-us',},
+        {'code': 'it',},
+        {'code': 'nl',},
+    ),
+    'default': {
+        'fallback': 'en',             # defaults to PARLER_DEFAULT_LANGUAGE_CODE
+        'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
+    }
+}
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = (
+    ('en', _("English")),
+    ('en-us', _("US English")),
+    ('it', _('Italian')),
+    ('nl', _('Dutch')),
+    ('fr', _('French')),
+    ('es', _('Spanish')),
+)
+
+PARLER_DEFAULT_LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
