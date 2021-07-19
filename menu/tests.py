@@ -37,26 +37,6 @@ class CategoryTestCase(TestCaseWithPhoto):
         self.assertIsInstance(self.category.photo, Photo)
         self.assertEqual(self.category.photo.image.width, 20)
 
-    def test_translation(self):
-        # Default language English, code: en-us
-        self.assertEqual(self.category.get_current_language(), 'en-us')
-        self.category.title = 'Omelet'
-        self.category.description = 'Cheese omelet'
-        self.category.save()
-        self.assertEqual(self.category.title, 'Omelet')
-        self.assertEqual(self.category.description, 'Cheese omelet')
-        # Translate to the Russian language, code: ru
-        self.category.set_current_language('ru')
-        self.assertEqual(self.category.get_current_language(), 'ru')
-        self.category.title = 'Омлет'
-        self.category.description = 'Сырный омлет'
-        self.category.save()
-        self.assertEqual(self.category.title, 'Омлет')
-        self.assertEqual(self.category.description, 'Сырный омлет')
-        # Test django-parler translation filters
-        self.assertEqual(Category.objects.language('ru').all().first(), self.category)
-        self.assertEqual(Category.objects.translated(title="Omelet").first(), self.category)
-
 
 class IngredientTestCase(TestCase):
     def setUp(self) -> None:

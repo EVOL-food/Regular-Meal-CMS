@@ -87,7 +87,7 @@ class DailyMeal(models.Model):
     calories = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.title_en + self.title_ru
+        return self.title
 
     @property
     def get_all_dishes(self):

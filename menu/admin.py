@@ -8,7 +8,7 @@ from menu.translation import (CategoryTranslationOptions, DishTranslationOptions
 
 from modeltranslation.translator import translator, TranslationOptions
 from modeltranslation.admin import TabbedTranslationAdmin
-from modeltranslation.admin import TranslationTabularInline
+from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
 
 
 class CategoryAdmin(TabbedTranslationAdmin):
@@ -33,11 +33,13 @@ class PhotoAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
-class DailyMealInlineAdmin(TranslationTabularInline):
+class DailyMealInlineAdmin(TranslationStackedInline):
     model = models.DailyMeal
     can_delete = False
     fk_name = 'dish_1'
     readonly_fields = ('calories',)
+    autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
+    max_num = 0
 
 
 class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
@@ -57,7 +59,7 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
     autocomplete_fields = ('photo',)
-    search_fields = ('title', 'calories')
+    search_fields = ('title_en', 'title_ru', 'calories')
     readonly_fields = ('slug', 'id')
 
     def get_form(self, request, obj=None, **kwargs):
@@ -67,14 +69,13 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         return form
 
 
-
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         ('General', {
-            'fields': ('title',  'dish_1',)
+            'fields': ('title', 'calories', 'id')
         }),
-        ('Detail', {
-            'fields': ('calories', )
+        ('Dishes', {
+            'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
         }),
     )
     list_display = (
@@ -86,8 +87,10 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         ('calories', SliderNumericFilter),
     )
 
-    search_fields = ('title',) + tuple(f'dish_{num}__title' for num in range(1, 6))
-    readonly_fields = ('calories',)
+    search_fields = ('title_en', 'title_ru') + tuple(f'dish_{num}__title_{lang}'
+                                                     for num in range(1, 6) for lang in ('en', 'ru'))
+    readonly_fields = ('calories', 'id',)
+    autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
