@@ -62,10 +62,7 @@ class Dish(models.Model):
                             default="", blank=True, null=True)
 
     def __str__(self):
-        activate('ru')
-        ru = self.title
-        activate('en')
-        return self.title + f' ({ru})'
+        return self.title
 
     class Meta:
         verbose_name_plural = 'Dishes'
@@ -87,7 +84,7 @@ class DailyMeal(models.Model):
     calories = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.title
+        return self.title_en + self.title_ru
 
     @property
     def get_all_dishes(self):
