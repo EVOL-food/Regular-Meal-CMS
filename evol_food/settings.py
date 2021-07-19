@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'baton',
     'django.contrib.admin',
+    'modeltranslation',
     'baton.autodiscover',
     'django_admin_generator',
     'admin_numeric_filter',
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'parler',
     'djoser',
     'imagekit',
     'django_filters',
@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'evol_food.urls'
@@ -114,30 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-PARLER_LANGUAGES = {
-    None: (
-        {'code': 'en',},
-        {'code': 'en-us',},
-        {'code': 'it',},
-        {'code': 'nl',},
-    ),
-    'default': {
-        'fallback': 'en',             # defaults to PARLER_DEFAULT_LANGUAGE_CODE
-        'hide_untranslated': False,   # the default; let .active_translations() return fallbacks too.
-    }
-}
 LANGUAGE_CODE = 'en-us'
 
-LANGUAGES = (
-    ('en', _("English")),
-    ('en-us', _("US English")),
-    ('it', _('Italian')),
-    ('nl', _('Dutch')),
-    ('fr', _('French')),
-    ('es', _('Spanish')),
-)
-
-PARLER_DEFAULT_LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -147,6 +126,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+gettext = lambda s: s
+LANGUAGES = (
+    ('en', gettext('English')),
+    ('ru', gettext('Russian')),
+)
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en', 'ru')
+MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 

@@ -2,7 +2,6 @@ import calendar
 import datetime
 import unidecode
 from django.db import models
-from parler.models import TranslatableModel, TranslatedFields
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
@@ -10,6 +9,7 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.utils.translation import gettext_lazy as _
 from imagekit.cachefiles.strategies import LazyObject
+from django.utils.translation import get_language, activate
 
 
 class CustomImageStrategy(object):
@@ -38,8 +38,8 @@ class Photo(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=30)
-    description = models.TextField(max_length=1000)
+    title = models.CharField(max_length=30, default="")
+    description = models.TextField(max_length=1000, default="")
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
@@ -51,21 +51,12 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
-class Ingredient(models.Model):
-    title = models.CharField(max_length=30, unique=True)
-    slug = models.SlugField(max_length=30, unique=True,
-                            default="", blank=True, null=True)
-
-    def __str__(self):
-        return self.title
-
-
 class Dish(models.Model):
-    title = models.CharField(max_length=60)
+    title = models.CharField(max_length=60, default="")
+    description = models.TextField(default="", max_length=1000)
     calories = models.PositiveIntegerField(default=0)
     meal_of_the_day = models.PositiveIntegerField(
         choices=[(i, str(i)) for i in range(1, 6)])
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
     slug = models.SlugField(max_length=60, unique=True,
                             default="", blank=True, null=True)
@@ -93,7 +84,7 @@ class DailyMeal(models.Model):
     calories = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.title
+        return self.title_en + self.title_ru
 
     @property
     def get_all_dishes(self):
@@ -104,7 +95,7 @@ class DailyMeal(models.Model):
 
 class Menu(models.Model):
     title = models.CharField(max_length=30)
-    description = models.TextField(max_length=1000)
+    description = models.TextField(max_length=1000 ,default="")
     calories_daily = models.PositiveIntegerField(default=0, verbose_name='Calories average')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,
                                  null=True, blank=True)
@@ -144,13 +135,7 @@ class Menu(models.Model):
         return days
 
 
-
 @receiver(pre_save, sender=Category)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
-
-
-@receiver(pre_save, sender=Ingredient)
 def pre_save_ingredient(sender, instance, *args, **kwargs):
     instance.slug = slugify(unidecode.unidecode(instance.title))
 

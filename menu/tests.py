@@ -6,6 +6,8 @@ from django.utils.text import slugify
 from django.test import TestCase
 from io import BytesIO
 from django.core.files.base import ContentFile
+from parler.utils.context import switch_language
+
 from menu.models import Menu, DailyMeal, Dish, Category, Ingredient, Photo
 
 
@@ -145,4 +147,3 @@ class PhotoTestCase(TestCaseWithPhoto):
         self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
         self.assertEqual(Photo.image_medium.spec_id, 'menu:photo:image_medium')
         self.assertEqual(Photo.image_small.spec_id, 'menu:photo:image_small')
-        self.assertEqual(Photo.image_tag.spec_id, 'menu:photo:image_tag')
