@@ -149,7 +149,36 @@ class PhotoTestCase(TestCaseWithPhoto):
         self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
         self.assertEqual(Photo.image_medium.spec_id, 'menu:photo:image_medium')
         self.assertEqual(Photo.image_small.spec_id, 'menu:photo:image_small')
-        self.assertEqual(Photo.image_tag.spec_id, 'menu:photo:image_tag')
+
+# API views tests
+class MenuAPITestCase(APITestCase):
+    def setUp(self):
+        self.menu = baker.make_recipe('menu.fixtures.menu')
+        self.client = APIClient()
+        self.factory = RequestFactory()
+
+    def test_get_menu_list_view(self):
+        response = self.client.get(reverse('menu-list'))
+        self.assertEqual(response.status_code,  status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        response_filter = self.client.get(reverse('menu-list'), args=self.menu.category.slug)
+        self.assertEqual(response_filter.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response_filter.data), 1)
+
+
+    def test_search_detail_view(self):
+        request = self.factory.get('/menu/', {'search': 'test-menu'})
+        response = SearchDetailView.as_view()(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+
+    def test_get_test_menu_retrieve_detail_view(self):
+        response = self.client.get(reverse('menu-detail', args= [self.menu.slug]))
+        response_not_found_404 = self.client.get(reverse('menu-detail', args= ['bodi-meniu']))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.json()), 12)
+        self.assertEqual(response_not_found_404.status_code, status.HTTP_404_NOT_FOUND)
 
 
 # API views tests

@@ -32,6 +32,7 @@ menu = Recipe(
     title='Test Menu',
     description='Test Menu',
     price_daily=42,
+    slug = 'test-menu',
     category=foreign_key(category),
     day_1=foreign_key(daily_meal),
     day_2=foreign_key(daily_meal),
