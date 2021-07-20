@@ -4,7 +4,7 @@ from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFil
 from . import models
 from modeltranslation.admin import TranslationAdmin
 from menu.translation import (CategoryTranslationOptions, DishTranslationOptions,
-                              DailyMealTranslationOptions)
+                              DailyMealTranslationOptions, MenuTranslationOptions)
 
 from modeltranslation.translator import translator, TranslationOptions
 from modeltranslation.admin import TabbedTranslationAdmin
@@ -140,6 +140,7 @@ def _register(model, admin_class):
 translator.register(models.Category, CategoryTranslationOptions)
 translator.register(models.Dish, DishTranslationOptions)
 translator.register(models.DailyMeal, DailyMealTranslationOptions)
+translator.register(models.Menu, MenuTranslationOptions)
 
 _register(models.Category, CategoryAdmin)
 _register(models.Dish, DishAdmin)
