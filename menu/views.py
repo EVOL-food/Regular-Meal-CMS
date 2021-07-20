@@ -21,6 +21,7 @@ class MenuRetrieveView(RetrieveAPIView):
     permission_classes = [AllowAny]
     lookup_field = 'slug'
 
+
 class SearchDetailView(ListAPIView):
     serializer_class = MenuSerializerDetail
     queryset = Menu.objects.all()

@@ -7,9 +7,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from django.utils.translation import gettext_lazy as _
-from imagekit.cachefiles.strategies import LazyObject
-from django.utils.translation import get_language, activate
+from django.conf import settings
 
 
 class CustomImageStrategy(object):
@@ -21,6 +19,10 @@ class CustomImageStrategy(object):
 
     def on_source_saved(self, file):
         file.generate()
+
+
+class Ingredient(models.Model):
+    title = models.CharField(max_length=60, default="")
 
 
 class Photo(models.Model):
@@ -54,6 +56,7 @@ class Category(models.Model):
 class Dish(models.Model):
     title = models.CharField(max_length=60, default="")
     description = models.TextField(default="", max_length=1000)
+    ingredients = models.ManyToManyField(to=Ingredient)
     calories = models.PositiveIntegerField(default=0)
     meal_of_the_day = models.PositiveIntegerField(
         choices=[(i, str(i)) for i in range(1, 6)])
@@ -63,6 +66,10 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_ingredients_list(self):
+        return [ingredient["title"] for ingredient in self.ingredients.values()]
 
     class Meta:
         verbose_name_plural = 'Dishes'
@@ -136,30 +143,29 @@ class Menu(models.Model):
 
 
 @receiver(pre_save, sender=Category)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
-
-
 @receiver(pre_save, sender=Dish)
-def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
+@receiver(pre_save, sender=Menu)
+def pre_save_category(sender, instance, *args, **kwargs):
+    for language, _ in settings.LANGUAGES:
+        title = getattr(instance, f"title_{language}")
+        setattr(instance, f'slug_{language}',
+                slugify(unidecode.unidecode(title)))
 
 
 @receiver(pre_save, sender=DailyMeal)
 def pre_save_daily_meal(sender, instance, *args, **kwargs):
-    calories = [instance.dish_1.calories,
-                instance.dish_2.calories,
-                instance.dish_3.calories,
-                instance.dish_4.calories,
-                instance.dish_5.calories]
-    instance.calories = sum(calories)
+    calories = 0
+    for dish in instance.get_all_dishes:
+        try:
+            calories += dish.calories
+        except AttributeError:
+            pass
+
+    instance.calories = calories
 
 
 @receiver(pre_save, sender=Menu)
 def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
     if instance.price_auto:
         instance.price_weekly = instance.price_daily * 7
         instance.price_monthly = instance.price_weekly * 4
