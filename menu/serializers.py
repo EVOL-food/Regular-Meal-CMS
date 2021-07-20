@@ -14,11 +14,16 @@ class PhotoImageSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DishSerializer(serializers.ModelSerializer):
+#    dish = serializers.SlugRelatedField(
+#        many=True,
+#        read_only=True,
+#        slug_field='title',
+#    )
     ingredients = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Dish
-        fields = ['title', 'slug', 'calories', 'meal_of_the_day', 'ingredients']
+        fields = ['title', 'calories', 'meal_of_the_day', 'ingredients']
 
 
 class CategorySerializer(serializers.ModelSerializer):
