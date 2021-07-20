@@ -2,6 +2,30 @@
 from django.contrib import admin
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from . import models
+from modeltranslation.admin import TranslationAdmin
+from menu.translation import (CategoryTranslationOptions, DishTranslationOptions,
+                              DailyMealTranslationOptions)
+
+from modeltranslation.translator import translator, TranslationOptions
+from modeltranslation.admin import TabbedTranslationAdmin
+from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
+
+
+class CategoryAdmin(TabbedTranslationAdmin):
+    fieldsets = (
+        ('General', {
+            'fields': ('title', 'description', 'photo')
+        }),
+        ('Slug and ID', {
+            'classes': ('collapse',),
+            'fields': ('slug', 'id'),
+        }),
+    )
+
+    list_display = ('title', 'description', 'slug', 'id')
+    search_fields = ('title', 'description')
+    readonly_fields = ('slug', 'id')
+    autocomplete_fields = ('photo',)
 
 
 class PhotoAdmin(admin.ModelAdmin):
@@ -9,53 +33,69 @@ class PhotoAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'slug', 'id')
-    search_fields = ('title', 'description')
-    autocomplete_fields = ('photo',)
-    readonly_fields = ('slug',)
+class DailyMealInlineAdmin(TranslationStackedInline):
+    model = models.DailyMeal
+    can_delete = False
+    fk_name = 'dish_1'
+    readonly_fields = ('calories',)
+    autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
+    max_num = 0
 
 
-class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'slug')
-    search_fields = ('title', 'id')
-    readonly_fields = ('slug',)
-
-
-class DishAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
+    fieldsets = (
+        ('General', {
+            'fields': ('title', 'description')
+        }),
+        ('Detail', {
+            'fields': ('meal_of_the_day', 'calories', 'photo')
+        }),
+        ('Slug and ID', {
+            'classes': ('collapse',),
+            'fields': ('slug', 'id'),
+        }),
+    )
+    inlines = (DailyMealInlineAdmin,)
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
-    autocomplete_fields = ('ingredients', 'photo')
-    search_fields = ('title', 'calories', 'ingredients__title')
-    readonly_fields = ('slug',)
+    autocomplete_fields = ('photo',)
+    search_fields = ('title_en', 'title_ru', 'calories')
+    readonly_fields = ('slug', 'id')
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DishAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['title'].widget.attrs['style'] = 'min-width: 45%;'
+        form.base_fields['title_en'].widget.attrs['style'] = 'min-width: 45%;'
+        form.base_fields['title_ru'].widget.attrs['style'] = 'min-width: 45%;'
         return form
 
 
-class DailyMealAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
+    fieldsets = (
+        ('General', {
+            'fields': ('title', 'calories', 'id')
+        }),
+        ('Dishes', {
+            'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
+        }),
+    )
     list_display = (
         'title',
-        'dish_1',
-        'dish_2',
-        'dish_3',
-        'dish_4',
-        'dish_5',
         'calories',
         'id',
     )
     list_filter = (
         ('calories', SliderNumericFilter),
     )
-    autocomplete_fields = ('dish_1', 'dish_2', 'dish_3', 'dish_4', 'dish_5')
-    search_fields = ('title',) + tuple(f'dish_{num}__title' for num in range(1, 6))
-    readonly_fields = ('calories',)
+
+    search_fields = ('title_en', 'title_ru') + tuple(f'dish_{num}__title_{lang}'
+                                                     for num in range(1, 6) for lang in ('en', 'ru'))
+    readonly_fields = ('calories', 'id',)
+    autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
-        form.base_fields['title'].widget.attrs['style'] = 'min-width: 45%;'
+        form.base_fields['title_en'].widget.attrs['style'] = 'min-width: 45%;'
+        form.base_fields['title_ru'].widget.attrs['style'] = 'min-width: 45%;'
         return form
 
 
@@ -97,8 +137,11 @@ def _register(model, admin_class):
     admin.site.register(model, admin_class)
 
 
+translator.register(models.Category, CategoryTranslationOptions)
+translator.register(models.Dish, DishTranslationOptions)
+translator.register(models.DailyMeal, DailyMealTranslationOptions)
+
 _register(models.Category, CategoryAdmin)
-_register(models.Ingredient, IngredientAdmin)
 _register(models.Dish, DishAdmin)
 _register(models.DailyMeal, DailyMealAdmin)
 _register(models.Menu, MenuAdmin)
