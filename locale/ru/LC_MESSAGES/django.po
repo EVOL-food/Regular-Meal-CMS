@@ -1,0 +1,221 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-21 17:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\client\manager.py:15
+msgid "The Email must be set"
+msgstr ""
+
+#: .\client\manager.py:31
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: .\client\manager.py:33
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: .\evol_food\settings.py:127
+msgid "English"
+msgstr ""
+
+#: .\evol_food\settings.py:128
+msgid "Russian"
+msgstr ""
+
+#: .\menu\admin.py:14 .\menu\admin.py:42 .\menu\admin.py:82 .\menu\admin.py:103
+#: .\menu\admin.py:122 .\menu\admin.py:154 .\menu\admin.py:188
+msgid "General"
+msgstr "Главное"
+
+#: .\menu\admin.py:18 .\menu\admin.py:157 .\menu\models.py:93
+msgid "Dishes"
+msgstr "Блюда"
+
+#: .\menu\admin.py:46 .\menu\admin.py:191
+msgid "Price"
+msgstr "Цена"
+
+#: .\menu\admin.py:50 .\menu\admin.py:194
+msgid "Days"
+msgstr "Дни недели"
+
+#: .\menu\admin.py:54 .\menu\admin.py:85 .\menu\admin.py:128
+#: .\menu\admin.py:197
+msgid "ID"
+msgstr "Идентификатор"
+
+#: .\menu\admin.py:125
+msgid "Detail"
+msgstr "Детали"
+
+#: .\menu\apps.py:8 .\menu\models.py:190
+msgid "Menu"
+msgstr "Меню"
+
+#: .\menu\models.py:20 .\menu\models.py:32 .\menu\models.py:52
+#: .\menu\models.py:69 .\menu\models.py:98 .\menu\models.py:134
+msgid "Title"
+msgstr "Название"
+
+#: .\menu\models.py:26
+msgid "Ingredient"
+msgstr "Ингредиент"
+
+#: .\menu\models.py:27 .\menu\models.py:73
+msgid "Ingredients"
+msgstr "Ингредиенты"
+
+#: .\menu\models.py:34
+msgid "Image"
+msgstr "Изображение"
+
+#: .\menu\models.py:46 .\menu\models.py:56 .\menu\models.py:80
+#: .\menu\models.py:143
+msgid "Photo"
+msgstr "Фотография"
+
+#: .\menu\models.py:47
+msgid "Photos"
+msgstr "Фотографии"
+
+#: .\menu\models.py:54 .\menu\models.py:71 .\menu\models.py:136
+msgid "Description"
+msgstr "Описание"
+
+#: .\menu\models.py:64 .\menu\models.py:141
+msgid "Category"
+msgstr "Категория"
+
+#: .\menu\models.py:65
+msgid "Categories"
+msgstr "Категории"
+
+#: .\menu\models.py:75 .\menu\models.py:116
+msgid "Calories"
+msgstr "Калории"
+
+#: .\menu\models.py:78
+msgid "Meal of the day"
+msgstr "Прием пищи"
+
+#: .\menu\models.py:92
+msgid "Dish"
+msgstr "Блюдо"
+
+#: .\menu\models.py:101
+msgid "Breakfast"
+msgstr "Завтрак"
+
+#: .\menu\models.py:104
+msgid "Brunch"
+msgstr "Поздний завтрак"
+
+#: .\menu\models.py:107
+msgid "Lunch"
+msgstr "Обед"
+
+#: .\menu\models.py:110
+msgid "Dinner"
+msgstr "Ужин"
+
+#: .\menu\models.py:113
+msgid "Supper"
+msgstr "Поздний ужин"
+
+#: .\menu\models.py:128
+msgid "Daily meal"
+msgstr "Меню на день"
+
+#: .\menu\models.py:129
+msgid "Daily meals"
+msgstr "Меню на день"
+
+#: .\menu\models.py:138
+msgid "Calories average"
+msgstr "Средняя калорийность"
+
+#: .\menu\models.py:147
+msgid "Auto price"
+msgstr "Просчёт цены"
+
+#: .\menu\models.py:150
+msgid "Daily costs"
+msgstr "Цена за день"
+
+#: .\menu\models.py:153
+msgid "Weekly costs"
+msgstr "Цена за неделю"
+
+#: .\menu\models.py:156
+msgid "Monthly costs"
+msgstr "Цена за месяц"
+
+#: .\menu\models.py:160
+msgid "Monday"
+msgstr "Понедельник"
+
+#: .\menu\models.py:163
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: .\menu\models.py:166
+msgid "Wednesday"
+msgstr "Среда"
+
+#: .\menu\models.py:169
+msgid "Thursday"
+msgstr "Четверг"
+
+#: .\menu\models.py:172
+msgid "Friday"
+msgstr "Пятница"
+
+#: .\menu\models.py:175
+msgid "Saturday"
+msgstr "Суббота"
+
+#: .\menu\models.py:178
+msgid "Sunday"
+msgstr "Воскресение"
+
+#: .\menu\models.py:191
+msgid "Menus"
+msgstr "Меню"
+
+#, fuzzy
+#~| msgid "General"
+#~ msgid "Menu: General"
+#~ msgstr "Главное"
+
+#, fuzzy
+#~| msgid "Price"
+#~ msgid "Menu: Price"
+#~ msgstr "Цена"
+
+#, fuzzy
+#~| msgid "Menus"
+#~ msgid "Menu: Days"
+#~ msgstr "Меню"
+
+#, fuzzy
+#~| msgid "Menu"
+#~ msgid "Menu: ID"
+#~ msgstr "Меню"
