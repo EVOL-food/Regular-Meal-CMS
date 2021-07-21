@@ -181,6 +181,7 @@ class MenuAPITestCase(APITestCase):
         response = SearchDetailView.as_view()(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data[0]["title"], self.menu.title)
+        self.assertEqual(len(response.data), 1)
 
     def test_get_test_menu_retrieve_detail_view(self):
         response = self.client.get(reverse('menu-detail', args=[self.menu.slug]))
