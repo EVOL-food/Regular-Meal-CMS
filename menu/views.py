@@ -1,7 +1,7 @@
 from django.utils import translation
+import django_filters.rest_framework
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from menu.serializers import MenuSerializerList, MenuSerializerDetail
 from rest_framework.response import Response
@@ -14,20 +14,17 @@ class MenuListView(ListAPIView):
     serializer_class = MenuSerializerList
     queryset = Menu.objects.all()
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['category__slug']
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    search_fields = ["category__title", "category__slug", "category__id"]
 
-    def list(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         language = kwargs["language"]
         if language in settings.MODELTRANSLATION_LANGUAGES:
             translation.activate(language)
         else:
             return Response({"detail": {"language_code": language,
                                         "error": "Language not found"}}, status=HTTP_404_NOT_FOUND)
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+        return self.list(request, *args, **kwargs)
 
 
 class MenuRetrieveView(RetrieveAPIView):
@@ -70,23 +67,6 @@ class SearchDetailView(ListAPIView):
                      'day_4__calories', 'day_5__calories', 'day_6__calories',
                      'day_7__calories',
                      ]
-
-    def get(self, request, *args, **kwargs):
-        language = kwargs["language"]
-        if language in settings.MODELTRANSLATION_LANGUAGES:
-            translation.activate(language)
-        else:
-            return Response({"detail": {"language_code": language,
-                                        "error": "Language not found"}}, status=HTTP_404_NOT_FOUND)
-        return self.list(request, *args, **kwargs)
-
-
-class MenuCategorySearchView(ListAPIView):
-    serializer_class = MenuSerializerDetail
-    queryset = Menu.objects.all()
-    permission_classes = [AllowAny]
-    filter_backends = [SearchFilter]
-    search_fields = ["category__title", "category__slug", "category__id"]
 
     def get(self, request, *args, **kwargs):
         language = kwargs["language"]
