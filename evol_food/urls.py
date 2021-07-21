@@ -19,12 +19,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 import menu.urls
+import delivery.urls
 
 urlpatterns = [
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.jwt')),
-    path('api/', include(menu.urls))
-]
+    path('api/', include(menu.urls)),
+    path('api/', include(delivery.urls)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += i18n_patterns(path('admin/', admin.site.urls), path('baton/', include('baton.urls')))
