@@ -102,10 +102,10 @@ class PhotoAdmin(admin.ModelAdmin):
 class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'ingredients')
+            'fields': ('title', 'description', 'calories',)
         }),
         (_('Detail'), {
-            'fields': ('meal_of_the_day', 'calories', 'photo')
+            'fields': ('ingredients', 'meal_of_the_day', 'photo')
         }),
         (_('ID'), {
             'classes': ('collapse',),
