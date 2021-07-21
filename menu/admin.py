@@ -97,6 +97,12 @@ class CategoryAdmin(TabbedTranslationAdmin):
         search_fields.append(f'title_{language}')
         search_fields.append(f'description_{language}')
 
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = super().get_inline_instances(request, obj=None)
+        if request.GET.get('_popup'):
+            inline_instances = tuple()
+        return inline_instances
+
 
 class IngredientAdmin(TabbedTranslationAdmin):
     fieldsets = (
@@ -148,6 +154,12 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
             form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
         return form
 
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = super().get_inline_instances(request, obj=None)
+        if request.GET.get('_popup'):
+            inline_instances = tuple()
+        return inline_instances
+
 
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
@@ -181,6 +193,12 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
         return form
+
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = super().get_inline_instances(request, obj=None)
+        if request.GET.get('_popup'):
+            inline_instances = tuple()
+        return inline_instances
 
 
 class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
