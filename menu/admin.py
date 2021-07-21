@@ -7,34 +7,6 @@ from django.conf import settings
 from . import models
 
 
-# Inlines
-class DailyMealInlineAdmin(TranslationStackedInline):
-    classes = ("collapse",)
-    fieldsets = (
-        (_('General'), {
-            'classes': ('collapse',),
-            'fields': ('title', 'calories', 'id')
-        }),
-        (_('Dishes'), {
-            'classes': ('collapse',),
-            'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
-        }),
-    )
-    list_display = (
-        'title',
-        'calories',
-        'id',
-    )
-    list_filter = (
-        ('calories', SliderNumericFilter),
-    )
-    model = models.DailyMeal
-    can_delete = False
-    fk_name = 'dish_1'
-    readonly_fields = ('calories', 'id',"dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
-    max_num = 0
-
-
 class MenuInlineAdmin(TranslationStackedInline):
     classes = ("collapse",)
     fieldsets = (
@@ -55,10 +27,9 @@ class MenuInlineAdmin(TranslationStackedInline):
             'fields': ('slug', 'id'),
         }),
     )
-
+    fk_name = "category"
     model = models.Menu
     can_delete = False
-    fk_name = 'day_1'
     max_num = 0
     readonly_fields = ('calories_daily', 'slug', 'id',
                        'price_weekly', 'price_monthly',
@@ -72,14 +43,10 @@ class MenuInlineAdmin(TranslationStackedInline):
         search_fields.append(f'category__title_{language}')
 
 
-class MenuInlineAdminForCategory(MenuInlineAdmin):
-    fk_name = "category"
-
-
 # Tabs
 class CategoryAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'description', 'photo')
         }),
         (_('ID'), {
@@ -87,11 +54,12 @@ class CategoryAdmin(TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
         }),
     )
-    inlines = (MenuInlineAdminForCategory,)
+    inlines = (MenuInlineAdmin,)
     list_display = ('title', 'description', 'slug', 'id')
     search_fields = []
     readonly_fields = ('slug', 'id')
     autocomplete_fields = ('photo',)
+    exclude_add = ("photo",)
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
@@ -103,10 +71,18 @@ class CategoryAdmin(TabbedTranslationAdmin):
             inline_instances = tuple()
         return inline_instances
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(CategoryAdmin, self).get_form(request, obj, **kwargs)
+        if request.GET.get('_popup'):
+            form.base_fields['photo'].widget.can_add_related = False
+            form.base_fields['photo'].widget.can_delete_related = False
+            form.base_fields['photo'].widget.can_change_related = False
+        return form
+
 
 class IngredientAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'id')
         }),
     )
@@ -125,18 +101,17 @@ class PhotoAdmin(admin.ModelAdmin):
 
 class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
-            'fields': ('title', 'description', 'ingredients')
+        (None, {
+            'fields': ('title', 'description', 'calories',)
         }),
         (_('Detail'), {
-            'fields': ('meal_of_the_day', 'calories', 'photo')
+            'fields': ('ingredients', 'meal_of_the_day', 'photo')
         }),
         (_('ID'), {
             'classes': ('collapse',),
             'fields': ('slug', 'id'),
         }),
     )
-    inlines = (DailyMealInlineAdmin,)
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
     autocomplete_fields = ('photo', 'ingredients')
@@ -152,22 +127,25 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
             form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
-        return form
-
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
         if request.GET.get('_popup'):
-            inline_instances = tuple()
-        return inline_instances
+            for field in ("photo", "ingredients"):
+                form.base_fields[field].widget.can_add_related = False
+                form.base_fields[field].widget.can_delete_related = False
+                form.base_fields[field].widget.can_change_related = False
+        return form
 
 
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
-            'fields': ('title', 'calories', 'id')
+        (None, {
+            'fields': ('title', 'calories',)
         }),
         (_('Dishes'), {
             'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
+        }),
+        (_('ID'), {
+            'classes': ('collapse',),
+            'fields': ('id',),
         }),
     )
     list_display = (
@@ -179,11 +157,10 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         ('calories', SliderNumericFilter),
     )
 
-    search_fields = [f'dish_{num}__title_{lang}'for num in range(1, 6)
+    search_fields = [f'dish_{num}__title_{lang}' for num in range(1, 6)
                      for lang in tuple(lang[0] for lang in settings.LANGUAGES)]
     readonly_fields = ('calories', 'id',)
     autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
-    inlines = (MenuInlineAdmin,)
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
@@ -192,18 +169,17 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
+        for num in range(1, 6):
+            form.base_fields[f'dish_{num}'].widget.can_delete_related = False
+            if request.GET.get('_popup'):
+                form.base_fields[f'dish_{num}'].widget.can_add_related = False
+                form.base_fields[f'dish_{num}'].widget.can_change_related = False
         return form
-
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
-        if request.GET.get('_popup'):
-            inline_instances = tuple()
-        return inline_instances
 
 
 class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'description', 'category', 'calories_daily',)
         }),
         (_('Price'), {
@@ -257,6 +233,7 @@ class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
             form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
+            form.base_fields[f'category'].widget.can_delete_related = False
         return form
 
 
