@@ -59,6 +59,7 @@ class CategoryAdmin(TabbedTranslationAdmin):
     search_fields = []
     readonly_fields = ('slug', 'id')
     autocomplete_fields = ('photo',)
+    exclude_add = ("photo",)
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
@@ -69,6 +70,14 @@ class CategoryAdmin(TabbedTranslationAdmin):
         if request.GET.get('_popup'):
             inline_instances = tuple()
         return inline_instances
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(CategoryAdmin, self).get_form(request, obj, **kwargs)
+        if request.GET.get('_popup'):
+            form.base_fields['photo'].widget.can_add_related = False
+            form.base_fields['photo'].widget.can_delete_related = False
+            form.base_fields['photo'].widget.can_change_related = False
+        return form
 
 
 class IngredientAdmin(TabbedTranslationAdmin):
@@ -118,13 +127,12 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
             form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
-        return form
-
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
         if request.GET.get('_popup'):
-            inline_instances = tuple()
-        return inline_instances
+            for field in ("photo", "ingredients"):
+                form.base_fields[field].widget.can_add_related = False
+                form.base_fields[field].widget.can_delete_related = False
+                form.base_fields[field].widget.can_change_related = False
+        return form
 
 
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
@@ -145,7 +153,7 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         ('calories', SliderNumericFilter),
     )
 
-    search_fields = [f'dish_{num}__title_{lang}'for num in range(1, 6)
+    search_fields = [f'dish_{num}__title_{lang}' for num in range(1, 6)
                      for lang in tuple(lang[0] for lang in settings.LANGUAGES)]
     readonly_fields = ('calories', 'id',)
     autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
@@ -157,6 +165,11 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
+        if request.GET.get('_popup'):
+            for num in range(1, 6):
+                form.base_fields[f'dish_{num}'].widget.can_add_related = False
+                form.base_fields[f'dish_{num}'].widget.can_delete_related = False
+                form.base_fields[f'dish_{num}'].widget.can_change_related = False
         return form
 
     def get_inline_instances(self, request, obj=None):
