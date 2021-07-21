@@ -26,13 +26,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('title', 'description', 'slug', 'photo')
+        fields = ('id', 'title', 'description', 'slug', 'photo')
 
 
 class CategorySerializerShort(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('title', 'slug')
+        fields = ('id', 'title', 'slug')
 
 
 class DailyMealSerializer(serializers.ModelSerializer):

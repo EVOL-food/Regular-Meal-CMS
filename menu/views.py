@@ -70,3 +70,29 @@ class SearchDetailView(ListAPIView):
                      'day_4__calories', 'day_5__calories', 'day_6__calories',
                      'day_7__calories',
                      ]
+
+    def get(self, request, *args, **kwargs):
+        language = kwargs["language"]
+        if language in settings.MODELTRANSLATION_LANGUAGES:
+            translation.activate(language)
+        else:
+            return Response({"detail": {"language_code": language,
+                                        "error": "Language not found"}}, status=HTTP_404_NOT_FOUND)
+        return self.list(request, *args, **kwargs)
+
+
+class MenuCategorySearchView(ListAPIView):
+    serializer_class = MenuSerializerDetail
+    queryset = Menu.objects.all()
+    permission_classes = [AllowAny]
+    filter_backends = [SearchFilter]
+    search_fields = ["category__title", "category__slug", "category__id"]
+
+    def get(self, request, *args, **kwargs):
+        language = kwargs["language"]
+        if language in settings.MODELTRANSLATION_LANGUAGES:
+            translation.activate(language)
+        else:
+            return Response({"detail": {"language_code": language,
+                                        "error": "Language not found"}}, status=HTTP_404_NOT_FOUND)
+        return self.list(request, *args, **kwargs)
