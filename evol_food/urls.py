@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 import menu.urls
+import delivery.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('baton/', include('baton.urls')),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.jwt')),
-    path('api/', include(menu.urls))
+    path('api/', include(menu.urls)),
+    path('api/', include(delivery.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
