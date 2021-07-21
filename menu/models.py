@@ -1,15 +1,7 @@
-import calendar
-import datetime
-import unidecode
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from django.utils.translation import gettext_lazy as _
-from imagekit.cachefiles.strategies import LazyObject
-from django.utils.translation import get_language, activate
+from django.conf import settings
 
 
 class CustomImageStrategy(object):
@@ -21,6 +13,13 @@ class CustomImageStrategy(object):
 
     def on_source_saved(self, file):
         file.generate()
+
+
+class Ingredient(models.Model):
+    title = models.CharField(max_length=60, default="")
+
+    def __str__(self):
+        return self.title
 
 
 class Photo(models.Model):
@@ -54,6 +53,7 @@ class Category(models.Model):
 class Dish(models.Model):
     title = models.CharField(max_length=60, default="")
     description = models.TextField(default="", max_length=1000)
+    ingredients = models.ManyToManyField(to=Ingredient)
     calories = models.PositiveIntegerField(default=0)
     meal_of_the_day = models.PositiveIntegerField(
         choices=[(i, str(i)) for i in range(1, 6)])
@@ -63,6 +63,10 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_ingredients_list(self):
+        return [ingredient["title"] for ingredient in self.ingredients.values()]
 
     class Meta:
         verbose_name_plural = 'Dishes'
@@ -134,34 +138,3 @@ class Menu(models.Model):
                 self.day_4, self.day_5, self.day_6, self.day_7]
         return days
 
-
-@receiver(pre_save, sender=Category)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
-
-
-@receiver(pre_save, sender=Dish)
-def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
-
-
-@receiver(pre_save, sender=DailyMeal)
-def pre_save_daily_meal(sender, instance, *args, **kwargs):
-    calories = [instance.dish_1.calories,
-                instance.dish_2.calories,
-                instance.dish_3.calories,
-                instance.dish_4.calories,
-                instance.dish_5.calories]
-    instance.calories = sum(calories)
-
-
-@receiver(pre_save, sender=Menu)
-def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
-    if instance.price_auto:
-        instance.price_weekly = instance.price_daily * 7
-        instance.price_monthly = instance.price_weekly * 4
-
-    instance.calories_daily = round(sum(day.calories for day in instance.get_all_days) / 7)
