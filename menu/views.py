@@ -6,6 +6,7 @@ from rest_framework.filters import SearchFilter
 from menu.serializers import MenuSerializerList, MenuSerializerDetail
 from rest_framework.response import Response
 from rest_framework.status import HTTP_404_NOT_FOUND
+from django.db.models import Q
 from django.conf import settings
 from menu.models import Menu
 
@@ -15,7 +16,6 @@ class MenuListView(ListAPIView):
     queryset = Menu.objects.all()
     permission_classes = [AllowAny]
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    search_fields = ["category__title", "category__slug", "category__id"]
 
     def get(self, request, *args, **kwargs):
         language = kwargs["language"]
@@ -25,6 +25,16 @@ class MenuListView(ListAPIView):
             return Response({"detail": {"language_code": language,
                                         "error": "Language not found"}}, status=HTTP_404_NOT_FOUND)
         return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        category = self.request.GET.get("category")
+        if category:
+            try:
+                return Menu.objects.filter(category_id__exact=category)
+            except ValueError:
+                return Menu.objects.filter(category__slug=category)
+        else:
+            return Menu.objects.all()
 
 
 class MenuRetrieveView(RetrieveAPIView):
