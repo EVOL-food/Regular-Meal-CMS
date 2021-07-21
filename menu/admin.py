@@ -31,8 +31,7 @@ class DailyMealInlineAdmin(TranslationStackedInline):
     model = models.DailyMeal
     can_delete = False
     fk_name = 'dish_1'
-    readonly_fields = ('calories', 'id')
-    autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
+    readonly_fields = ('calories', 'id',"dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
     max_num = 0
 
 
@@ -62,8 +61,9 @@ class MenuInlineAdmin(TranslationStackedInline):
     fk_name = 'day_1'
     max_num = 0
     readonly_fields = ('calories_daily', 'slug', 'id',
-                       'price_weekly', 'price_monthly', 'price_auto', "price_daily")
-    autocomplete_fields = ('photo', 'category') + tuple(f'day_{num}' for num in range(1, 8))
+                       'price_weekly', 'price_monthly',
+                       'price_auto', "price_daily") + tuple(f'day_{num}' for num in range(1, 8))
+    autocomplete_fields = ('photo', 'category')
 
     search_fields = [f'day_{num}__title' for num in range(1, 8)]
 
