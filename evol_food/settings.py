@@ -131,8 +131,10 @@ LANGUAGES = (
     ('en', gettext('English')),
     ('ru', gettext('Russian')),
 )
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
+
 MODELTRANSLATION_LANGUAGES = ('en', 'ru')
+
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

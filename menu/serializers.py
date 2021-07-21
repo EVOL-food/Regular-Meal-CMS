@@ -14,11 +14,6 @@ class PhotoImageSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DishSerializer(serializers.ModelSerializer):
-#    dish = serializers.SlugRelatedField(
-#        many=True,
-#        read_only=True,
-#        slug_field='title',
-#    )
     ingredients = serializers.StringRelatedField(many=True)
 
     class Meta:
@@ -59,7 +54,7 @@ class MenuSerializerList(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ['title', 'description', 'slug', 'photo', 'category']
+        fields = ['id', 'title', 'description', 'slug', 'photo', 'category']
 
 
 class MenuSerializerDetail(serializers.ModelSerializer):
@@ -75,5 +70,5 @@ class MenuSerializerDetail(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ['title', 'description', 'slug', 'category', 'photo',
+        fields = ['id', 'title', 'description', 'slug', 'category', 'photo',
                   'day_1', 'day_2', 'day_3', 'day_4', 'day_5', 'day_6', 'day_7']

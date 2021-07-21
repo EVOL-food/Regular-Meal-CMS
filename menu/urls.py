@@ -6,7 +6,7 @@ from menu.views import MenuListView, MenuRetrieveView, SearchDetailView
 #router.register(r'menus', MenuViewSet)
 
 urlpatterns = [
-    path('menu/', MenuListView.as_view(), name='menu-list'),
-    path('menu/<slug:slug>/', MenuRetrieveView.as_view(), name='menu-detail'),
+    path('<str:language>/menu/', MenuListView.as_view(), name='menu-list'),
+    path('<str:language>/menu/<int:id>/', MenuRetrieveView.as_view(), name='menu-detail'),
     path('search/', SearchDetailView.as_view(), name='search-detail')
 ]
