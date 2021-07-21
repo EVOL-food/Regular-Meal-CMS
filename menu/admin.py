@@ -176,12 +176,6 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
                 form.base_fields[f'dish_{num}'].widget.can_change_related = False
         return form
 
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
-        if request.GET.get('_popup'):
-            inline_instances = tuple()
-        return inline_instances
-
 
 class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
