@@ -7,34 +7,6 @@ from django.conf import settings
 from . import models
 
 
-# Inlines
-class DailyMealInlineAdmin(TranslationStackedInline):
-    classes = ("collapse",)
-    fieldsets = (
-        (_('General'), {
-            'classes': ('collapse',),
-            'fields': ('title', 'calories', 'id')
-        }),
-        (_('Dishes'), {
-            'classes': ('collapse',),
-            'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
-        }),
-    )
-    list_display = (
-        'title',
-        'calories',
-        'id',
-    )
-    list_filter = (
-        ('calories', SliderNumericFilter),
-    )
-    model = models.DailyMeal
-    can_delete = False
-    fk_name = 'dish_1'
-    readonly_fields = ('calories', 'id',"dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
-    max_num = 0
-
-
 class MenuInlineAdmin(TranslationStackedInline):
     classes = ("collapse",)
     fieldsets = (
@@ -55,10 +27,9 @@ class MenuInlineAdmin(TranslationStackedInline):
             'fields': ('slug', 'id'),
         }),
     )
-
+    fk_name = "category"
     model = models.Menu
     can_delete = False
-    fk_name = 'day_1'
     max_num = 0
     readonly_fields = ('calories_daily', 'slug', 'id',
                        'price_weekly', 'price_monthly',
@@ -72,10 +43,6 @@ class MenuInlineAdmin(TranslationStackedInline):
         search_fields.append(f'category__title_{language}')
 
 
-class MenuInlineAdminForCategory(MenuInlineAdmin):
-    fk_name = "category"
-
-
 # Tabs
 class CategoryAdmin(TabbedTranslationAdmin):
     fieldsets = (
@@ -87,7 +54,7 @@ class CategoryAdmin(TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
         }),
     )
-    inlines = (MenuInlineAdminForCategory,)
+    inlines = (MenuInlineAdmin,)
     list_display = ('title', 'description', 'slug', 'id')
     search_fields = []
     readonly_fields = ('slug', 'id')
@@ -136,7 +103,6 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
         }),
     )
-    inlines = (DailyMealInlineAdmin,)
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
     autocomplete_fields = ('photo', 'ingredients')
@@ -183,7 +149,6 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
                      for lang in tuple(lang[0] for lang in settings.LANGUAGES)]
     readonly_fields = ('calories', 'id',)
     autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
-    inlines = (MenuInlineAdmin,)
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
