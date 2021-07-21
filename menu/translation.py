@@ -1,7 +1,5 @@
 from django.conf import settings
-
-from modeltranslation.translator import translator
-from modeltranslation.translator import TranslationOptions
+from modeltranslation.translator import translator, TranslationOptions
 import menu.models as models
 
 
@@ -15,7 +13,7 @@ class TitleDescriptionSlugTranslationOptions(TitleTranslationOptions):
 
 
 translator.register(models.Ingredient, TitleTranslationOptions)
+translator.register(models.DailyMeal, TitleTranslationOptions)
 translator.register(models.Category, TitleDescriptionSlugTranslationOptions)
 translator.register(models.Dish, TitleDescriptionSlugTranslationOptions)
-translator.register(models.DailyMeal, TitleTranslationOptions)
 translator.register(models.Menu, TitleDescriptionSlugTranslationOptions)
