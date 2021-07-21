@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from modeltranslation.admin import TabbedTranslationAdmin
 from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
@@ -8,12 +9,13 @@ from . import models
 
 # Inlines
 class DailyMealInlineAdmin(TranslationStackedInline):
+    classes = ("collapse",)
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'classes': ('collapse',),
             'fields': ('title', 'calories', 'id')
         }),
-        ('Dishes', {
+        (_('Dishes'), {
             'classes': ('collapse',),
             'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
         }),
@@ -35,20 +37,21 @@ class DailyMealInlineAdmin(TranslationStackedInline):
 
 
 class MenuInlineAdmin(TranslationStackedInline):
+    classes = ("collapse",)
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'classes': ('collapse',),
             'fields': ('title', 'description', 'category', 'calories_daily',)
         }),
-        ('Price', {
+        (_('Price'), {
             'classes': ('collapse',),
             'fields': ('price_daily', 'price_weekly', 'price_monthly', 'price_auto',)
         }),
-        ('Days', {
+        (_('Days'), {
             'classes': ('collapse',),
             'fields': ('day_1', "day_2", "day_3", "day_4", "day_5", "day_6", "day_7",)
         }),
-        ('Slug and ID', {
+        (_('ID'), {
             'classes': ('collapse',),
             'fields': ('slug', 'id'),
         }),
@@ -69,18 +72,22 @@ class MenuInlineAdmin(TranslationStackedInline):
         search_fields.append(f'category__title_{language}')
 
 
+class MenuInlineAdminForCategory(MenuInlineAdmin):
+    fk_name = "category"
+
+
 # Tabs
 class CategoryAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'fields': ('title', 'description', 'photo')
         }),
-        ('Slug and ID', {
+        (_('ID'), {
             'classes': ('collapse',),
             'fields': ('slug', 'id'),
         }),
     )
-
+    inlines = (MenuInlineAdminForCategory,)
     list_display = ('title', 'description', 'slug', 'id')
     search_fields = []
     readonly_fields = ('slug', 'id')
@@ -93,7 +100,7 @@ class CategoryAdmin(TabbedTranslationAdmin):
 
 class IngredientAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'fields': ('title', 'id')
         }),
     )
@@ -112,13 +119,13 @@ class PhotoAdmin(admin.ModelAdmin):
 
 class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'fields': ('title', 'description', 'ingredients')
         }),
-        ('Detail', {
+        (_('Detail'), {
             'fields': ('meal_of_the_day', 'calories', 'photo')
         }),
-        ('Slug and ID', {
+        (_('ID'), {
             'classes': ('collapse',),
             'fields': ('slug', 'id'),
         }),
@@ -144,10 +151,10 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'fields': ('title', 'calories', 'id')
         }),
-        ('Dishes', {
+        (_('Dishes'), {
             'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
         }),
     )
@@ -178,16 +185,16 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        ('General', {
+        (_('General'), {
             'fields': ('title', 'description', 'category', 'calories_daily',)
         }),
-        ('Price', {
+        (_('Price'), {
             'fields': ('price_daily', 'price_weekly', 'price_monthly', 'price_auto',)
         }),
-        ('Days', {
+        (_('Days'), {
             'fields': ('day_1', "day_2", "day_3", "day_4", "day_5", "day_6", "day_7",)
         }),
-        ('Slug and ID', {
+        (_('ID'), {
             'classes': ('collapse',),
             'fields': ('slug', 'id'),
         }),
