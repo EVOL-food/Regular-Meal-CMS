@@ -46,7 +46,7 @@ class MenuInlineAdmin(TranslationStackedInline):
 # Tabs
 class CategoryAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'description', 'photo')
         }),
         (_('ID'), {
@@ -82,7 +82,7 @@ class CategoryAdmin(TabbedTranslationAdmin):
 
 class IngredientAdmin(TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'id')
         }),
     )
@@ -101,7 +101,7 @@ class PhotoAdmin(admin.ModelAdmin):
 
 class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'description', 'ingredients')
         }),
         (_('Detail'), {
@@ -137,11 +137,15 @@ class DishAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
-            'fields': ('title', 'calories', 'id')
+        (None, {
+            'fields': ('title', 'calories',)
         }),
         (_('Dishes'), {
             'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",)
+        }),
+        (_('ID'), {
+            'classes': ('collapse',),
+            'fields': ('id',),
         }),
     )
     list_display = (
@@ -165,10 +169,10 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
-        if request.GET.get('_popup'):
-            for num in range(1, 6):
+        for num in range(1, 6):
+            form.base_fields[f'dish_{num}'].widget.can_delete_related = False
+            if request.GET.get('_popup'):
                 form.base_fields[f'dish_{num}'].widget.can_add_related = False
-                form.base_fields[f'dish_{num}'].widget.can_delete_related = False
                 form.base_fields[f'dish_{num}'].widget.can_change_related = False
         return form
 
@@ -181,7 +185,7 @@ class DailyMealAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
-        (_('General'), {
+        (None, {
             'fields': ('title', 'description', 'category', 'calories_daily',)
         }),
         (_('Price'), {
@@ -235,6 +239,7 @@ class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         for language in tuple(lang[0] for lang in settings.LANGUAGES):
             form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
             form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
+            form.base_fields[f'category'].widget.can_delete_related = False
         return form
 
 
