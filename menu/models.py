@@ -1,15 +1,7 @@
-import calendar
-import datetime
-import unidecode
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from django.utils.translation import gettext_lazy as _
-from imagekit.cachefiles.strategies import LazyObject
-from django.utils.translation import get_language, activate
+from django.utils.translation import ugettext_lazy as _
 
 
 class CustomImageStrategy(object):
@@ -23,9 +15,23 @@ class CustomImageStrategy(object):
         file.generate()
 
 
+class Ingredient(models.Model):
+    title = models.CharField(max_length=60, default="",
+                             verbose_name=_("Title"))
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _("Ingredient")
+        verbose_name_plural = _("Ingredients")
+
+
 class Photo(models.Model):
-    title = models.CharField(max_length=60, default="")
-    image = models.ImageField(upload_to='menu/photos/', null=True, blank=True)
+    title = models.CharField(max_length=60, default="",
+                             verbose_name=_("Title"))
+    image = models.ImageField(upload_to='menu/photos/', null=True, blank=True,
+                              verbose_name=_("Image"))
     image_large = ImageSpecField(source='image', processors=[ResizeToFill(512, 512)], format='PNG',
                                  options={'quality': 70}, cachefile_strategy=CustomImageStrategy)
     image_medium = ImageSpecField(source='image', processors=[ResizeToFill(256, 256)], format='PNG',
@@ -36,11 +42,18 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = _("Photo")
+        verbose_name_plural = _("Photos")
+
 
 class Category(models.Model):
-    title = models.CharField(max_length=30, default="")
-    description = models.TextField(max_length=1000, default="")
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=30, default="",
+                             verbose_name=_("Title"))
+    description = models.TextField(max_length=1000, default="",
+                                   verbose_name=_("Description"))
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name=_("Photo"))
     slug = models.SlugField(max_length=30, unique=True,
                             default="", blank=True, null=True)
 
@@ -48,40 +61,59 @@ class Category(models.Model):
         return self.title
 
     class Meta:
-        verbose_name_plural = 'Categories'
+        verbose_name = _("Category")
+        verbose_name_plural = _('Categories')
 
 
 class Dish(models.Model):
-    title = models.CharField(max_length=60, default="")
-    description = models.TextField(default="", max_length=1000)
-    calories = models.PositiveIntegerField(default=0)
+    title = models.CharField(max_length=60, default="", verbose_name=_("Title"))
+    description = models.TextField(default="", max_length=1000,
+                                   verbose_name=_("Description"))
+    ingredients = models.ManyToManyField(to=Ingredient,
+                                         verbose_name=_("Ingredients"))
+    calories = models.PositiveIntegerField(default=0,
+                                           verbose_name=_("Calories"))
     meal_of_the_day = models.PositiveIntegerField(
-        choices=[(i, str(i)) for i in range(1, 6)])
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
+        choices=[(i, str(i)) for i in range(1, 6)],
+        verbose_name=_("Meal of the day"))
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name=_("Photo"))
     slug = models.SlugField(max_length=60, unique=True,
                             default="", blank=True, null=True)
 
     def __str__(self):
         return self.title
 
+    @property
+    def get_ingredients_list(self):
+        return [ingredient["title"] for ingredient in self.ingredients.values()]
+
     class Meta:
-        verbose_name_plural = 'Dishes'
+        verbose_name = _("Dish")
+        verbose_name_plural = _("Dishes")
 
 
 class DailyMeal(models.Model):
-    title = models.CharField(default="", max_length=100)
+    title = models.CharField(default="", max_length=100,
+                             verbose_name=_("Title"))
     dish_1 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='breakfast', verbose_name='breakfast')
+                               related_name='breakfast',
+                               verbose_name=_("Breakfast"))
     dish_2 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='brunch', verbose_name='brunch')
+                               related_name='brunch',
+                               verbose_name=_("Brunch"))
     dish_3 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='lunch', verbose_name='lunch')
+                               related_name='lunch',
+                               verbose_name=_("Lunch"))
     dish_4 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='dinner', verbose_name='dinner')
+                               related_name='dinner',
+                               verbose_name=_("Dinner"))
     dish_5 = models.ForeignKey(Dish, blank=True, null=True, on_delete=models.SET_NULL,
-                               related_name='supper', verbose_name='supper')
+                               related_name='supper',
+                               verbose_name=_("Supper"))
 
-    calories = models.PositiveIntegerField(default=0)
+    calories = models.PositiveIntegerField(default=0,
+                                           verbose_name=_("Calories"))
 
     def __str__(self):
         return self.title
@@ -92,38 +124,58 @@ class DailyMeal(models.Model):
                   self.dish_3, self.dish_4, self.dish_5]
         return dishes
 
+    class Meta:
+        verbose_name = _("Daily meal")
+        verbose_name_plural = _("Daily meals")
+
 
 class Menu(models.Model):
-    title = models.CharField(max_length=30)
-    description = models.TextField(max_length=1000 ,default="")
-    calories_daily = models.PositiveIntegerField(default=0, verbose_name='Calories average')
+    title = models.CharField(max_length=30,
+                             verbose_name=_('Title'))
+    description = models.TextField(max_length=1000, default="",
+                                   verbose_name=_('Description'))
+    calories_daily = models.PositiveIntegerField(default=0,
+                                                 verbose_name=_('Calories average'))
     category = models.ForeignKey(Category, on_delete=models.SET_NULL,
-                                 null=True, blank=True)
-    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True)
+                                 null=True, blank=True,
+                                 verbose_name=_('Category'))
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name=_('Photo'))
     slug = models.SlugField(max_length=30, unique=True, default="", blank=True, null=True)
 
-    price_auto = models.BooleanField(default=True)
+    price_auto = models.BooleanField(default=True,
+                                     verbose_name=_('Auto price'))
     price_daily = models.DecimalField(default=0, max_digits=5,
-                                      decimal_places=2, verbose_name='Daily costs')
+                                      decimal_places=2,
+                                      verbose_name=_('Daily costs'))
     price_weekly = models.DecimalField(default=0, max_digits=7,
-                                       decimal_places=2, verbose_name='Weekly costs')
+                                       decimal_places=2,
+                                       verbose_name=_('Weekly costs'))
     price_monthly = models.DecimalField(default=0, max_digits=10,
-                                        decimal_places=2, verbose_name='Monthly costs')
+                                        decimal_places=2,
+                                        verbose_name=_('Monthly costs'))
 
     day_1 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="monday", verbose_name='monday')
+                              related_name="monday",
+                              verbose_name=_('Monday'))
     day_2 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="tuesday", verbose_name="tuesday")
+                              related_name="tuesday",
+                              verbose_name=_("Tuesday"))
     day_3 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="wednesday", verbose_name="wednesday")
+                              related_name="wednesday",
+                              verbose_name=_("Wednesday"))
     day_4 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="thursday", verbose_name="thursday")
+                              related_name="thursday",
+                              verbose_name=_("Thursday"))
     day_5 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="friday", verbose_name="friday")
+                              related_name="friday",
+                              verbose_name=_("Friday"))
     day_6 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="saturday", verbose_name="saturday")
+                              related_name="saturday",
+                              verbose_name=_("Saturday"))
     day_7 = models.ForeignKey(DailyMeal, on_delete=models.CASCADE,
-                              related_name="sunday", verbose_name="sunday")
+                              related_name="sunday",
+                              verbose_name=_("Sunday"))
 
     def __str__(self):
         return self.title
@@ -134,34 +186,7 @@ class Menu(models.Model):
                 self.day_4, self.day_5, self.day_6, self.day_7]
         return days
 
+    class Meta:
+        verbose_name = _("Menu")
+        verbose_name_plural = _("Menus")
 
-@receiver(pre_save, sender=Category)
-def pre_save_ingredient(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
-
-
-@receiver(pre_save, sender=Dish)
-def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug_en = slugify(unidecode.unidecode(instance.title_en))
-    instance.slug_ru = slugify(unidecode.unidecode(instance.title_ru))
-
-
-@receiver(pre_save, sender=DailyMeal)
-def pre_save_daily_meal(sender, instance, *args, **kwargs):
-    calories = [instance.dish_1.calories,
-                instance.dish_2.calories,
-                instance.dish_3.calories,
-                instance.dish_4.calories,
-                instance.dish_5.calories]
-    instance.calories = sum(calories)
-
-
-@receiver(pre_save, sender=Menu)
-def pre_save_dish(sender, instance, *args, **kwargs):
-    instance.slug = slugify(unidecode.unidecode(instance.title))
-    if instance.price_auto:
-        instance.price_weekly = instance.price_daily * 7
-        instance.price_monthly = instance.price_weekly * 4
-
-    instance.calories_daily = round(sum(day.calories for day in instance.get_all_days) / 7)

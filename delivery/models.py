@@ -1,7 +1,5 @@
 from datetime import time
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 
 
 class DeliveryVendor(models.Model):
@@ -36,11 +34,3 @@ class DeliverySchedule(models.Model):
     def __str__(self):
         return f"{self.delivery_vendor.title}: " \
                f"from {self.delivery_time_start_weekday.hour} to {self.delivery_time_end_weekday.hour}"
-
-
-@receiver(pre_save, sender=DeliverySchedule)
-def delivery_schedule_pre_save(sender, instance, **kwargs):
-    if instance.mode == 1:
-        instance.delivery_time_start_weekend = instance.delivery_time_start_weekday
-        instance.delivery_time_end_weekend = instance.delivery_time_end_weekday
-

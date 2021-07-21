@@ -11,6 +11,7 @@ class ProfileAdmin(admin.StackedInline):
     list_filter = ('gender',)
     search_fields = ('user', 'first_name', 'last_name', 'phone_number',
                      'gender', 'address', 'created_at')
+    can_delete = False
 
 
 class UserAdmin(admin.ModelAdmin):

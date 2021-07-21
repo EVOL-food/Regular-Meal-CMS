@@ -33,8 +33,8 @@ class Order(models.Model):
         (4, 'Completed'),
         (5, 'Canceled'),
     )
-    profile = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, null=True)
-    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True, blank=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True)
     data_start = models.DateField()
     data_end = models.DateField(blank=True, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
