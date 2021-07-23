@@ -1,6 +1,5 @@
 import unidecode
 from django.conf import settings
-from model_bakery import baker
 from PIL import Image
 from unittest import mock
 from django.utils.text import slugify
@@ -12,11 +11,7 @@ from menu.models import DailyMeal, Category, Photo
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
-from model_mommy import mommy
-from model_mommy import seq
-from .views import SearchDetailView
-from menu.fixtures.model_recipes import (category, ingredient,
-                                         dish, daily_meal, menu)
+from menu.fixtures import model_recipes
 
 
 class PhotoMixin:
@@ -29,15 +24,10 @@ class PhotoMixin:
         return mocked_create(title='Test Photo', image=thumb_file)
 
 
-class TranslateMixin:
-    title_fields = {f'title_{language}': seq(f'Title {language}')
-                    for language in settings.MODELTRANSLATION_LANGUAGES}
-
-
 class CategoryTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.category = category.make()
+        cls.category = model_recipes.category.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.category.title), 0)
@@ -58,7 +48,7 @@ class CategoryTestCase(PhotoMixin, TestCase):
 class IngredientTestCase(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.ingredient = ingredient.make()
+        cls.ingredient = model_recipes.ingredient.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.ingredient.title), 0)
@@ -67,7 +57,7 @@ class IngredientTestCase(TestCase):
 class DishTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.dish = dish.make()
+        cls.dish = model_recipes.dish.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.dish.title), 0)
@@ -95,7 +85,7 @@ class DishTestCase(PhotoMixin, TestCase):
 class DailyMealTestCase(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.daily_meal = daily_meal.make()
+        cls.daily_meal = model_recipes.daily_meal.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.daily_meal.title), 0)
@@ -120,7 +110,7 @@ class DailyMealTestCase(TestCase):
 class MenuTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.menu = menu.make()
+        cls.menu = model_recipes.menu.make()
 
     def test_field(self):
         self.assertGreater(len(self.menu.title), 0)
@@ -172,51 +162,3 @@ class PhotoTestCase(PhotoMixin, TestCase):
         self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
         self.assertEqual(Photo.image_medium.spec_id, 'menu:photo:image_medium')
         self.assertEqual(Photo.image_small.spec_id, 'menu:photo:image_small')
-
-
-# API views tests
-class MenuAPITestCase(TranslateMixin, APITestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.menu = menu.make(_quantity=2)
-        cls.client = APIClient()
-        cls.factory = APIRequestFactory()
-        cls.language = settings.MODELTRANSLATION_LANGUAGES[0]
-        cls.api_url_list = reverse('menu-list', kwargs={'language': cls.language})
-        cls.api_url_detail = reverse('menu-detail', kwargs={'language': cls.language,
-                                                            'id': 1})
-        cls.api_url_search = reverse('menu-search', kwargs={'language': cls.language})
-
-    def test_get_menu_list(self):
-        response = self.client.get(self.api_url_list)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), len(self.menu))
-
-    def test_get_menu_detail(self):
-        response = self.client.get(self.api_url_detail)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertGreater(len(response.data.get("title")), 1)
-
-    def test_get_menu_list_by_category(self):
-        self.menu[1].category = category.make(id=400)
-        self.menu[1].category = category.make(id=400)
-        self.menu[1].save()
-        response = self.client.get(self.api_url_list,
-                                   {"category": "None"})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 0)
-        response = self.client.get(self.api_url_list,
-                                   {"category": self.menu[0].category.id})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        response = self.client.get(self.api_url_list,
-                                   {"category": self.menu[1].category.slug})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-
-    def test_get_menu_search_results(self):
-        response = self.client.get(self.api_url_search,
-                                   {'search': self.menu[0].day_1.dish_1.slug})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0].get("title"), self.menu[0].title)
-        self.assertEqual(len(response.data), 2)

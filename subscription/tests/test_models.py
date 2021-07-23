@@ -52,6 +52,8 @@ class OrderTestCase(TestCase):
         self.assertTrue(self.order.status, 1)
 
     def test_foreign_key(self):
+        self.assertIsInstance(self.order.profile, Profile)
+        self.assertIsInstance(self.order.subscription, Subscription)
         self.assertEqual(self.order.profile.first_name, 'Name1')
         self.assertEqual(self.order.subscription.days, 28)
 
