@@ -1,11 +1,13 @@
 from datetime import time
-from model_bakery.recipe import Recipe, foreign_key
+from model_mommy.recipe import Recipe, foreign_key, related
+from model_mommy import seq
 from delivery.models import DeliverySchedule, DeliveryVendor
 
 delivery_vendor = Recipe(
     DeliveryVendor,
-    title='Test Delivery Vendor',
-    price_one_delivery=42
+    title=seq("Title "),
+    description=seq("Description "),
+    price_one_delivery=seq(50)
 )
 
 delivery_schedule = Recipe(
