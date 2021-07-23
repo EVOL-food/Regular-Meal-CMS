@@ -4,9 +4,8 @@ unidecode
 coverage
 django-baton 2.2.1
 django-admin-numeric-filter
-django_admin_generator
 django-imagekit
-model_bakery
+model_mommy
 djangorestframework
 markdown
 django-filter

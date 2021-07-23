@@ -1,5 +1,5 @@
 import unidecode
-from model_bakery import baker
+from django.conf import settings
 from PIL import Image
 from unittest import mock
 from django.utils.text import slugify
@@ -7,14 +7,14 @@ from django.test import TestCase
 from io import BytesIO
 from django.core.files.base import ContentFile
 from rest_framework.test import APIRequestFactory
-from menu.models import Menu, DailyMeal, Dish, Category, Ingredient, Photo
+from menu.models import DailyMeal, Category, Photo
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
-from .views import SearchDetailView
+from menu.fixtures import model_recipes
 
 
-class TestCaseWithPhoto(TestCase):
+class PhotoMixin:
     @mock.patch.object(Photo.objects, 'create',
                        side_effect=lambda **params: Photo(**params))
     def create_photo(self, mocked_create):
@@ -24,10 +24,10 @@ class TestCaseWithPhoto(TestCase):
         return mocked_create(title='Test Photo', image=thumb_file)
 
 
-class CategoryTestCase(TestCaseWithPhoto):
+class CategoryTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.category = baker.make_recipe('menu.fixtures.category')
+        cls.category = model_recipes.category.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.category.title), 0)
@@ -40,41 +40,41 @@ class CategoryTestCase(TestCaseWithPhoto):
         self.category.photo = self.create_photo()
         self.assertIsInstance(self.category.photo, Photo)
         self.assertEqual(self.category.photo.image.width, 20)
+        self.assertGreater(len(self.category.photo.image_large.name), 0)
+        self.assertGreater(len(self.category.photo.image_medium.name), 0)
+        self.assertGreater(len(self.category.photo.image_small.name), 0)
 
 
 class IngredientTestCase(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.ingredient = baker.make_recipe('menu.fixtures.ingredient',
-                                           title='Test Ingredient')
+        cls.ingredient = model_recipes.ingredient.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.ingredient.title), 0)
 
 
-class DishTestCase(TestCaseWithPhoto):
+class DishTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.ingredients = baker.make_recipe('menu.fixtures.ingredient', _quantity=5)
-        cls.dish = baker.make_recipe('menu.fixtures.dish',
-                                     title='Test Dish',
-                                     ingredients=cls.ingredients)
+        cls.dish = model_recipes.dish.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.dish.title), 0)
-        self.assertEqual(self.dish.calories, 42)
-        self.assertEqual(self.dish.meal_of_the_day, 1)
+        self.assertGreater(self.dish.calories, 0)
+        self.assertIn(self.dish.meal_of_the_day, [1, 2, 3, 4, 5])
 
     def test_pre_save_slug(self):
         slug = slugify(unidecode.unidecode(self.dish.title))
         self.assertEqual(self.dish.slug, slug)
 
     def test_many_to_many_ingredients(self):
-        self.assertEqual(self.dish.ingredients.count(), 5)
+        self.assertEqual(self.dish.ingredients.count(), 3)
 
     def test_get_ingredients_list(self):
         self.assertEqual(self.dish.get_ingredients_list,
-                         [ingredient.title for ingredient in self.ingredients])
+                         [ingredient.title for ingredient
+                          in self.dish.ingredients.all()])
 
     def test_photo(self):
         self.dish.photo = self.create_photo()
@@ -85,10 +85,12 @@ class DishTestCase(TestCaseWithPhoto):
 class DailyMealTestCase(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.daily_meal = baker.make_recipe("menu.fixtures.daily_meal", )
+        cls.daily_meal = model_recipes.daily_meal.make()
 
     def test_field_value(self):
         self.assertGreater(len(self.daily_meal.title), 0)
+        # The dish_5 field will be empty for the test
+        self.assertIsNone(self.daily_meal.dish_5)
 
     def test_pre_save_calories(self):
         calories = 0
@@ -100,14 +102,15 @@ class DailyMealTestCase(TestCase):
         self.assertEqual(self.daily_meal.calories, calories)
 
     def test_foreign_key_dishes(self):
-        for dish in self.daily_meal.get_all_dishes:
-            self.assertIsInstance(dish, (Dish, type(None)))
+        # The dish_5 field will be empty for the test
+        for dish in self.daily_meal.get_all_dishes[:-1]:
+            self.assertGreater(len(dish.title), 0)
 
 
-class MenuTestCase(TestCaseWithPhoto):
+class MenuTestCase(PhotoMixin, TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        cls.menu = baker.make_recipe('menu.fixtures.menu')
+        cls.menu = model_recipes.menu.make()
 
     def test_field(self):
         self.assertGreater(len(self.menu.title), 0)
@@ -147,7 +150,7 @@ class MenuTestCase(TestCaseWithPhoto):
         self.assertEqual(self.menu.photo.image.width, 20)
 
 
-class PhotoTestCase(TestCaseWithPhoto):
+class PhotoTestCase(PhotoMixin, TestCase):
     def setUp(self) -> None:
         self.photo = self.create_photo()
 
@@ -159,35 +162,3 @@ class PhotoTestCase(TestCaseWithPhoto):
         self.assertEqual(Photo.image_large.spec_id, 'menu:photo:image_large')
         self.assertEqual(Photo.image_medium.spec_id, 'menu:photo:image_medium')
         self.assertEqual(Photo.image_small.spec_id, 'menu:photo:image_small')
-
-
-# API views tests
-class MenuAPITestCase(APITestCase):
-    def setUp(self):
-        self.menu = baker.make_recipe('menu.fixtures.menu')
-        self.client = APIClient()
-        self.factory = APIRequestFactory()
-
-    def test_get_menu_list_view(self):
-        response = self.client.get(reverse('menu-list'))
-        self.assertEqual(response.status_code,  status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        response_filter = self.client.get(reverse('menu-list'), args=self.menu.category.slug)
-        self.assertEqual(response_filter.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response_filter.data), 1)
-
-    def test_search_detail_view(self):
-        request = self.factory.get('/menu/', {'search': self.menu.day_1.dish_1.slug})
-        response = SearchDetailView.as_view()(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data[0]["title"], self.menu.title)
-        self.assertEqual(len(response.data), 1)
-
-    def test_get_test_menu_retrieve_detail_view(self):
-        response = self.client.get(reverse('menu-detail', args=[self.menu.slug]))
-        response_not_found_404 = self.client.get(reverse('menu-detail', args=['bodi-meniu']))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.json()), 12)
-        self.assertEqual(response_not_found_404.status_code, status.HTTP_404_NOT_FOUND)
-
-
