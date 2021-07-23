@@ -30,9 +30,9 @@ class MenuListView(ListAPIView):
         category = self.request.GET.get("category")
         if category:
             try:
-                return Menu.objects.filter(category_id__exact=category)
+                return Menu.objects.filter(category_id=category)
             except ValueError:
-                return Menu.objects.filter(category__slug=category)
+                return Menu.objects.filter(category__slug__contains=category)
         else:
             return Menu.objects.all()
 
