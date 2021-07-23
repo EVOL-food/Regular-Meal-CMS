@@ -7,35 +7,36 @@ from rest_framework.test import APIRequestFactory
 from rest_framework import status
 
 from rest_framework.test import APITestCase, APIClient
+from client.fixtures import model_recipes
 from client.models import Profile
 
 
 class ProfileTestCase(TestCase):
-    def setUp(self) -> None:
-        user = baker.make_recipe('client.fixtures.user',)
-        self.client = baker.make_recipe('client.fixtures.client',
-                                        user=user)
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.user = model_recipes.user.make()
+        cls.profile = model_recipes.profile.make(user=cls.user)
 
     def test_field(self):
-        self.assertEqual(self.client.first_name, 'Mario')
+        self.assertEqual(self.profile.first_name, 'Name1')
 
     def test_one_to_one(self):
-        self.assertIsInstance(self.client.user, User)
+        self.assertIsInstance(self.profile.user, User)
 
     def test_phone_number(self):
-        self.assertRaises(ValidationError, self.client.full_clean)
-        self.client.phone_number = '+380954507777'
-        self.client.save()
+        # Invalid number
+        self.assertRaises(ValidationError, self.profile.full_clean)
+        # Valid number
+        self.profile.phone_number = '+380954507777'
+        self.profile.save()
         try:
-            self.client.full_clean()
+            self.profile.full_clean()
         except ValidationError:
             self.fail("ValidationError has been raised!")
 
     def test_signal_post_save(self):
-        user = baker.make_recipe('client.fixtures.user')
-        profile = Profile.objects.get(user=user)
-        self.assertIsInstance(profile, Profile)
-        self.assertIsInstance(profile.user, User)
+        self.assertIsInstance(self.user.profile, self.profile.__class__)
+        self.assertIsInstance(self.profile.user, self.user.__class__)
 
 
 # API authentication tests
