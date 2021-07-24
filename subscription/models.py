@@ -29,6 +29,10 @@ class Subscription(models.Model):
     def __str__(self):
         return f"{self.menu.title}, {self.days} days, {self.delivery_schedule.delivery_vendor.title}"
 
+    class Meta:
+        verbose_name = _('Subscription')
+        verbose_name_plural = _('Subscriptions')
+
 
 class Order(models.Model):
     STATUS = (
@@ -50,6 +54,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.profile.first_name} {self.profile.last_name}, {self.subscription}"
+
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
 
 @receiver(pre_save, sender=Subscription)
