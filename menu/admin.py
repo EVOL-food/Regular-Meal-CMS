@@ -4,6 +4,7 @@ from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFil
 from modeltranslation.admin import TabbedTranslationAdmin
 from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
 from django.conf import settings
+from django.db.models import ForeignKey, CASCADE
 from . import models
 
 
@@ -33,6 +34,35 @@ class FormMixin:
             form_field.widget.attrs['style'] = style
 
 
+class DishesInlineAdmin(admin.StackedInline):
+    class IngredientDishesProxy(models.Dish.ingredients.through):
+        class Meta:
+            proxy = True
+
+        def __str__(self):
+            self._meta.get_field('dish').verbose_name = _("Dish")
+            return self.dish.title
+
+    class Media:
+        css = {
+            'all': (
+                'modeltranslation/css/tabbed_translation_fields.css',
+                'admin/css/ingredient.css',
+            )
+        }
+
+    classes = ('collapse',)
+    model = IngredientDishesProxy
+    extra = 0
+    can_delete = False
+    max_num = 0
+    verbose_name = _("Dish")
+    verbose_name_plural = _("Dishes")
+    fields = ['dish']
+
+    readonly_fields = ('dish',)
+
+
 class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     fieldsets = (
         (_('General'), {
@@ -55,6 +85,7 @@ class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     fk_name = "category"
     model = models.Menu
     can_delete = False
+    show_change_link = True
     max_num = 0
 
     autocomplete_fields = ('photo', 'category')
@@ -69,6 +100,42 @@ class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
                        'price_weekly', 'price_monthly',
                        'price_auto', "price_daily"]
     readonly_fields += [f'day_{num}' for num in range(1, 8)]
+
+
+class MenuDay1InlineAdmin(MenuInlineAdmin):
+    fk_name = 'day_1'
+    verbose_name = _("Monday")
+    fieldsets = (
+        (None, {
+            'fields': tuple()
+        }),
+    )
+
+
+class MenuDay2InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_2'
+    verbose_name = _("Tuesday")
+
+
+class MenuDay3InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_3'
+    verbose_name = _("Wednesday")
+
+
+class MenuDay4InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_4'
+
+
+class MenuDay5InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_5'
+
+
+class MenuDay6InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_6'
+
+
+class MenuDay7InlineAdmin(MenuDay1InlineAdmin):
+    fk_name = 'day_7'
 
 
 # Tabs
@@ -112,14 +179,9 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
         return form
 
 
-class IngredientAdmin(TabbedTranslationAdmin):
+class IngredientAdmin(TabbedTranslationAdmin, admin.ModelAdmin):
+    inlines = (DishesInlineAdmin,)
     list_display = ('title', 'id')
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'id')
-        }),
-    )
-
     readonly_fields = ('id',)
 
     search_fields = [f'title_{lang}'
@@ -178,15 +240,33 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 
 class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
+    class Media:
+        css = {
+            'all': (
+                'modeltranslation/css/tabbed_translation_fields.css',
+                'admin/css/daily_meal.css',
+            )
+        }
+
+    inlines = (MenuDay1InlineAdmin, MenuDay2InlineAdmin, MenuDay3InlineAdmin)
     list_display = ('title', 'calories', 'id',)
     list_filter = (
         ('calories', SliderNumericFilter),
     )
 
+    inline_tab_items = []
+    inline_tab = 'baton-tab-group-menu' + ''.join(
+        [f"--inline-{day}" for day in ('monday', 'tuesday', 'wednesday',
+                                       'friday', 'saturday', 'sunday')]
+    )
+    inline_tab_text = 'baton-tab-group-menu'
+
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'calories',),
-            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-dishes', 'baton-tab-fs-id',)
+            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-dishes',
+                        'baton-tab-fs-id',
+                        inline_tab)
         }),
         (_('Dishes'), {
             'fields': ('dish_1', "dish_2", "dish_3", "dish_4", "dish_5",),
