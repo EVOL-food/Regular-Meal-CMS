@@ -56,21 +56,25 @@ class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     model = models.Menu
     can_delete = False
     max_num = 0
-    readonly_fields = ('calories_daily', 'slug', 'id',
-                       'price_weekly', 'price_monthly',
-                       'price_auto', "price_daily") + tuple(f'day_{num}' for num in range(1, 8))
+
     autocomplete_fields = ('photo', 'category')
 
-    search_fields = [f'day_{num}__title' for num in range(1, 8)]
+    search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
+                     language in settings.MODELTRANSLATION_LANGUAGES]
+    search_fields += [f'{field}_{lang}'
+                      for field in ('title', 'description')
+                      for lang in settings.MODELTRANSLATION_LANGUAGES]
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
-        search_fields.append(f'category__title_{language}')
+    readonly_fields = ['calories_daily', 'slug', 'id',
+                       'price_weekly', 'price_monthly',
+                       'price_auto', "price_daily"]
+    readonly_fields += [f'day_{num}' for num in range(1, 8)]
 
 
 # Tabs
 class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
     inlines = (MenuInlineAdmin,)
+    list_display = ('title', 'description', 'slug', 'id')
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'description', 'photo'),
@@ -82,14 +86,14 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
             'classes': ('tab-fs-id',),
         }),
     )
-    list_display = ('title', 'description', 'slug', 'id')
-    search_fields = []
+
     readonly_fields = ('slug', 'id')
+
     autocomplete_fields = ('photo',)
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
-        search_fields.append(f'description_{language}')
+    search_fields = [f'{field}_{lang}'
+                     for field in ('title', 'description')
+                     for lang in settings.MODELTRANSLATION_LANGUAGES]
 
     def get_inline_instances(self, request, obj=None):
         inline_instances = super().get_inline_instances(request, obj=None)
@@ -109,25 +113,32 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
 
 
 class IngredientAdmin(TabbedTranslationAdmin):
+    list_display = ('title', 'id')
     fieldsets = (
         (None, {
             'fields': ('title', 'id')
         }),
     )
 
-    search_fields = []
     readonly_fields = ('id',)
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
+    search_fields = [f'title_{lang}'
+                     for lang in settings.MODELTRANSLATION_LANGUAGES]
 
 
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('title', 'id')
+
     search_fields = ('title',)
 
 
 class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
+    list_display = ('title', 'calories', 'meal_of_the_day', 'id')
+    list_filter = (
+        ('calories', SliderNumericFilter),
+        'meal_of_the_day'
+    )
+
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'description', 'calories', 'photo'),
@@ -142,15 +153,15 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
             'classes': ('tab-fs-id',)
         }),
     )
-    list_display = ('title', 'calories', 'meal_of_the_day', 'id')
-    list_filter = (('calories', SliderNumericFilter), 'meal_of_the_day')
+
     autocomplete_fields = ('photo', 'ingredients')
-    search_fields = ['calories']
+
     readonly_fields = ('slug', 'id')
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
-        search_fields.append(f'description_{language}')
+    search_fields = ['calories']
+    search_fields += [f'{field}_{lang}'
+                      for field in ('title', 'description')
+                      for lang in settings.MODELTRANSLATION_LANGUAGES]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DishAdmin, self).get_form(request, obj, **kwargs)
@@ -167,6 +178,11 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 
 class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
+    list_display = ('title', 'calories', 'id',)
+    list_filter = (
+        ('calories', SliderNumericFilter),
+    )
+
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'calories',),
@@ -181,22 +197,16 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
             'classes': ('tab-fs-id',)
         }),
     )
-    list_display = (
-        'title',
-        'calories',
-        'id',
-    )
-    list_filter = (
-        ('calories', SliderNumericFilter),
-    )
 
-    search_fields = [f'dish_{num}__title_{lang}' for num in range(1, 6)
-                     for lang in tuple(lang[0] for lang in settings.LANGUAGES)]
     readonly_fields = ('calories', 'id',)
+
     autocomplete_fields = ("dish_1", "dish_2", "dish_3", "dish_4", "dish_5",)
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
+    search_fields = [f'dish_{num}__title_{lang}'
+                     for num in range(1, 6)
+                     for lang in settings.MODELTRANSLATION_LANGUAGES]
+    search_fields += [f'title_{lang}'
+                      for lang in settings.MODELTRANSLATION_LANGUAGES]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
@@ -212,6 +222,14 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
 
 
 class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
+    list_display = ('title', 'category', 'calories_daily', 'price_daily', 'price_monthly',)
+    list_filter = (
+        'category',
+        ('calories_daily', SliderNumericFilter),
+        'price_auto',
+        ('price_daily', SliderNumericFilter),
+    )
+
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'description', 'category', 'calories_daily',),
@@ -231,28 +249,16 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
         }),
     )
 
-    list_display = (
-        'title',
-        'category',
-        'calories_daily',
-        'price_daily',
-        'price_monthly',
-    )
-    list_filter = (
-        'category',
-        ('calories_daily', SliderNumericFilter),
-        'price_auto',
-        ('price_daily', SliderNumericFilter),
-    )
-    autocomplete_fields = ('photo', 'category') + tuple(f'day_{num}' for num in range(1, 8))
-    search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
-                     language in settings.MODELTRANSLATION_LANGUAGES]
-
     readonly_fields = ('calories_daily', 'slug', 'id')
 
-    for language in tuple(lang[0] for lang in settings.LANGUAGES):
-        search_fields.append(f'title_{language}')
-        search_fields.append(f'category__title_{language}')
+    autocomplete_fields = ['photo', 'category']
+    autocomplete_fields += [f'day_{num}' for num in range(1, 8)]
+
+    search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
+                     language in settings.MODELTRANSLATION_LANGUAGES]
+    search_fields += [f'{field}_{lang}'
+                      for field in ('title', 'description')
+                      for lang in settings.MODELTRANSLATION_LANGUAGES]
 
     def get_readonly_fields(self, request, obj=None):
         readonly = super(MenuAdmin, self).get_readonly_fields(request, obj)
