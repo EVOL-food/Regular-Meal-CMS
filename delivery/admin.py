@@ -54,6 +54,7 @@ class DeliveryScheduleTabbedAdmin(TabbedTranslationAdmin):
     search_fields = ('delivery_vendor__title', 'delivery_time_start_weekday',
                      'delivery_time_end_weekday', 'delivery_time_start_weekend',
                      'delivery_time_end_weekend')
+
     def get_readonly_fields(self, request, obj=None):
         try:
             if obj.mode == 1:
