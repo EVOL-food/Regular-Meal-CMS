@@ -1,13 +1,6 @@
-# vim: set fileencoding=utf-8 :
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
-from . import models
-from modeltranslation.admin import TranslationAdmin
-from menu.translation import (CategoryTranslationOptions, DishTranslationOptions,
-                              DailyMealTranslationOptions, MenuTranslationOptions)
-
-from modeltranslation.translator import translator, TranslationOptions
 from modeltranslation.admin import TabbedTranslationAdmin
 from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
 from django.conf import settings
@@ -247,11 +240,6 @@ class MenuAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 def _register(model, admin_class):
     admin.site.register(model, admin_class)
 
-
-translator.register(models.Category, CategoryTranslationOptions)
-translator.register(models.Dish, DishTranslationOptions)
-translator.register(models.DailyMeal, DailyMealTranslationOptions)
-translator.register(models.Menu, MenuTranslationOptions)
 
 _register(models.Ingredient, IngredientAdmin)
 _register(models.Category, CategoryAdmin)

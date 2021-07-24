@@ -1,25 +1,20 @@
-from modeltranslation.translator import TranslationOptions
+
+from django.conf import settings
+from modeltranslation.translator import translator, TranslationOptions
+import menu.models as models
 
 
-class CategoryTranslationOptions(TranslationOptions):
-    fields = ('title', 'description', 'slug')
-
-    required_languages = ('en', 'ru')
-
-
-class DishTranslationOptions(TranslationOptions):
-    fields = ('title', 'description', 'slug')
-
-    required_languages = ('en', 'ru')
-
-
-class DailyMealTranslationOptions(TranslationOptions):
+class TitleTranslationOptions(TranslationOptions):
     fields = ('title',)
+    required_languages = tuple(lang[0] for lang in settings.LANGUAGES)
 
-    required_languages = ('en', 'ru')
 
-
-class MenuTranslationOptions(TranslationOptions):
+class TitleDescriptionSlugTranslationOptions(TitleTranslationOptions):
     fields = ('title', 'description', 'slug')
 
-    required_languages = ('en', 'ru')
+
+translator.register(models.Ingredient, TitleTranslationOptions)
+translator.register(models.DailyMeal, TitleTranslationOptions)
+translator.register(models.Category, TitleDescriptionSlugTranslationOptions)
+translator.register(models.Dish, TitleDescriptionSlugTranslationOptions)
+translator.register(models.Menu, TitleDescriptionSlugTranslationOptions)
