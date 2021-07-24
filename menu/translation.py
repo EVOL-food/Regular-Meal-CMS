@@ -19,7 +19,3 @@ translator.register(models.Dish, TitleDescriptionSlugTranslationOptions)
 translator.register(models.Menu, TitleDescriptionSlugTranslationOptions)
 
 
-class MenuTranslationOptions(TranslationOptions):
-    fields = ('title', 'description', 'slug')
-
-    required_languages = ('en', 'ru')
