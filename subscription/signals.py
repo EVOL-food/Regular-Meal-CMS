@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.conf import settings
 from subscription.models import Subscription, Order
+from datetime import datetime, timedelta
 
 
 @receiver(pre_save, sender=Subscription)
