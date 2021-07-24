@@ -19,6 +19,19 @@ class FormMixin:
             if 'delete' in permissions:
                 form.base_fields[field].widget.can_delete_related = False
 
+    @staticmethod
+    def change_field_size(form, field, min_width=None, max_height=None,
+                          languages=False):
+        languages = settings.MODELTRANSLATION_LANGUAGES if languages else settings.LANGUAGES[0][0]
+        style = ''
+        for language in languages:
+            form_field = form.base_fields[f'{field}_{language}']
+            if min_width:
+                style += f'min-width: {min_width};'
+            if max_height:
+                style += f'max-height: {max_height};'
+            form_field.widget.attrs['style'] = style
+
 
 class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     fieldsets = (
@@ -73,7 +86,6 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
     search_fields = []
     readonly_fields = ('slug', 'id')
     autocomplete_fields = ('photo',)
-    exclude_add = ("photo",)
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
@@ -89,9 +101,10 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(CategoryAdmin, self).get_form(request, obj, **kwargs)
+        self.remove_form_permissions(form, ['photo'], {'photo': ['delete']})
         if request.GET.get('_popup'):
             self.remove_form_permissions(form, ["photo"],
-                                         {'photo': ['add', 'change', 'delete']})
+                                         {'photo': ['add', 'change']})
         return form
 
 
@@ -141,13 +154,15 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DishAdmin, self).get_form(request, obj, **kwargs)
-        for language in tuple(lang[0] for lang in settings.LANGUAGES):
-            form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
-            form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
+        self.remove_form_permissions(form, ['photo'], {'photo': ['delete']})
+        self.change_field_size(form, 'title',
+                               min_width='45%', languages=True)
+        self.change_field_size(form, 'description',
+                               min_width='45%', max_height='100px', languages=True)
         if request.GET.get('_popup'):
             self.remove_form_permissions(form, ("photo", "ingredients"),
-                                         {'photo': ['add', 'change', 'delete'],
-                                          'ingredients': ['add', 'change', 'delete']})
+                                         {'photo': ['add', 'change'],
+                                          'ingredients': ['add']})
         return form
 
 
@@ -185,8 +200,8 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(DailyMealAdmin, self).get_form(request, obj, **kwargs)
-        for language in tuple(lang[0] for lang in settings.LANGUAGES):
-            form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
+        self.change_field_size(form, 'title',
+                               min_width='45%', languages=True)
         for num in range(1, 6):
             self.remove_form_permissions(form, [f'dish_{num}'],
                                          {f'dish_{num}': ['delete']})
@@ -204,7 +219,7 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
         }),
         (_('Price'), {
             'fields': ('price_daily', 'price_weekly', 'price_monthly', 'price_auto',),
-            'classes': ('tab-fs-price', )
+            'classes': ('tab-fs-price',)
         }),
         (_('Days'), {
             'fields': ('day_1', "day_2", "day_3", "day_4", "day_5", "day_6", "day_7",),
@@ -231,13 +246,13 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
     )
     autocomplete_fields = ('photo', 'category') + tuple(f'day_{num}' for num in range(1, 8))
     search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
-                     language in tuple(lang[0] for lang in settings.LANGUAGES)]
+                     language in settings.MODELTRANSLATION_LANGUAGES]
+
+    readonly_fields = ('calories_daily', 'slug', 'id')
 
     for language in tuple(lang[0] for lang in settings.LANGUAGES):
         search_fields.append(f'title_{language}')
         search_fields.append(f'category__title_{language}')
-
-    readonly_fields = ('calories_daily', 'slug', 'id')
 
     def get_readonly_fields(self, request, obj=None):
         try:
@@ -252,9 +267,11 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(MenuAdmin, self).get_form(request, obj, **kwargs)
-        for language in tuple(lang[0] for lang in settings.LANGUAGES):
-            form.base_fields[f'title_{language}'].widget.attrs['style'] = 'min-width: 45%;'
-            form.base_fields[f'description_{language}'].widget.attrs['style'] = 'min-width: 45%; max-height: 100px;'
+        self.remove_form_permissions(form, ['category'], {'category': ['delete', 'add']})
+        self.change_field_size(form, 'title',
+                               min_width='45%', languages=True)
+        self.change_field_size(form, 'description',
+                               min_width='45%', max_height='100px', languages=True)
         return form
 
 
