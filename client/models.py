@@ -31,3 +31,5 @@ class Profile(models.Model):
 
     class Meta:
         app_label = 'auth'
+        verbose_name = _('Client profile')
+        verbose_name_plural = _('Clients profiles')
