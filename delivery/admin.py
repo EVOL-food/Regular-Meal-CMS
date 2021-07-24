@@ -1,24 +1,59 @@
 from django.contrib import admin
 from .models import DeliveryVendor, DeliverySchedule
+from django.utils.translation import ugettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
+# Tabs
+class DeliveryVendorTabbedAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
+    fieldsets = (
+        (_('General'), {
+             'fields': ('title',
+                        'description',)
+        }),
+        (_('Price'), {
+            'fields': ('price_one_delivery',)
+        }),
+    )
+    list_display = (
+        'title',
+        'description',
+        'price_one_delivery'
+    )
+    list_filter = (('price_one_delivery', SliderNumericFilter),)
 
-class DeliveryScheduleAdmin(admin.ModelAdmin):
+class DeliveryScheduleTabbedAdmin(TabbedTranslationAdmin):
+    fieldsets = (
+        (_('Delivery vendor'), {
+            'fields': ('delivery_vendor',)
+        }),
+        (_('Delivery time'), {
+            'fields': ('delivery_time_start_weekday',
+                       'delivery_time_end_weekday',
+                       'delivery_time_start_weekend',
+                       'delivery_time_end_weekend',)
+        }),
+        (_('Delivery mode status'), {
+            'fields': ('mode',)
+        }),
+    )
+    model = DeliverySchedule
+    fk_name = 'delivery_vendor'
+    list_filter = (
+        'mode',
+        'delivery_vendor'
+    )
+    readonly_fields = ('delivery_time_start_weekend', 'delivery_time_end_weekend',)
     list_display = ('delivery_vendor',
                     'delivery_time_start_weekday',
                     'delivery_time_end_weekday',
                     'delivery_time_start_weekend',
                     'delivery_time_end_weekend',
                     'mode'
-                    )
-    list_filter = (
-        'mode',
-        'delivery_vendor'
     )
     search_fields = ('delivery_vendor__title', 'delivery_time_start_weekday',
                      'delivery_time_end_weekday', 'delivery_time_start_weekend',
                      'delivery_time_end_weekend')
-
     def get_readonly_fields(self, request, obj=None):
         try:
             if obj.mode == 1:
@@ -31,19 +66,6 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
             return self.readonly_fields
 
 
-class DeliveryVendorAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
-    class CustomSliderNumericFilter(SliderNumericFilter):
-        MAX_DECIMALS = 0
-        STEP = 1
 
-    list_display = (
-        'title',
-        'description',
-        'price_one_delivery'
-    )
-
-    list_filter = (('price_one_delivery', CustomSliderNumericFilter),)
-
-
-admin.site.register(DeliveryVendor, DeliveryVendorAdmin)
-admin.site.register(DeliverySchedule, DeliveryScheduleAdmin)
+admin.site.register(DeliveryVendor, DeliveryVendorTabbedAdmin)
+admin.site.register(DeliverySchedule, DeliveryScheduleTabbedAdmin)
