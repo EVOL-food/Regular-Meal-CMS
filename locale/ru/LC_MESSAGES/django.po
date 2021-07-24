@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-24 11:09+0300\n"
+"POT-Creation-Date: 2021-07-24 15:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,17 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: client/manager.py:15
+msgid "The Email must be set"
+msgstr ""
+
+#: client/manager.py:31
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: client/manager.py:33
+msgid "Superuser must have is_superuser=True."
+msgstr ""
 
 #: client/models.py:10
 msgid "Male"
@@ -67,12 +78,20 @@ msgstr "Пол"
 msgid "Created at:"
 msgstr "Создан: "
 
+#: client/models.py:34
+msgid "Client profile"
+msgstr "Профиль клиента"
+
+#: client/models.py:35
+msgid "Clients profiles"
+msgstr "Профили клиентов"
+
 #: delivery/admin.py:10 menu/admin.py:13
 msgid "General"
 msgstr "Главное"
 
 #: delivery/admin.py:14 menu/admin.py:17 menu/admin.py:185
-#: subscription/models.py:47
+#: subscription/models.py:51
 msgid "Price"
 msgstr "Цена"
 
@@ -100,6 +119,10 @@ msgstr "Описание"
 #: delivery/models.py:10
 msgid "Price for one delivery"
 msgstr "Цена за доставку"
+
+#: delivery/models.py:16
+msgid "Delivery vendor"
+msgstr "Поставщик доставки"
 
 #: delivery/models.py:17
 msgid "Delivery vendors"
@@ -129,7 +152,7 @@ msgstr "Время доставки в выходные с"
 msgid "Delivery time end on weekend"
 msgstr "Время доставки в выходные до"
 
-#: delivery/models.py:41 subscription/models.py:48
+#: delivery/models.py:41 subscription/models.py:52
 msgid "Status"
 msgstr "Статус"
 
@@ -322,55 +345,68 @@ msgstr "Цена за доставку"
 msgid "Price total"
 msgstr "Цена"
 
-#: subscription/models.py:35
-msgid "New"
-msgstr "Новый"
-
-#: subscription/models.py:36
-msgid "Accepted"
-msgstr "Принят"
-
-#: subscription/models.py:37
-msgid "OnShipping"
-msgstr "Отгружен"
-
-#: subscription/models.py:38
-msgid "Completed"
-msgstr "Окончен"
-
-#: subscription/models.py:39
-msgid "Canceled"
-msgstr "Отменен"
-
-#: subscription/models.py:42
-msgid "Profile"
-msgstr "Профиль"
-
-#: subscription/models.py:44
+#: subscription/models.py:33 subscription/models.py:48
 #, fuzzy
 #| msgid "Description"
 msgid "Subscription"
-msgstr "Описание"
+msgstr "Подписка"
 
-#: subscription/models.py:45
+#: subscription/models.py:34
+#, fuzzy
+#| msgid "Description"
+msgid "Subscriptions"
+msgstr "Подписки"
+
+#: subscription/models.py:39
+msgid "New"
+msgstr "Новый"
+
+#: subscription/models.py:40
+msgid "Accepted"
+msgstr "Принят"
+
+#: subscription/models.py:41
+msgid "OnShipping"
+msgstr "Отгружен"
+
+#: subscription/models.py:42
+msgid "Completed"
+msgstr "Окончен"
+
+#: subscription/models.py:43
+msgid "Canceled"
+msgstr "Отменен"
+
+#: subscription/models.py:46
+msgid "Profile"
+msgstr "Профиль"
+
+#: subscription/models.py:49
 msgid "Data start"
 msgstr "Начало"
 
-#: subscription/models.py:46
+#: subscription/models.py:50
 msgid "Data end"
 msgstr "Конец"
 
-#: subscription/models.py:49
+#: subscription/models.py:53
 msgid "Created at"
 msgstr "Создан"
+
+#: subscription/models.py:59
+msgid "Order"
+msgstr "Заказ"
+
+#: subscription/models.py:60
+#, fuzzy
+#| msgid "Order"
+msgid "Orders"
+msgstr "Заказы"
 
 #, fuzzy
 #~| msgid "Description"
 #~ msgid "Duration"
 #~ msgstr "Описание"
-
-#~ msgid "Order"
-#~ msgstr "Заказ"
 
 #~ msgid "Delete"
 #~ msgstr "Удалить"
