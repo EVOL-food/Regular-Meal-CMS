@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-21 17:53+0300\n"
+"POT-Creation-Date: 2021-07-24 09:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,183 +20,375 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\client\manager.py:15
-msgid "The Email must be set"
-msgstr ""
+#: ENV/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1588
+#, fuzzy
+#| msgid "Description"
+msgid "Duration"
+msgstr "Описание"
 
-#: .\client\manager.py:31
-msgid "Superuser must have is_staff=True."
-msgstr ""
-
-#: .\client\manager.py:33
-msgid "Superuser must have is_superuser=True."
-msgstr ""
-
-#: .\evol_food\settings.py:127
-msgid "English"
-msgstr ""
-
-#: .\evol_food\settings.py:128
-msgid "Russian"
-msgstr ""
-
-#: .\menu\admin.py:14 .\menu\admin.py:42 .\menu\admin.py:82 .\menu\admin.py:103
-#: .\menu\admin.py:122 .\menu\admin.py:154 .\menu\admin.py:188
-msgid "General"
-msgstr "Главное"
-
-#: .\menu\admin.py:18 .\menu\admin.py:157 .\menu\models.py:93
-msgid "Dishes"
-msgstr "Блюда"
-
-#: .\menu\admin.py:46 .\menu\admin.py:191
-msgid "Price"
-msgstr "Цена"
-
-#: .\menu\admin.py:50 .\menu\admin.py:194
-msgid "Days"
-msgstr "Дни недели"
-
-#: .\menu\admin.py:54 .\menu\admin.py:85 .\menu\admin.py:128
-#: .\menu\admin.py:197
-msgid "ID"
-msgstr "Идентификатор"
-
-#: .\menu\admin.py:125
-msgid "Detail"
-msgstr "Детали"
-
-#: .\menu\apps.py:8 .\menu\models.py:190
-msgid "Menu"
-msgstr "Меню"
-
-#: .\menu\models.py:20 .\menu\models.py:32 .\menu\models.py:52
-#: .\menu\models.py:69 .\menu\models.py:98 .\menu\models.py:134
-msgid "Title"
-msgstr "Название"
-
-#: .\menu\models.py:26
-msgid "Ingredient"
-msgstr "Ингредиент"
-
-#: .\menu\models.py:27 .\menu\models.py:73
-msgid "Ingredients"
-msgstr "Ингредиенты"
-
-#: .\menu\models.py:34
+#: ENV/lib/python3.9/site-packages/django/db/models/fields/files.py:375
+#: menu/models.py:34
 msgid "Image"
 msgstr "Изображение"
 
-#: .\menu\models.py:46 .\menu\models.py:56 .\menu\models.py:80
-#: .\menu\models.py:143
-msgid "Photo"
-msgstr "Фотография"
+#: ENV/lib/python3.9/site-packages/django/forms/formsets.py:405
+#: ENV/lib/python3.9/site-packages/django/forms/formsets.py:412
+msgid "Order"
+msgstr "Заказ"
 
-#: .\menu\models.py:47
-msgid "Photos"
-msgstr "Фотографии"
+#: ENV/lib/python3.9/site-packages/django/forms/formsets.py:417
+msgid "Delete"
+msgstr "Удалить"
 
-#: .\menu\models.py:54 .\menu\models.py:71 .\menu\models.py:136
-msgid "Description"
-msgstr "Описание"
-
-#: .\menu\models.py:64 .\menu\models.py:141
-msgid "Category"
-msgstr "Категория"
-
-#: .\menu\models.py:65
-msgid "Categories"
-msgstr "Категории"
-
-#: .\menu\models.py:75 .\menu\models.py:116
-msgid "Calories"
-msgstr "Калории"
-
-#: .\menu\models.py:78
-msgid "Meal of the day"
-msgstr "Прием пищи"
-
-#: .\menu\models.py:92
-msgid "Dish"
-msgstr "Блюдо"
-
-#: .\menu\models.py:101
-msgid "Breakfast"
-msgstr "Завтрак"
-
-#: .\menu\models.py:104
-msgid "Brunch"
-msgstr "Поздний завтрак"
-
-#: .\menu\models.py:107
-msgid "Lunch"
-msgstr "Обед"
-
-#: .\menu\models.py:110
-msgid "Dinner"
-msgstr "Ужин"
-
-#: .\menu\models.py:113
-msgid "Supper"
-msgstr "Поздний ужин"
-
-#: .\menu\models.py:128
-msgid "Daily meal"
-msgstr "Меню на день"
-
-#: .\menu\models.py:129
-msgid "Daily meals"
-msgstr "Меню на день"
-
-#: .\menu\models.py:138
-msgid "Calories average"
-msgstr "Средняя калорийность"
-
-#: .\menu\models.py:147
-msgid "Auto price"
-msgstr "Просчёт цены"
-
-#: .\menu\models.py:150
-msgid "Daily costs"
-msgstr "Цена за день"
-
-#: .\menu\models.py:153
-msgid "Weekly costs"
-msgstr "Цена за неделю"
-
-#: .\menu\models.py:156
-msgid "Monthly costs"
-msgstr "Цена за месяц"
-
-#: .\menu\models.py:160
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:6 menu/models.py:160
 msgid "Monday"
 msgstr "Понедельник"
 
-#: .\menu\models.py:163
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:6 menu/models.py:163
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: .\menu\models.py:166
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:6 menu/models.py:166
 msgid "Wednesday"
 msgstr "Среда"
 
-#: .\menu\models.py:169
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:6 menu/models.py:169
 msgid "Thursday"
 msgstr "Четверг"
 
-#: .\menu\models.py:172
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:6 menu/models.py:172
 msgid "Friday"
 msgstr "Пятница"
 
-#: .\menu\models.py:175
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:7 menu/models.py:175
 msgid "Saturday"
 msgstr "Суббота"
 
-#: .\menu\models.py:178
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:7 menu/models.py:178
 msgid "Sunday"
 msgstr "Воскресение"
 
-#: .\menu\models.py:191
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:10
+#, fuzzy
+#| msgid "Monday"
+msgid "Mon"
+msgstr "Пон"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:10
+#, fuzzy
+#| msgid "Tuesday"
+msgid "Tue"
+msgstr "Вт"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:10
+msgid "Wed"
+msgstr "Ср"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:10
+msgid "Thu"
+msgstr "Чет"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:10
+#, fuzzy
+#| msgid "Friday"
+msgid "Fri"
+msgstr "Пят"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:11
+msgid "Sat"
+msgstr "Суб"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:11
+#, fuzzy
+#| msgid "Sunday"
+msgid "Sun"
+msgstr "Вос"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+msgid "January"
+msgstr "Январь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+msgid "February"
+msgstr "Февраль"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+msgid "March"
+msgstr "Март"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+msgid "April"
+msgstr "Апрель"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+#, fuzzy
+#| msgid "Monday"
+msgid "May"
+msgstr "Май"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:14
+msgid "June"
+msgstr "Июнь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:15
+msgid "July"
+msgstr "Июль"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:15
+msgid "August"
+msgstr "Август"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:15
+msgid "September"
+msgstr "Сентябрь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:15
+msgid "October"
+msgstr "Октябрь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:15
+msgid "November"
+msgstr "Ноябрь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:16
+msgid "December"
+msgstr "Декабрь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "jan"
+msgstr "Янв"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "feb"
+msgstr "Фев"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "mar"
+msgstr "Мар"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "apr"
+msgstr "Апр"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "may"
+msgstr "Май"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:19
+msgid "jun"
+msgstr "Июнь"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "jul"
+msgstr "Июль"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "aug"
+msgstr "Авг"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "sep"
+msgstr "Сен"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "oct"
+msgstr "Окт"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "nov"
+msgstr "Ноя"
+
+#: ENV/lib/python3.9/site-packages/django/utils/dates.py:20
+msgid "dec"
+msgstr "Дек"
+
+#: delivery/admin.py:10 menu/admin.py:14 menu/admin.py:42 menu/admin.py:82
+#: menu/admin.py:103 menu/admin.py:122 menu/admin.py:154 menu/admin.py:188
+msgid "General"
+msgstr "Главное"
+
+#: delivery/admin.py:14 menu/admin.py:46 menu/admin.py:191
+msgid "Price"
+msgstr "Цена"
+
+#: delivery/admin.py:27 delivery/models.py:16 delivery/models.py:28
+msgid "Delivery vendor"
+msgstr "Поставщик доставки"
+
+#: delivery/admin.py:30
+msgid "Delivery time"
+msgstr "Время доставки"
+
+#: delivery/admin.py:36
+msgid "Delivery mode status"
+msgstr "Статус доставки"
+
+#: delivery/models.py:7 menu/models.py:20 menu/models.py:32 menu/models.py:52
+#: menu/models.py:69 menu/models.py:98 menu/models.py:134
+msgid "Title"
+msgstr "Название"
+
+#: delivery/models.py:8 menu/models.py:54 menu/models.py:71 menu/models.py:136
+msgid "Description"
+msgstr "Описание"
+
+#: delivery/models.py:10
+msgid "Price for one delivery"
+msgstr "Цена за доставку"
+
+#: delivery/models.py:17
+msgid "Delivery vendors"
+msgstr "Поставщики доставок"
+
+#: delivery/models.py:21
+msgid "Every day on one time."
+msgstr "Каждый день в одно время"
+
+#: delivery/models.py:22
+msgid "Weekdays, weekend."
+msgstr "Будни, выходные"
+
+#: delivery/models.py:31
+msgid "Delivery time start on weekday"
+msgstr "Время доставки в будни с"
+
+#: delivery/models.py:33
+msgid "Delivery time end on weekday"
+msgstr "Время доставки в будни до"
+
+#: delivery/models.py:36
+msgid "Delivery time start on weekend"
+msgstr "Время доставки в выходные с"
+
+#: delivery/models.py:38
+msgid "Delivery time end on weekend"
+msgstr "Время доставки в выходные до"
+
+#: delivery/models.py:41
+msgid "Status"
+msgstr "Статус"
+
+#: delivery/models.py:48
+msgid "Delivery schedule"
+msgstr "Расписание доставки"
+
+#: delivery/models.py:49
+msgid "Delivery schedules"
+msgstr "Расписания доставок"
+
+#: evol_food/settings.py:127
+msgid "English"
+msgstr "Английский"
+
+#: evol_food/settings.py:128
+msgid "Russian"
+msgstr "Русский"
+
+#: menu/admin.py:18 menu/admin.py:157 menu/models.py:93
+msgid "Dishes"
+msgstr "Блюда"
+
+#: menu/admin.py:50 menu/admin.py:194
+msgid "Days"
+msgstr "Дни недели"
+
+#: menu/admin.py:54 menu/admin.py:85 menu/admin.py:128 menu/admin.py:197
+msgid "ID"
+msgstr "Идентификатор"
+
+#: menu/admin.py:125
+msgid "Detail"
+msgstr "Детали"
+
+#: menu/apps.py:8 menu/models.py:190
+msgid "Menu"
+msgstr "Меню"
+
+#: menu/models.py:26
+msgid "Ingredient"
+msgstr "Ингредиент"
+
+#: menu/models.py:27 menu/models.py:73
+msgid "Ingredients"
+msgstr "Ингредиенты"
+
+#: menu/models.py:46 menu/models.py:56 menu/models.py:80 menu/models.py:143
+msgid "Photo"
+msgstr "Фотография"
+
+#: menu/models.py:47
+msgid "Photos"
+msgstr "Фотографии"
+
+#: menu/models.py:64 menu/models.py:141
+msgid "Category"
+msgstr "Категория"
+
+#: menu/models.py:65
+msgid "Categories"
+msgstr "Категории"
+
+#: menu/models.py:75 menu/models.py:116
+msgid "Calories"
+msgstr "Калории"
+
+#: menu/models.py:78
+msgid "Meal of the day"
+msgstr "Прием пищи"
+
+#: menu/models.py:92
+msgid "Dish"
+msgstr "Блюдо"
+
+#: menu/models.py:101
+msgid "Breakfast"
+msgstr "Завтрак"
+
+#: menu/models.py:104
+msgid "Brunch"
+msgstr "Поздний завтрак"
+
+#: menu/models.py:107
+msgid "Lunch"
+msgstr "Обед"
+
+#: menu/models.py:110
+msgid "Dinner"
+msgstr "Ужин"
+
+#: menu/models.py:113
+msgid "Supper"
+msgstr "Поздний ужин"
+
+#: menu/models.py:128
+msgid "Daily meal"
+msgstr "Меню на день"
+
+#: menu/models.py:129
+msgid "Daily meals"
+msgstr "Меню на день"
+
+#: menu/models.py:138
+msgid "Calories average"
+msgstr "Средняя калорийность"
+
+#: menu/models.py:147
+msgid "Auto price"
+msgstr "Просчёт цены"
+
+#: menu/models.py:150
+msgid "Daily costs"
+msgstr "Цена за день"
+
+#: menu/models.py:153
+msgid "Weekly costs"
+msgstr "Цена за неделю"
+
+#: menu/models.py:156
+msgid "Monthly costs"
+msgstr "Цена за месяц"
+
+#: menu/models.py:191
 msgid "Menus"
 msgstr "Меню"
 
