@@ -254,8 +254,9 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
     autocomplete_fields = ['photo', 'category']
     autocomplete_fields += [f'day_{num}' for num in range(1, 8)]
 
-    search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
-                     language in settings.MODELTRANSLATION_LANGUAGES]
+    search_fields = [f'day_{num}__title_{lang}'
+                     for num in range(1, 8)
+                     for lang in settings.MODELTRANSLATION_LANGUAGES]
     search_fields += [f'{field}_{lang}'
                       for field in ('title', 'description')
                       for lang in settings.MODELTRANSLATION_LANGUAGES]
