@@ -255,19 +255,19 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
         search_fields.append(f'category__title_{language}')
 
     def get_readonly_fields(self, request, obj=None):
+        readonly = super(MenuAdmin, self).get_readonly_fields(request, obj)
         try:
             if obj.price_auto:
-                return super(MenuAdmin, self).get_readonly_fields(
-                    request, obj) + ['price_weekly', 'price_monthly']
+                return readonly + ['price_weekly', 'price_monthly']
         except AttributeError:
-            return super(MenuAdmin, self).get_readonly_fields(
-                request, obj) + ['price_weekly', 'price_monthly', 'price_auto']
+            return readonly + ['price_weekly', 'price_monthly', 'price_auto']
         else:
-            return super(MenuAdmin, self).get_readonly_fields(request, obj)
+            return readonly
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(MenuAdmin, self).get_form(request, obj, **kwargs)
-        self.remove_form_permissions(form, ['category'], {'category': ['delete', 'add']})
+        self.remove_form_permissions(form, ['category'],
+                                     {'category': ['delete', 'add']})
         self.change_field_size(form, 'title',
                                min_width='45%', languages=True)
         self.change_field_size(form, 'description',
