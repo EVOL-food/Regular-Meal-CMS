@@ -140,7 +140,7 @@ def _register(model, admin_class):
 translator.register(models.Category, CategoryTranslationOptions)
 translator.register(models.Dish, DishTranslationOptions)
 translator.register(models.DailyMeal, DailyMealTranslationOptions)
-translator.register(models.Menu, MenuTranslationOptions)
+
 
 _register(models.Category, CategoryAdmin)
 _register(models.Dish, DishAdmin)
