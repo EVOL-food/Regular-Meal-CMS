@@ -19,3 +19,7 @@ class DailyMealTranslationOptions(TranslationOptions):
     required_languages = ('en', 'ru')
 
 
+class MenuTranslationOptions(TranslationOptions):
+    fields = ('title', 'description', 'slug')
+
+    required_languages = ('en', 'ru')
