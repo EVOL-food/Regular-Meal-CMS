@@ -9,6 +9,14 @@ from . import models
 
 
 class FormMixin:
+    def get_inline_instances(self, request, obj=None):
+        inline_instances = super().get_inline_instances(request, obj=None)
+        if request.GET.get('_popup'):
+            fieldset_classes = ('order-0', 'baton-tabs-init', 'baton-tab-fs-id',)
+            self.fieldsets[0][1]["classes"] = fieldset_classes
+            inline_instances = tuple()
+        return inline_instances
+
     @staticmethod
     def remove_form_permissions(form, fields, perm):
         for field in fields:
@@ -34,7 +42,7 @@ class FormMixin:
             form_field.widget.attrs['style'] = style
 
 
-class DishesInlineAdmin(admin.StackedInline):
+class DishesIngredientsInlineAdmin(admin.StackedInline):
     class IngredientDishesProxy(models.Dish.ingredients.through):
         class Meta:
             proxy = True
@@ -63,23 +71,47 @@ class DishesInlineAdmin(admin.StackedInline):
     readonly_fields = ('dish',)
 
 
+class DailyMealInlineAdmin(TranslationStackedInline, admin.StackedInline):
+    model = models.DailyMeal
+    can_delete = False
+    show_change_link = True
+    max_num = 0
+    fieldsets = (
+        (None, {
+            'fields': tuple()
+        }),
+    )
+
+
+class DailyMealDish1InlineAdmin(DailyMealInlineAdmin):
+    fk_name = 'dish_1'
+    verbose_name = _("Breakfast")
+
+
+class DailyMealDish2InlineAdmin(DailyMealInlineAdmin):
+    fk_name = 'dish_2'
+    verbose_name = _("Brunch")
+
+
+class DailyMealDish3InlineAdmin(DailyMealInlineAdmin):
+    fk_name = 'dish_3'
+    verbose_name = _("Lunch")
+
+
+class DailyMealDish4InlineAdmin(DailyMealInlineAdmin):
+    fk_name = 'dish_4'
+    verbose_name = _("Dinner")
+
+
+class DailyMealDish5InlineAdmin(DailyMealInlineAdmin):
+    fk_name = 'dish_5'
+    verbose_name = _("Supper")
+
+
 class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     fieldsets = (
-        (_('General'), {
-            'classes': ('collapse',),
-            'fields': ('title', 'description', 'category', 'calories_daily',)
-        }),
-        (_('Price'), {
-            'classes': ('collapse',),
-            'fields': ('price_daily', 'price_weekly', 'price_monthly', 'price_auto',)
-        }),
-        (_('Days'), {
-            'classes': ('collapse',),
-            'fields': ('day_1', "day_2", "day_3", "day_4", "day_5", "day_6", "day_7",)
-        }),
-        (_('ID'), {
-            'classes': ('collapse',),
-            'fields': ('slug', 'id'),
+        (None, {
+            'fields': tuple()
         }),
     )
     fk_name = "category"
@@ -88,28 +120,10 @@ class MenuInlineAdmin(TranslationStackedInline, admin.StackedInline):
     show_change_link = True
     max_num = 0
 
-    autocomplete_fields = ('photo', 'category')
-
-    search_fields = [f'day_{num}__title_{language}' for num in range(1, 8) for
-                     language in settings.MODELTRANSLATION_LANGUAGES]
-    search_fields += [f'{field}_{lang}'
-                      for field in ('title', 'description')
-                      for lang in settings.MODELTRANSLATION_LANGUAGES]
-
-    readonly_fields = ['calories_daily', 'slug', 'id',
-                       'price_weekly', 'price_monthly',
-                       'price_auto', "price_daily"]
-    readonly_fields += [f'day_{num}' for num in range(1, 8)]
-
 
 class MenuDay1InlineAdmin(MenuInlineAdmin):
     fk_name = 'day_1'
     verbose_name = _("Monday")
-    fieldsets = (
-        (None, {
-            'fields': tuple()
-        }),
-    )
 
 
 class MenuDay2InlineAdmin(MenuDay1InlineAdmin):
@@ -162,14 +176,6 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
                      for field in ('title', 'description')
                      for lang in settings.MODELTRANSLATION_LANGUAGES]
 
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
-        if request.GET.get('_popup'):
-            fieldset_classes = ('order-0', 'baton-tabs-init', 'baton-tab-fs-id',)
-            self.fieldsets[0][1]["classes"] = fieldset_classes
-            inline_instances = tuple()
-        return inline_instances
-
     def get_form(self, request, obj=None, **kwargs):
         form = super(CategoryAdmin, self).get_form(request, obj, **kwargs)
         self.remove_form_permissions(form, ['photo'], {'photo': ['delete']})
@@ -180,7 +186,7 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
 
 
 class IngredientAdmin(TabbedTranslationAdmin, admin.ModelAdmin):
-    inlines = (DishesInlineAdmin,)
+    inlines = (DishesIngredientsInlineAdmin,)
     list_display = ('title', 'id')
     readonly_fields = ('id',)
 
@@ -195,16 +201,32 @@ class PhotoAdmin(admin.ModelAdmin):
 
 
 class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
+    class Media:
+        css = {
+            'all': (
+                'modeltranslation/css/tabbed_translation_fields.css',
+                'admin/css/dish.css',
+            )
+        }
+
     list_display = ('title', 'calories', 'meal_of_the_day', 'id')
     list_filter = (
         ('calories', SliderNumericFilter),
         'meal_of_the_day'
     )
 
+    inlines = (DailyMealDish1InlineAdmin, DailyMealDish2InlineAdmin,
+               DailyMealDish3InlineAdmin, DailyMealDish4InlineAdmin, DailyMealDish5InlineAdmin)
+    inline_tab = 'baton-tab-group-menu' + ''.join(
+        [f"--inline-{day}" for day in ('breakfast', 'brunch', 'lunch',
+                                       'dinner', 'supper')]
+    )
+
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'description', 'calories', 'photo'),
-            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-detail', 'baton-tab-fs-id',)
+            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-detail',
+                        'baton-tab-fs-id', inline_tab)
         }),
         (_('Detail'), {
             'fields': ('ingredients', 'meal_of_the_day'),
@@ -248,18 +270,16 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
             )
         }
 
-    inlines = (MenuDay1InlineAdmin, MenuDay2InlineAdmin, MenuDay3InlineAdmin)
     list_display = ('title', 'calories', 'id',)
     list_filter = (
         ('calories', SliderNumericFilter),
     )
 
-    inline_tab_items = []
+    inlines = (MenuDay1InlineAdmin, MenuDay2InlineAdmin, MenuDay3InlineAdmin)
     inline_tab = 'baton-tab-group-menu' + ''.join(
         [f"--inline-{day}" for day in ('monday', 'tuesday', 'wednesday',
-                                       'friday', 'saturday', 'sunday')]
+                                       'thursday', 'friday', 'saturday', 'sunday')]
     )
-    inline_tab_text = 'baton-tab-group-menu'
 
     fieldsets = (
         (_('General'), {
