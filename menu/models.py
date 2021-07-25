@@ -42,6 +42,9 @@ class Photo(models.Model):
     def __str__(self):
         return self.title
 
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         verbose_name = _("Photo")
         verbose_name_plural = _("Photos")
@@ -70,7 +73,8 @@ class Dish(models.Model):
     description = models.TextField(default="", max_length=1000,
                                    verbose_name=_("Description"))
     ingredients = models.ManyToManyField(to=Ingredient,
-                                         verbose_name=_("Ingredients"))
+                                         verbose_name=_("Ingredients"),
+                                         related_name='dishes')
     calories = models.PositiveIntegerField(default=0,
                                            verbose_name=_("Calories"))
     meal_of_the_day = models.PositiveIntegerField(
@@ -189,4 +193,3 @@ class Menu(models.Model):
     class Meta:
         verbose_name = _("Menu")
         verbose_name_plural = _("Menus")
-
