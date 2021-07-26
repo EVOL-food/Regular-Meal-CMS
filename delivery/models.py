@@ -19,8 +19,8 @@ class DeliveryVendor(models.Model):
 
 class DeliverySchedule(models.Model):
     CHOICES_FOR_MODE = (
-        (False, _('Everyday at the same time')),
-        (True, _('Weekdays and weekends')),
+        (True, _('Everyday at the same time')),
+        (False, _('Weekdays and weekends')),
     )
     CHOICES_FOR_TIME = tuple((time(hour=hour), f'{hour}:00')
                              for hour in range(10, 21))

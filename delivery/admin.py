@@ -72,7 +72,7 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         try:
-            if not obj.everyday_same_time:
+            if obj.everyday_same_time:
                 return ('delivery_time_start_weekend',
                         'delivery_time_end_weekend')
         except AttributeError:

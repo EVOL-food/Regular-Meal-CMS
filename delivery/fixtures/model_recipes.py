@@ -13,7 +13,7 @@ delivery_vendor = Recipe(
 delivery_schedule = Recipe(
     DeliverySchedule,
     delivery_vendor=foreign_key(delivery_vendor),
-    mode=2,
+    everyday_same_time=False,
     delivery_time_start_weekday=time(hour=10),
     delivery_time_end_weekday=time(hour=12),
     delivery_time_start_weekend=time(hour=13),
