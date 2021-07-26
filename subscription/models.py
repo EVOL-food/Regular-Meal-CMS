@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
 from client.models import Profile
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 
 class Subscription(models.Model):
-    CHOISES = ((7, _('Week (7 days)')), (28, _('Month (28 days)')))
+    CHOISES = ((7, _('7 days (Week)')), (28, _('28 days (Month)')))
 
     days = models.PositiveSmallIntegerField(choices=CHOISES, default=28, verbose_name= _('Days'))
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True, verbose_name= _('Menu'))
@@ -37,10 +37,9 @@ class Subscription(models.Model):
 class Order(models.Model):
     STATUS = (
         (1, _('New')),
-        (2, _('Accepted')),
-        (3, _('OnShipping')),
-        (4, _('Completed')),
-        (5, _('Canceled')),
+        (2, _('Active')),
+        (3, _('Completed')),
+        (4, _('Canceled')),
     )
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
                                 verbose_name= _('Profile'))

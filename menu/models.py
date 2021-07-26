@@ -1,7 +1,7 @@
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomImageStrategy(object):
@@ -193,3 +193,12 @@ class Menu(models.Model):
     class Meta:
         verbose_name = _("Menu")
         verbose_name_plural = _("Menus")
+
+
+class IngredientDishesProxy(Dish.ingredients.through):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        self._meta.get_field('dish').verbose_name = _("Dish")
+        return self.dish.title
