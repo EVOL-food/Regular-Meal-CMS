@@ -44,13 +44,11 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
             'fields': ('delivery_vendor',)
         }),
         (_('Delivery time'), {
-            'fields': ('delivery_time_start_weekday',
+            'fields': ('everyday_same_time',
+                       'delivery_time_start_weekday',
                        'delivery_time_end_weekday',
                        'delivery_time_start_weekend',
                        'delivery_time_end_weekend',)
-        }),
-        (_('Delivery mode status'), {
-            'fields': ('everyday_same_time',)
         }),
     )
     model = DeliverySchedule
