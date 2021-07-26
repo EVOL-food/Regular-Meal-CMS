@@ -51,7 +51,7 @@ class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
         fieldsets = super(DeliveryVendorAdmin, self).get_fieldsets(request, obj=None)
         if not obj:
             new_classes = tuple(class_ for class_ in self.tab_classes
-                                if "--" not in class_)
+                                if "inline" not in class_)
             fieldsets[0][1]["classes"] = new_classes
         else:
             fieldsets[0][1]["classes"] = self.tab_classes

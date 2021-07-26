@@ -29,10 +29,14 @@ class UserAdmin(admin.ModelAdmin):
             'classes': ('tab-fs-permissions',)
         }),
     )
-    readonly_fields = ('email', 'last_login', 'password')
-    search_fields = ("profile__last_name", "profile__phone_number", "profile__address")
+    tab_classes = fieldsets[0][1]["classes"]
+
     list_display = ('email', 'is_staff', 'is_superuser')
     list_filter = ('is_staff', 'is_superuser', 'profile__gender', 'profile__created_at')
+
+    search_fields = ("profile__last_name", "profile__phone_number", "profile__address")
+
+    readonly_fields = ('email', 'last_login', 'password')
 
 
 admin.site.register(User, UserAdmin)

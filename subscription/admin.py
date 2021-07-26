@@ -4,18 +4,34 @@ from django.utils.translation import gettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 
 
-class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+class OrderInlineAdmin(admin.StackedInline):
+    model = Order
+    fk_name = 'subscription'
+    can_delete = False
+    show_change_link = True
+    max_num = 0
     fieldsets = (
-        (_('General'), {
-            'fields': ('email', 'password', 'last_login'),
-            'classes': ('baton-tabs-init', 'baton-tab-fs-permissions',
-                        'baton-tab-inline-profile',)
-        }),
-        (_('Permissions'), {
-            'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions'),
-            'classes': ('tab-fs-permissions',)
+        (None, {
+            'fields': tuple()
         }),
     )
+
+
+class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+    inlines = (OrderInlineAdmin,)
+    fieldsets = (
+        (_('General'), {
+            'fields': ('menu', 'delivery_schedule', 'days', 'weekdays_only'),
+            'classes': ('baton-tabs-init', 'baton-tab-fs-price',
+                        'baton-tab-inline-order')
+        }),
+        (_('Price'), {
+            'fields': ('price_menu', 'price_delivery', 'price_total'),
+            'classes': ('tab-fs-price',)
+        }),
+    )
+    tab_classes = fieldsets[0][1]["classes"]
+
     list_display = ('menu', 'days', 'weekdays_only', 'delivery_schedule',
                     'price_menu', 'price_delivery', 'price_total')
     list_filter = ('menu', ('price_total', SliderNumericFilter),
@@ -31,13 +47,41 @@ class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
         else:
             return self.readonly_fields
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(SubscriptionAdmin, self).get_form(request, obj, **kwargs)
+        if not obj:
+            form.base_fields['menu'].widget.can_add_related = False
+            form.base_fields['menu'].widget.can_change_related = False
+        form.base_fields['delivery_schedule'].widget.can_change_related = False
+        form.base_fields['delivery_schedule'].widget.can_delete_related = False
+        return form
+
+    def get_inline_instances(self, request, obj=None):
+        inlines = super().get_inline_instances(request, obj=None)
+        if not obj or request.GET.get('_popup'):
+            return tuple()
+        else:
+            return inlines
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super(SubscriptionAdmin, self).get_fieldsets(request, obj=None)
+        if not obj:
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if all(["price" not in class_,
+                                        "inline" not in class_]))
+            fieldsets[0][1]["classes"] = new_classes
+            return fieldsets[:-1]
+        else:
+            fieldsets[0][1]["classes"] = self.tab_classes
+            return fieldsets
+
 
 class OrderAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
     list_display = ('profile', 'subscription', 'data_start',
                     'data_end', 'price', 'status', 'created_at')
     search_fields = ('profile__first_name', 'profile__last_name',)
     list_filter = ('status', ('price', SliderNumericFilter), 'created_at',
-                   'data_end', 'subscription__delivery_schedule__delivery_vendor', )
+                   'data_end', 'subscription__delivery_schedule__delivery_vendor',)
     readonly_fields = ('price',)
 
     def get_readonly_fields(self, request, obj=None):
