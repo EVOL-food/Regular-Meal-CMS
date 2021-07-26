@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.contenttypes.forms import generic_inlineformset_factory
-from django.contrib.contenttypes.admin import GenericStackedInline
+from django.utils.translation import ugettext_lazy as _
 from .models import User, Profile
 
 
@@ -19,13 +18,21 @@ class ProfileAdmin(admin.StackedInline):
 
 class UserAdmin(admin.ModelAdmin):
     inlines = (ProfileAdmin,)
-    fields = ('email', 'password', 'is_staff', 'is_superuser',
-              'groups', 'user_permissions', 'last_login')
+    fieldsets = (
+        (_('General'), {
+            'fields': ('email', 'password', 'last_login'),
+            'classes': ('baton-tabs-init', 'baton-tab-fs-permissions',
+                        'baton-tab-inline-profile',)
+        }),
+        (_('Permissions'), {
+            'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'classes': ('tab-fs-permissions',)
+        }),
+    )
+    readonly_fields = ('email', 'last_login', 'password')
     search_fields = ("profile__last_name", "profile__phone_number", "profile__address")
     list_display = ('email', 'is_staff', 'is_superuser')
     list_filter = ('is_staff', 'is_superuser', 'profile__gender', 'profile__created_at')
-
-
 
 
 admin.site.register(User, UserAdmin)
