@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-26 21:45+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\admin.py:25
+msgid "General"
+msgstr "Главное"
+
+#: .\admin.py:29
+msgid "Price"
+msgstr "Цена"
+
+#: .\admin.py:43 .\models.py:16 .\models.py:29
+msgid "Delivery vendor"
+msgstr "Сервис доставки"
+
+#: .\admin.py:46
+msgid "Delivery time"
+msgstr "Время доставки"
+
+#: .\admin.py:52
+#, fuzzy
+#| msgid "Delivery time"
+msgid "Delivery mode status"
+msgstr "Время доставки"
+
+#: .\apps.py:8
+msgid "Delivery"
+msgstr "Доставка"
+
+#: .\models.py:7
+msgid "Title"
+msgstr "Название"
+
+#: .\models.py:8
+msgid "Description"
+msgstr "Описание"
+
+#: .\models.py:10
+msgid "Price for one delivery"
+msgstr "Стоимость одной доставки"
+
+#: .\models.py:17
+msgid "Delivery vendors"
+msgstr "Сервис доставки"
+
+#: .\models.py:22
+msgid "Everyday at the same time"
+msgstr "Каждый день в одно время"
+
+#: .\models.py:23
+msgid "Weekdays and weekends"
+msgstr "Будни, выходные"
+
+#: .\models.py:33
+msgid "Delivery time start on weekday"
+msgstr "Время доставки по будням с"
+
+#: .\models.py:36
+msgid "Delivery time end on weekday"
+msgstr "Время доставки по будням до"
+
+#: .\models.py:40
+msgid "Delivery time start on weekend"
+msgstr "Время доставки по выходным от"
+
+#: .\models.py:43
+msgid "Delivery time end on weekend"
+msgstr "Время доставки по выходным до"
+
+#: .\models.py:46
+msgid "Mode"
+msgstr "Режим"
+
+#: .\models.py:53
+msgid "Delivery schedule"
+msgstr "Расписание доставки"
+
+#: .\models.py:54
+msgid "Delivery schedules"
+msgstr "Расписания доставок"

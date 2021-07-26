@@ -1,56 +1,73 @@
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from modeltranslation.admin import TabbedTranslationAdmin
-from modeltranslation.admin import TranslationTabularInline, TranslationStackedInline
+from modeltranslation.admin import TranslationStackedInline
 from django.conf import settings
-from django.db.models import ForeignKey, CASCADE
 from . import models
 
 
 class FormMixin:
     def get_inline_instances(self, request, obj=None):
-        inline_instances = super().get_inline_instances(request, obj=None)
-        if request.GET.get('_popup'):
-            fieldset_classes = ('order-0', 'baton-tabs-init', 'baton-tab-fs-id',)
-            self.fieldsets[0][1]["classes"] = fieldset_classes
-            inline_instances = tuple()
-        return inline_instances
+        inlines = super().get_inline_instances(request, obj=None)
+        if not obj or request.GET.get('_popup'):
+            return tuple()
+        else:
+            return inlines
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj=None)
+        if not obj:
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if all(["id" not in class_,
+                                        "inline" not in class_]))
+            fieldsets[0][1]["classes"] = new_classes
+            return fieldsets[:-1]
+        elif request.GET.get('_popup'):
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if "inline" not in class_)
+            fieldsets[0][1]["classes"] = new_classes
+            return fieldsets
+        else:
+            fieldsets[0][1]["classes"] = self.tab_classes
+            return fieldsets
 
     @staticmethod
     def remove_form_permissions(form, fields, perm):
         for field in fields:
             permissions = perm[field]
-            if 'add' in permissions:
-                form.base_fields[field].widget.can_add_related = False
-            if 'change' in permissions:
-                form.base_fields[field].widget.can_change_related = False
-            if 'delete' in permissions:
-                form.base_fields[field].widget.can_delete_related = False
+            try:
+                if 'add' in permissions:
+                    form.base_fields[field].widget.can_add_related = False
+                if 'change' in permissions:
+                    form.base_fields[field].widget.can_change_related = False
+                if 'delete' in permissions:
+                    form.base_fields[field].widget.can_delete_related = False
+            except ValueError:
+                pass
 
     @staticmethod
     def change_field_size(form, field, min_width=None, max_height=None,
                           languages=False):
-        languages = settings.MODELTRANSLATION_LANGUAGES if languages else settings.LANGUAGES[0][0]
+        if not languages:
+            fields = [field]
+        else:
+            fields = [f'{field}_{language}' for language
+                      in settings.MODELTRANSLATION_LANGUAGES]
         style = ''
-        for language in languages:
-            form_field = form.base_fields[f'{field}_{language}']
-            if min_width:
-                style += f'min-width: {min_width};'
-            if max_height:
-                style += f'max-height: {max_height};'
-            form_field.widget.attrs['style'] = style
+        for field in fields:
+            try:
+                form_field = form.base_fields[field]
+                if min_width:
+                    style += f'min-width: {min_width};'
+                if max_height:
+                    style += f'max-height: {max_height};'
+                form_field.widget.attrs['style'] = style
+            except ValueError:
+                pass
 
 
 class DishesIngredientsInlineAdmin(admin.StackedInline):
-    class IngredientDishesProxy(models.Dish.ingredients.through):
-        class Meta:
-            proxy = True
-
-        def __str__(self):
-            self._meta.get_field('dish').verbose_name = _("Dish")
-            return self.dish.title
-
     class Media:
         css = {
             'all': (
@@ -60,7 +77,7 @@ class DishesIngredientsInlineAdmin(admin.StackedInline):
         }
 
     classes = ('collapse',)
-    model = IngredientDishesProxy
+    model = models.IngredientDishesProxy
     extra = 0
     can_delete = False
     max_num = 0
@@ -156,7 +173,7 @@ class MenuDay7InlineAdmin(MenuDay1InlineAdmin):
 class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
     inlines = (MenuInlineAdmin,)
     list_display = ('title', 'description', 'slug', 'id')
-    fieldsets = (
+    fieldsets = [
         (_('General'), {
             'fields': ('title', 'description', 'photo'),
             'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-id',
@@ -166,7 +183,8 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
             'classes': ('tab-fs-id',),
         }),
-    )
+    ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('slug', 'id')
 
@@ -192,6 +210,13 @@ class IngredientAdmin(TabbedTranslationAdmin, admin.ModelAdmin):
 
     search_fields = [f'title_{lang}'
                      for lang in settings.MODELTRANSLATION_LANGUAGES]
+
+    def get_inline_instances(self, request, obj=None):
+        inlines = super().get_inline_instances(request, obj=None)
+        if not obj or request.GET.get('_popup'):
+            return tuple()
+        else:
+            return inlines
 
 
 class PhotoAdmin(admin.ModelAdmin):
@@ -222,7 +247,7 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
                                        'dinner', 'supper')]
     )
 
-    fieldsets = (
+    fieldsets = [
         (_('General'), {
             'fields': ('title', 'description', 'calories', 'photo'),
             'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-detail',
@@ -236,7 +261,8 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
             'classes': ('tab-fs-id',)
         }),
-    )
+    ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     autocomplete_fields = ('photo', 'ingredients')
 
@@ -281,7 +307,7 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
                                        'thursday', 'friday', 'saturday', 'sunday')]
     )
 
-    fieldsets = (
+    fieldsets = [
         (_('General'), {
             'fields': ('title', 'calories',),
             'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-dishes',
@@ -296,7 +322,8 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
             'fields': ('id',),
             'classes': ('tab-fs-id',)
         }),
-    )
+    ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('calories', 'id',)
 
@@ -330,10 +357,11 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
         ('price_daily', SliderNumericFilter),
     )
 
-    fieldsets = (
+    fieldsets = [
         (_('General'), {
             'fields': ('title', 'description', 'category', 'calories_daily',),
-            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-price', 'baton-tab-fs-days', 'baton-tab-fs-id',)
+            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-fs-price',
+                        'baton-tab-fs-days', 'baton-tab-fs-id')
         }),
         (_('Price'), {
             'fields': ('price_daily', 'price_weekly', 'price_monthly', 'price_auto',),
@@ -347,7 +375,8 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
             'fields': ('slug', 'id'),
             'classes': ('tab-fs-id',),
         }),
-    )
+    ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('calories_daily', 'slug', 'id')
 

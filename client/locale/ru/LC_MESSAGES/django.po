@@ -1,0 +1,103 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-26 20:28+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\apps.py:8
+msgid "Clients"
+msgstr "Клиенты"
+
+#: .\manager.py:15
+msgid "The Email must be set"
+msgstr "Укажите Email"
+
+#: .\manager.py:31
+msgid "Superuser must have is_staff=True."
+msgstr "Администратор по определению is_staff=True."
+
+#: .\manager.py:33
+msgid "Superuser must have is_superuser=True."
+msgstr "Администратор по определению is_staff=True."
+
+#: .\models.py:12
+#, fuzzy
+#| msgid "Address"
+msgid "email address"
+msgstr "Адрес"
+
+#: .\models.py:23
+msgid "Account"
+msgstr "Аккаунт"
+
+#: .\models.py:24
+msgid "Accounts"
+msgstr "Аккаунты"
+
+#: .\models.py:29
+msgid "Male"
+msgstr "Мужчина"
+
+#: .\models.py:30
+msgid "Female"
+msgstr "Женщина"
+
+#: .\models.py:31
+msgid "Other"
+msgstr "Иначе"
+
+#: .\models.py:34
+msgid "Phone number must be in format '+999999999'"
+msgstr "Номер телефона должен быть в формате '+999999999'"
+
+#: .\models.py:38
+msgid "User"
+msgstr "Пользователь"
+
+#: .\models.py:39
+msgid "First name"
+msgstr "Имя"
+
+#: .\models.py:40
+msgid "Last name"
+msgstr "Фамилия"
+
+#: .\models.py:42
+msgid "Phone number"
+msgstr "Телефон"
+
+#: .\models.py:43
+msgid "Address"
+msgstr "Адрес"
+
+#: .\models.py:45
+msgid "Gender"
+msgstr "Пол"
+
+#: .\models.py:46
+msgid "Created at:"
+msgstr "Создано: "
+
+#: .\models.py:52
+msgid "Profile"
+msgstr "Профиль"
+
+#: .\models.py:53
+msgid "Profiles"
+msgstr "Профили"

@@ -181,6 +181,9 @@ REST_FRAMEWORK = {
     ),
 }
 
+# Authentication Django settings
+AUTH_USER_MODEL = 'client.User'
+
 
 # Authentication Django REST Framework settings
 
