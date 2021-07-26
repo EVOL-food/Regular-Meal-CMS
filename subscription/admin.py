@@ -77,18 +77,38 @@ class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
 
 
 class OrderAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+    fieldsets = (
+        (_('General'), {
+            'fields': ('profile', 'subscription', 'price'),
+            'classes': ('baton-tabs-init', 'baton-tab-fs-status',)
+        }),
+        (_('Status'), {
+            'fields': ('status', 'data_start', 'data_end'),
+            'classes': ('tab-fs-status',)
+        }),
+    )
     list_display = ('profile', 'subscription', 'data_start',
                     'data_end', 'price', 'status', 'created_at')
     search_fields = ('profile__first_name', 'profile__last_name',)
     list_filter = ('status', ('price', SliderNumericFilter), 'created_at',
                    'data_end', 'subscription__delivery_schedule__delivery_vendor',)
-    readonly_fields = ('price',)
+    readonly_fields = ('price', 'data_end')
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return ('profile', 'subscription', 'data_start', 'data_end') + self.readonly_fields
+            return ('profile', 'subscription',
+                    'data_start') + self.readonly_fields
         else:
             return self.readonly_fields
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(OrderAdmin, self).get_form(request, obj, **kwargs)
+        if not obj:
+            form.base_fields['profile'].widget.can_add_related = False
+            form.base_fields['profile'].widget.can_change_related = False
+            form.base_fields['subscription'].widget.can_change_related = False
+            form.base_fields['subscription'].widget.can_delete_related = False
+        return form
 
 
 admin.site.register(Subscription, SubscriptionAdmin)

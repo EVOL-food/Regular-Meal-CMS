@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from delivery.models import DeliverySchedule
 from menu.models import Menu
-from client.models import Profile
+from client.models import User
 from django.utils.translation import gettext_lazy as _
 
 
@@ -43,7 +43,7 @@ class Order(models.Model):
         (3, _('Completed')),
         (4, _('Canceled')),
     )
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
+    profile = models.ForeignKey(User, on_delete=models.CASCADE,
                                 verbose_name=_('Profile'))
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True,
                                      verbose_name=_('Subscription'))
