@@ -56,7 +56,7 @@ msgstr "Описание"
 
 #: .\models.py:10
 msgid "Price for one delivery"
-msgstr "Цена за доставку"
+msgstr "Стоимость одной доставки"
 
 #: .\models.py:17
 msgid "Delivery vendors"

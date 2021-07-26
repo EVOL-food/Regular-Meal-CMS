@@ -23,11 +23,7 @@ class DeliveryScheduleInlineAdmin(admin.StackedInline):
 class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         (_('General'), {
-            'fields': ('title',
-                       'description',)
-        }),
-        (_('Price'), {
-            'fields': ('price_one_delivery',)
+            'fields': ('title', 'price_one_delivery', 'description')
         }),
     )
     list_display = (
