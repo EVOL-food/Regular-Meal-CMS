@@ -40,11 +40,11 @@ class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
 
 class DeliveryScheduleAdmin(admin.ModelAdmin):
     fieldsets = (
-        (_('Delivery vendor'), {
-            'fields': ('delivery_vendor',)
+        (None, {
+            'fields': ('delivery_vendor', 'everyday_same_time',)
         }),
         (_('Delivery time'), {
-            'fields': ('everyday_same_time',
+            'fields': (
                        'delivery_time_start_weekday',
                        'delivery_time_end_weekday',
                        'delivery_time_start_weekend',
