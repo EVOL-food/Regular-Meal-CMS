@@ -11,7 +11,7 @@ from . import models
 class FormMixin:
     def get_inline_instances(self, request, obj=None):
         inlines = super().get_inline_instances(request, obj=None)
-        if inlines and obj is None or request.GET.get('_popup'):
+        if obj and request.GET.get('_popup'):
             classes = self.fieldsets[0][1]["classes"]
             self.fieldsets[0][1]["classes"] = tuple(s for s in classes
                                                     if "inline" not in s)
@@ -22,11 +22,13 @@ class FormMixin:
     def get_fieldsets(self, request, obj=None):
         fieldsets = super().get_fieldsets(request, obj=None)
         if not obj:
-            classes = self.fieldsets[0][1]["classes"]
-            self.fieldsets[0][1]["classes"] = tuple(s for s in classes
-                                                    if "id" not in s)
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if all(["id" not in class_,
+                                        "inline" not in class_]))
+            fieldsets[0][1]["classes"] = new_classes
             return fieldsets[:-1]
         else:
+            fieldsets[0][1]["classes"] = self.tab_classes
             return fieldsets
 
     @staticmethod
@@ -181,6 +183,7 @@ class CategoryAdmin(FormMixin, TabbedTranslationAdmin):
             'classes': ('tab-fs-id',),
         }),
     ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('slug', 'id')
 
@@ -251,6 +254,7 @@ class DishAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
             'classes': ('tab-fs-id',)
         }),
     ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     autocomplete_fields = ('photo', 'ingredients')
 
@@ -311,6 +315,7 @@ class DailyMealAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin)
             'classes': ('tab-fs-id',)
         }),
     ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('calories', 'id',)
 
@@ -363,6 +368,7 @@ class MenuAdmin(FormMixin, NumericFilterModelAdmin, TabbedTranslationAdmin):
             'classes': ('tab-fs-id',),
         }),
     ]
+    tab_classes = fieldsets[0][1]["classes"]
 
     readonly_fields = ('calories_daily', 'slug', 'id')
 

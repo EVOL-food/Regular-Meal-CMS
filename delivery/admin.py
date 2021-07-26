@@ -24,43 +24,50 @@ class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     inlines = (DeliveryScheduleInlineAdmin,)
     fieldsets = (
         (_('General'), {
-            'fields': ('title', 'price_one_delivery', 'description'),
+            'fields': ('title', 'price_one_delivery', 'description', 'id'),
             'classes': ('baton-tabs-init', 'baton-tab-inline-deliveryschedule',)
         }),
     )
+    tab_classes = fieldsets[0][1]["classes"]
+
+    readonly_fields = ('id',)
+
     list_display = (
         'title',
         'description',
-        'price_one_delivery'
+        'price_one_delivery',
+        'id'
     )
     list_filter = (('price_one_delivery', SliderNumericFilter),)
 
-    def get_inline_instances(self, request, obj=None):
-        inlines = super().get_inline_instances(request, obj=None)
-        if inlines and obj is None or request.GET.get('_popup'):
-            classes = self.fieldsets[0][1]["classes"]
-            self.fieldsets[0][1]["classes"] = tuple(s for s in classes
-                                                    if "inline" not in s)
-            return list()
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj=None)
+        if not obj:
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if all(["id" not in class_,
+                                        "inline" not in class_]))
+            fieldsets[0][1]["classes"] = new_classes
+            return fieldsets[:-1]
         else:
-            return inlines
+            fieldsets[0][1]["classes"] = self.tab_classes
+            return fieldsets
 
 
 class DeliveryScheduleAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('delivery_vendor', 'everyday_same_time',)
+            'fields': ('delivery_vendor', 'everyday_same_time')
         }),
         (_('Delivery time'), {
-            'fields': (
-                       'delivery_time_start_weekday',
+            'fields': ('delivery_time_start_weekday',
                        'delivery_time_end_weekday',
                        'delivery_time_start_weekend',
                        'delivery_time_end_weekend',)
         }),
+        (None, {
+            'fields': ('id',)
+        }),
     )
-    model = DeliverySchedule
-    fk_name = 'delivery_vendor'
     list_filter = (
         'everyday_same_time',
         'delivery_vendor'
@@ -70,7 +77,7 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
                     'delivery_time_end_weekday',
                     'delivery_time_start_weekend',
                     'delivery_time_end_weekend',
-                    'everyday_same_time'
+                    'everyday_same_time',
                     )
     search_fields = ('delivery_vendor__title', 'delivery_time_start_weekday',
                      'delivery_time_end_weekday', 'delivery_time_start_weekend',
@@ -79,10 +86,10 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         try:
             if obj.everyday_same_time:
-                return ('delivery_time_start_weekend',
+                return ('id', 'delivery_time_start_weekend',
                         'delivery_time_end_weekend')
         except AttributeError:
-            return ('delivery_time_start_weekend',
+            return ('id', 'delivery_time_start_weekend',
                     'delivery_time_end_weekend')
         else:
             return tuple()
