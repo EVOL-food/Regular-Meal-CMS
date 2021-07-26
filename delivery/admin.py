@@ -4,12 +4,13 @@ from django.utils.translation import ugettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
+
 # Tabs
-class DeliveryVendorTabbedAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
+class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         (_('General'), {
-             'fields': ('title',
-                        'description',)
+            'fields': ('title',
+                       'description',)
         }),
         (_('Price'), {
             'fields': ('price_one_delivery',)
@@ -22,7 +23,8 @@ class DeliveryVendorTabbedAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin)
     )
     list_filter = (('price_one_delivery', SliderNumericFilter),)
 
-class DeliveryScheduleTabbedAdmin(TabbedTranslationAdmin):
+
+class DeliveryScheduleAdmin(admin.ModelAdmin):
     fieldsets = (
         (_('Delivery vendor'), {
             'fields': ('delivery_vendor',)
@@ -50,7 +52,7 @@ class DeliveryScheduleTabbedAdmin(TabbedTranslationAdmin):
                     'delivery_time_start_weekend',
                     'delivery_time_end_weekend',
                     'mode'
-    )
+                    )
     search_fields = ('delivery_vendor__title', 'delivery_time_start_weekday',
                      'delivery_time_end_weekday', 'delivery_time_start_weekend',
                      'delivery_time_end_weekend')
@@ -67,6 +69,5 @@ class DeliveryScheduleTabbedAdmin(TabbedTranslationAdmin):
             return self.readonly_fields
 
 
-
-admin.site.register(DeliveryVendor, DeliveryVendorTabbedAdmin)
-admin.site.register(DeliverySchedule, DeliveryScheduleTabbedAdmin)
+admin.site.register(DeliveryVendor, DeliveryVendorAdmin)
+admin.site.register(DeliverySchedule, DeliveryScheduleAdmin)

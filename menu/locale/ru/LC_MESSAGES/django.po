@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-26 18:09+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\admin.py:59 .\models.py:96 .\models.py:203
+msgid "Dish"
+msgstr "Блюдо"
+
+#: .\admin.py:60 .\admin.py:283 .\models.py:97
+msgid "Dishes"
+msgstr "Блюда"
+
+#: .\admin.py:80 .\models.py:105
+msgid "Breakfast"
+msgstr "Завтрак"
+
+#: .\admin.py:85 .\models.py:108
+msgid "Brunch"
+msgstr "Поздний завтрак"
+
+#: .\admin.py:90 .\models.py:111
+msgid "Lunch"
+msgstr "Обед"
+
+#: .\admin.py:95 .\models.py:114
+msgid "Dinner"
+msgstr "Ужин"
+
+#: .\admin.py:100 .\models.py:117
+msgid "Supper"
+msgstr "Поздний ужин"
+
+#: .\admin.py:118 .\models.py:164
+msgid "Monday"
+msgstr "Понедельник"
+
+#: .\admin.py:123 .\models.py:167
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: .\admin.py:128 .\models.py:170
+msgid "Wednesday"
+msgstr "Среда"
+
+#: .\admin.py:152 .\admin.py:218 .\admin.py:277 .\admin.py:326
+msgid "General"
+msgstr "Главное"
+
+#: .\admin.py:157 .\admin.py:227 .\admin.py:287 .\admin.py:338
+msgid "ID"
+msgstr "Идентификатор"
+
+#: .\admin.py:223
+msgid "Detail"
+msgstr "Детали"
+
+#: .\admin.py:330
+msgid "Price"
+msgstr "Цена"
+
+#: .\admin.py:334
+msgid "Days"
+msgstr "Дни"
+
+#: .\apps.py:8 .\models.py:194
+msgid "Menu"
+msgstr "Меню"
+
+#: .\models.py:20 .\models.py:32 .\models.py:55 .\models.py:72 .\models.py:102
+#: .\models.py:138
+msgid "Title"
+msgstr "Название"
+
+#: .\models.py:26
+msgid "Ingredient"
+msgstr "Ингредиент"
+
+#: .\models.py:27 .\models.py:76
+msgid "Ingredients"
+msgstr "Ингредиенты"
+
+#: .\models.py:34
+msgid "Image"
+msgstr "Изображение"
+
+#: .\models.py:49 .\models.py:59 .\models.py:84 .\models.py:147
+msgid "Photo"
+msgstr "Фотография"
+
+#: .\models.py:50
+msgid "Photos"
+msgstr "Фотографии"
+
+#: .\models.py:57 .\models.py:74 .\models.py:140
+msgid "Description"
+msgstr "Описание"
+
+#: .\models.py:67 .\models.py:145
+msgid "Category"
+msgstr "Категория"
+
+#: .\models.py:68
+msgid "Categories"
+msgstr "Категории"
+
+#: .\models.py:79 .\models.py:120
+msgid "Calories"
+msgstr "Калории"
+
+#: .\models.py:82
+msgid "Meal of the day"
+msgstr "Приём пищи"
+
+#: .\models.py:132
+msgid "Daily meal"
+msgstr "Меню на день"
+
+#: .\models.py:133
+msgid "Daily meals"
+msgstr "Меню на день"
+
+#: .\models.py:142
+msgid "Calories average"
+msgstr "Средняя калорийность"
+
+#: .\models.py:151
+msgid "Auto price"
+msgstr "Просчёт цены"
+
+#: .\models.py:154
+msgid "Daily costs"
+msgstr "Стоимость в день"
+
+#: .\models.py:157
+msgid "Weekly costs"
+msgstr "Стоимость в неделю"
+
+#: .\models.py:160
+msgid "Monthly costs"
+msgstr "Стоимость в месяц"
+
+#: .\models.py:173
+msgid "Thursday"
+msgstr "Четверг"
+
+#: .\models.py:176
+msgid "Friday"
+msgstr "Пятница"
+
+#: .\models.py:179
+msgid "Saturday"
+msgstr "Суббота"
+
+#: .\models.py:182
+msgid "Sunday"
+msgstr "Воскресение"
+
+#: .\models.py:195
+msgid "Menus"
+msgstr "Меню"

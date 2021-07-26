@@ -8,23 +8,25 @@ from delivery.models import DeliverySchedule
 from menu.models import Menu
 from client.models import Profile
 from django.utils.translation import gettext_lazy as _
+
+
 # Create your models here.
 
 
 class Subscription(models.Model):
     CHOISES = ((7, _('7 days (Week)')), (28, _('28 days (Month)')))
 
-    days = models.PositiveSmallIntegerField(choices=CHOISES, default=28, verbose_name= _('Days'))
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True, verbose_name= _('Menu'))
+    days = models.PositiveSmallIntegerField(choices=CHOISES, default=28, verbose_name=_('Days'))
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, null=True, verbose_name=_('Menu'))
     delivery_schedule = models.ForeignKey(DeliverySchedule, on_delete=models.SET_NULL, null=True,
-                                          verbose_name= _('Delivery schedule'))
-    weekdays_only = models.BooleanField(default=False, verbose_name= _('Weekdays only'))
+                                          verbose_name=_('Delivery schedule'))
+    weekdays_only = models.BooleanField(default=False, verbose_name=_('Weekdays only'))
     price_menu = models.DecimalField(max_digits=12, decimal_places=2, default=0,
-                                     verbose_name= _('Price menu'))
+                                     verbose_name=_('Price menu'))
     price_delivery = models.DecimalField(max_digits=12, decimal_places=2, default=0,
-                                         verbose_name= _('Price delivery'))
+                                         verbose_name=_('Price delivery'))
     price_total = models.DecimalField(max_digits=12, decimal_places=2, default=0,
-                                      verbose_name= _('Price total'))
+                                      verbose_name=_('Price total'))
 
     def __str__(self):
         return f"{self.menu.title}, {self.days} days, {self.delivery_schedule.delivery_vendor.title}"
@@ -42,14 +44,14 @@ class Order(models.Model):
         (4, _('Canceled')),
     )
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,
-                                verbose_name= _('Profile'))
+                                verbose_name=_('Profile'))
     subscription = models.ForeignKey(Subscription, on_delete=models.SET_NULL, null=True,
-                                     verbose_name= _('Subscription'))
-    data_start = models.DateField(verbose_name= _('Data start'))
-    data_end = models.DateField(blank=True, null=True, verbose_name= _('Data end'))
-    price = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name= _('Price'))
-    status = models.SmallIntegerField(choices=STATUS, default=1, verbose_name= _('Status'))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name= _('Created at'))
+                                     verbose_name=_('Subscription'))
+    data_start = models.DateField(verbose_name=_('Data start'))
+    data_end = models.DateField(blank=True, null=True, verbose_name=_('Data end'))
+    price = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name=_('Price'))
+    status = models.SmallIntegerField(choices=STATUS, default=1, verbose_name=_('Status'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created at'))
 
     def __str__(self):
         return f"{self.profile.first_name} {self.profile.last_name}, {self.subscription}"
@@ -57,4 +59,3 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
-

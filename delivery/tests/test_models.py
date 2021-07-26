@@ -20,7 +20,7 @@ class DeliveryScheduleTestCase(TestCase):
         cls.delivery_schedule = model_recipes.delivery_schedule.make()
 
     def test_field(self):
-        self.assertEqual(self.delivery_schedule.mode, 2)
+        self.assertEqual(self.delivery_schedule.mode, 1)
 
     def test_foreign_key(self):
         self.assertIsInstance(self.delivery_schedule.delivery_vendor, DeliveryVendor)

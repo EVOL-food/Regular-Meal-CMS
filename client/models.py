@@ -4,6 +4,8 @@ from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from client.manager import CustomUserManager
+
+
 # Create your models here.
 
 
@@ -18,6 +20,10 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        verbose_name = _('Account')
+        verbose_name_plural = _('Accounts')
 
 
 class Profile(models.Model):
@@ -43,3 +49,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        verbose_name = _('Profile')
+        verbose_name_plural = _('Profiles')

@@ -18,8 +18,8 @@ class DeliveryVendor(models.Model):
 
 class DeliverySchedule(models.Model):
     CHOICES_FOR_MODE = (
-        (1, _('Every day on one time.')),
-        (2, _('Weekdays, weekend.')),
+        (0, _('7 (Everyday)')),
+        (1, _('5 (Weekdays)')),
     )
     CHOICES_FOR_TIME = tuple((time(hour=hour), f'{hour}:00')
                              for hour in range(10, 21))
@@ -37,8 +37,8 @@ class DeliverySchedule(models.Model):
     delivery_time_end_weekend = models.TimeField(choices=CHOICES_FOR_TIME, default=11, blank=True, null=True,
                                                  verbose_name=_("Delivery time end on weekend"))
 
-    mode = models.SmallIntegerField(choices=CHOICES_FOR_MODE, default=1,
-                                    verbose_name=_("Status"))
+    mode = models.PositiveSmallIntegerField(choices=CHOICES_FOR_MODE, default=0,
+                                    verbose_name=_("Days a week"))
 
     def __str__(self):
         return f"{self.delivery_vendor.title}: " \
