@@ -46,8 +46,12 @@ class DeliverySchedule(models.Model):
                                              verbose_name=_("Mode"))
 
     def __str__(self):
-        return f"{self.delivery_vendor.title}: " \
-               f"from {self.delivery_time_start_weekday.hour} to {self.delivery_time_end_weekday.hour}" f"{self.everyday_same_time}"
+        title = f"{self.delivery_vendor.title}; "
+        title += f"{self.delivery_time_start_weekday.hour}:00-{self.delivery_time_end_weekday.hour}:00"
+        if not self.everyday_same_time:
+            title += f", {self.delivery_time_start_weekend.hour}:00-{self.delivery_time_end_weekend.hour}:00"
+        return title
+
 
     class Meta:
         verbose_name = _('Delivery schedule')

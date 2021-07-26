@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-26 20:55+0300\n"
+"POT-Creation-Date: 2021-07-26 21:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,23 +20,23 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\admin.py:11
+#: .\admin.py:25
 msgid "General"
 msgstr "Главное"
 
-#: .\admin.py:15
+#: .\admin.py:29
 msgid "Price"
 msgstr "Цена"
 
-#: .\admin.py:29 .\models.py:16 .\models.py:28
+#: .\admin.py:43 .\models.py:16 .\models.py:29
 msgid "Delivery vendor"
 msgstr "Сервис доставки"
 
-#: .\admin.py:32
+#: .\admin.py:46
 msgid "Delivery time"
 msgstr "Время доставки"
 
-#: .\admin.py:38
+#: .\admin.py:52
 #, fuzzy
 #| msgid "Delivery time"
 msgid "Delivery mode status"
@@ -62,47 +62,38 @@ msgstr "Цена за доставку"
 msgid "Delivery vendors"
 msgstr "Сервис доставки"
 
-#: .\models.py:21
-msgid "7 (Everyday)"
-msgstr ""
-
 #: .\models.py:22
-msgid "5 (Weekdays)"
-msgstr ""
+msgid "Everyday at the same time"
+msgstr "Каждый день в одно время"
 
-#: .\models.py:31
+#: .\models.py:23
+msgid "Weekdays and weekends"
+msgstr "Будни, выходные"
+
+#: .\models.py:33
 msgid "Delivery time start on weekday"
 msgstr "Время доставки по будням с"
 
-#: .\models.py:33
+#: .\models.py:36
 msgid "Delivery time end on weekday"
 msgstr "Время доставки по будням до"
 
-#: .\models.py:36
+#: .\models.py:40
 msgid "Delivery time start on weekend"
 msgstr "Время доставки по выходным от"
 
-#: .\models.py:38
+#: .\models.py:43
 msgid "Delivery time end on weekend"
 msgstr "Время доставки по выходным до"
 
-#: .\models.py:41
-msgid "Days a week"
-msgstr "Количество дней в неделю"
+#: .\models.py:46
+msgid "Mode"
+msgstr "Режим"
 
-#: .\models.py:48
+#: .\models.py:53
 msgid "Delivery schedule"
 msgstr "Расписание доставки"
 
-#: .\models.py:49
+#: .\models.py:54
 msgid "Delivery schedules"
 msgstr "Расписания доставок"
-
-#~ msgid "Every day on one time."
-#~ msgstr "Каждый день в одно время"
-
-#~ msgid "Weekdays, weekend."
-#~ msgstr "Будни, выходные"
-
-#~ msgid "Status"
-#~ msgstr "Статус"
