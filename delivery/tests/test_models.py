@@ -20,7 +20,7 @@ class DeliveryScheduleTestCase(TestCase):
         cls.delivery_schedule = model_recipes.delivery_schedule.make()
 
     def test_field(self):
-        self.assertEqual(self.delivery_schedule.mode, 1)
+        self.assertEqual(self.delivery_schedule.everyday_same_time, False)
 
     def test_foreign_key(self):
         self.assertIsInstance(self.delivery_schedule.delivery_vendor, DeliveryVendor)
@@ -34,7 +34,7 @@ class DeliveryScheduleTestCase(TestCase):
                          datetime.time(13))
         self.assertEqual(self.delivery_schedule.delivery_time_end_weekend,
                          datetime.time(15))
-        self.delivery_schedule.mode = 1
+        self.delivery_schedule.everyday_same_time = 1
         self.delivery_schedule.save()
         self.assertEqual(self.delivery_schedule.delivery_time_start_weekday,
                          self.delivery_schedule.delivery_time_start_weekend,

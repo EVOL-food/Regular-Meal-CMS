@@ -5,7 +5,21 @@ from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFil
 from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
 
-# Tabs
+# Inlines
+class DeliveryScheduleInlineAdmin(admin.StackedInline):
+    model = DeliverySchedule
+    fk_name = 'delivery_vendor'
+    can_delete = False
+    show_change_link = True
+    max_num = 0
+    fieldsets = (
+        (None, {
+            'fields': tuple()
+        }),
+    )
+
+
+# Pages
 class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         (_('General'), {
@@ -36,22 +50,21 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
                        'delivery_time_end_weekend',)
         }),
         (_('Delivery mode status'), {
-            'fields': ('mode',)
+            'fields': ('everyday_same_time',)
         }),
     )
     model = DeliverySchedule
     fk_name = 'delivery_vendor'
     list_filter = (
-        'mode',
+        'everyday_same_time',
         'delivery_vendor'
     )
-    readonly_fields = ('delivery_time_start_weekend', 'delivery_time_end_weekend',)
     list_display = ('delivery_vendor',
                     'delivery_time_start_weekday',
                     'delivery_time_end_weekday',
                     'delivery_time_start_weekend',
                     'delivery_time_end_weekend',
-                    'mode'
+                    'everyday_same_time'
                     )
     search_fields = ('delivery_vendor__title', 'delivery_time_start_weekday',
                      'delivery_time_end_weekday', 'delivery_time_start_weekend',
@@ -59,14 +72,14 @@ class DeliveryScheduleAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         try:
-            if obj.mode == 1:
-                return self.readonly_fields + ('delivery_time_start_weekend',
-                                               'delivery_time_end_weekend')
+            if not obj.everyday_same_time:
+                return ('delivery_time_start_weekend',
+                        'delivery_time_end_weekend')
         except AttributeError:
-            return self.readonly_fields + ('delivery_time_start_weekend',
-                                           'delivery_time_end_weekend')
+            return ('delivery_time_start_weekend',
+                    'delivery_time_end_weekend')
         else:
-            return self.readonly_fields
+            return tuple()
 
 
 admin.site.register(DeliveryVendor, DeliveryVendorAdmin)
