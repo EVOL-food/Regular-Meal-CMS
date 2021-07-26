@@ -11,11 +11,8 @@ from . import models
 class FormMixin:
     def get_inline_instances(self, request, obj=None):
         inlines = super().get_inline_instances(request, obj=None)
-        if obj and request.GET.get('_popup'):
-            classes = self.fieldsets[0][1]["classes"]
-            self.fieldsets[0][1]["classes"] = tuple(s for s in classes
-                                                    if "inline" not in s)
-            return list()
+        if not obj or request.GET.get('_popup'):
+            return tuple()
         else:
             return inlines
 
@@ -27,6 +24,11 @@ class FormMixin:
                                         "inline" not in class_]))
             fieldsets[0][1]["classes"] = new_classes
             return fieldsets[:-1]
+        elif request.GET.get('_popup'):
+            new_classes = tuple(class_ for class_ in self.tab_classes
+                                if "inline" not in class_)
+            fieldsets[0][1]["classes"] = new_classes
+            return fieldsets
         else:
             fieldsets[0][1]["classes"] = self.tab_classes
             return fieldsets
@@ -209,6 +211,13 @@ class IngredientAdmin(TabbedTranslationAdmin, admin.ModelAdmin):
 
     search_fields = [f'title_{lang}'
                      for lang in settings.MODELTRANSLATION_LANGUAGES]
+
+    def get_inline_instances(self, request, obj=None):
+        inlines = super().get_inline_instances(request, obj=None)
+        if not obj or request.GET.get('_popup'):
+            return tuple()
+        else:
+            return inlines
 
 
 class PhotoAdmin(admin.ModelAdmin):

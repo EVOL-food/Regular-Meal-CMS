@@ -25,7 +25,7 @@ class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     fieldsets = (
         (_('General'), {
             'fields': ('title', 'price_one_delivery', 'description', 'id'),
-            'classes': ('baton-tabs-init', 'baton-tab-inline-deliveryschedule',)
+            'classes': ('baton-tabs-init', 'baton-tab-group-delivery--inline-deliveryschedule',)
         }),
     )
     tab_classes = fieldsets[0][1]["classes"]
@@ -40,17 +40,22 @@ class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
     )
     list_filter = (('price_one_delivery', SliderNumericFilter),)
 
+    def get_inline_instances(self, request, obj=None):
+        inlines = super(DeliveryVendorAdmin, self).get_inline_instances(request, obj=None)
+        if not obj:
+            return tuple()
+        else:
+            return inlines
+
     def get_fieldsets(self, request, obj=None):
-        fieldsets = super().get_fieldsets(request, obj=None)
+        fieldsets = super(DeliveryVendorAdmin, self).get_fieldsets(request, obj=None)
         if not obj:
             new_classes = tuple(class_ for class_ in self.tab_classes
-                                if all(["id" not in class_,
-                                        "inline" not in class_]))
+                                if "--" not in class_)
             fieldsets[0][1]["classes"] = new_classes
-            return fieldsets[:-1]
         else:
             fieldsets[0][1]["classes"] = self.tab_classes
-            return fieldsets
+        return fieldsets
 
 
 class DeliveryScheduleAdmin(admin.ModelAdmin):
