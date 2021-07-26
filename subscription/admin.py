@@ -1,9 +1,21 @@
 from django.contrib import admin
 from .models import Subscription, Order
+from django.utils.translation import gettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 
 
 class SubscriptionAdmin(NumericFilterModelAdmin, admin.ModelAdmin):
+    fieldsets = (
+        (_('General'), {
+            'fields': ('email', 'password', 'last_login'),
+            'classes': ('baton-tabs-init', 'baton-tab-fs-permissions',
+                        'baton-tab-inline-profile',)
+        }),
+        (_('Permissions'), {
+            'fields': ('is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'classes': ('tab-fs-permissions',)
+        }),
+    )
     list_display = ('menu', 'days', 'weekdays_only', 'delivery_schedule',
                     'price_menu', 'price_delivery', 'price_total')
     list_filter = ('menu', ('price_total', SliderNumericFilter),

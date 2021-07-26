@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import DeliveryVendor, DeliverySchedule
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 

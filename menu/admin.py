@@ -1,10 +1,9 @@
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from admin_numeric_filter.admin import NumericFilterModelAdmin, SliderNumericFilter
 from modeltranslation.admin import TabbedTranslationAdmin
 from modeltranslation.admin import TranslationStackedInline
 from django.conf import settings
-from django.db.models import ForeignKey, CASCADE
 from . import models
 
 
