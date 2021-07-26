@@ -21,9 +21,12 @@ class DeliveryScheduleInlineAdmin(admin.StackedInline):
 
 # Pages
 class DeliveryVendorAdmin(NumericFilterModelAdmin, TabbedTranslationAdmin):
+    inlines = (DeliveryScheduleInlineAdmin,)
     fieldsets = (
         (_('General'), {
-            'fields': ('title', 'price_one_delivery', 'description')
+            'fields': ('title', 'price_one_delivery', 'description'),
+            'classes': ('baton-tabs-init',
+                        'baton-tab-inline-deliveryschedule',)
         }),
     )
     list_display = (
