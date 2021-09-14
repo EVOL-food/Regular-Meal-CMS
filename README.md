@@ -79,6 +79,7 @@ python manage.py runserver
 3. Make a celery task for the Order model, which will indicate the order status "Completed" after the subscription expires.
 4. Make OAuth 2.0 better.
 5. Make JWT Authentication better.
-6. Meke REST API search for menus by: menu name (strict), names of dishes in the menu (non-strict, that is, contains).   
+6. Meke REST API search for menus by: menu name (strict), names of dishes in the menu (non-strict, that is, contains).
+7. Create docker image and docker setup instructions.
 ##### Frontend:   
 1. Create the ready-to-use restaurant website.
