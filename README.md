@@ -7,20 +7,33 @@
 * Development stage: ALPHA VERSION
 ## Setup
 1. Clone the GitHub repo in a separate folder:
-`git clone https://github.com/EVOL-food/Regular-Meals-CMS.git`  
+```
+git clone https://github.com/EVOL-food/Regular-Meals-CMS.git
+```
 2. Go to the main directory of the project:
-`cd Regular-Meals-CMS`
+```
+cd Regular-Meals-CMS
+```
 3. Install dependencies:
-`pip install -r requirements.txt`
-4. Create database migrations for the Django apps:
+```
+pip install -r requirements.txt
+```
+4. Create database migrations for each app:
 ```
 python manage.py makemigrations menu
 python manage.py makemigrations delivery
 python manage.py makemigrations client
+python manage.py makemigrations subscription
 python manage.py makemigrations
 ```
-5. Create new superuser:
-`python manage.py createsuperuser`
+4. Apply database migrations:
+```
+python manage.py migrate
+```
+6. Create new superuser:
+```
+python manage.py createsuperuser
+```
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
