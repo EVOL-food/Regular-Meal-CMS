@@ -1,9 +1,8 @@
 # Regular Meal CMS - create your food subscriptions website without any line of code!
 ##### Ready-to-use restaurant website and fully-featured content management system for a restaurant that works on a monthly or weekly food delivery subscription system. 
-
 ##### BETA-VERSION!
-##### Project has been written on Python Django.
 ## Requirements:
+##### Project has been written on Python Django.
 1. Global:
 1.1. Django
 1.2. Django REST Framework
