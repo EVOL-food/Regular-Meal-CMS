@@ -5,6 +5,7 @@
 ##### FULL AND CONVENIENCE TESTS COVERAGE GUARANTEED!
 ###### *Team needs a Front End React developer! If you're JavaScript or Python developer please enjoy this CMS development with us!*  
 * Development stage: ALPHA VERSION
+
 ## Setup
 1. Clone the GitHub repo in a separate folder:
 ```
@@ -44,6 +45,7 @@ python manage.py runserver
    ![Admin panel main page](docs/images/admin_page.png)
 10. **Congratulations!** You've actually done with the setup.  
 *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
+
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
