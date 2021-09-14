@@ -30,18 +30,18 @@ python manage.py makemigrations
 ```
 python manage.py migrate
 ```
-8. Create first superuser (admin profile), remember your credentials:
+6. Create first superuser (admin profile), remember your credentials:
 ```
 python manage.py createsuperuser
 ```
-6. Run server on the localhost (127.0.0.1):
+7. Run server on the localhost (127.0.0.1):
 ```
 python manage.py runserver
 ```
-9. Now visit admin panel by URL `127.0.0.1:8000/en/admin/`. You will see login page:
-10. Enter your superuser credentials and press "Log in" button, so you will enter an admin area.
-11. Now you can create dishes and menus, categories, delivery regimes and subscription types.
-12. Congrqatulations! You've done with the setup.
+8. Now visit admin panel by URL `127.0.0.1:8000/en/admin/`. You will see login page:
+9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area.
+10. Now you can create dishes and menus, categories, delivery regimes and subscription types.
+11. Congrqatulations! You've done with the setup.
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
