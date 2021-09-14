@@ -40,9 +40,10 @@ python manage.py runserver
 ```
 8. Now visit the admin panel by URL `127.0.0.1:8000/en/admin/`. You will see the login page:
    ![Admin panel login page](docs/images/admin_login_page.png)
-9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area.
+9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area:
    ![Admin panel main page](docs/images/admin_page.png)
-10. Congratulations! You've actually done with the setup. Now you can create new dishes and menus, categories, delivery regimes and subscription types.
+10. Congratulations! You've actually done with the setup. 
+*Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
