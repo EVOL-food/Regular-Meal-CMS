@@ -11,4 +11,4 @@ markdown
 django-filter
 djoser
 social-auth-app-django
-modeltranslation
+django-modeltranslation
