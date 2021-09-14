@@ -4,8 +4,8 @@
 ##### Regular Meal CMS software product uses only professional and reliable software technologies and privide. Now you can forget about hackers' attacks, specifical or expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and interantionalization.
 ###### WE NEED A FRONTEND DEVELOPER!!! If you're JavaScript or Python developer please enjoy this CMS development with us.
 ###### *FULL AND CONVENIENCE TESTS COVERAGE!*
-###### *Project is under development with the FULL AND CONVENIENCE TESTS COVERAGE!*   
-Development stage: ALPHA VERSION 
+*Project is under development with the FULL AND CONVENIENCE TESTS COVERAGE!*   
+* Development stage: ALPHA VERSION *
 ## Setup
 1. Clone the GitHub repo in a separate folder:
 `git clone https://github.com/EVOL-food/Regular-Meals-CMS.git`  
