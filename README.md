@@ -1,7 +1,22 @@
-# Regular Meal CMS - create your food delivery subscriptions website without any line of code!
-#### Ready-to-use restaurant website and fully-featured content management system for a restaurant that works on a monthly or weekly food delivery subscription system. 
+# Regular Meal CMS - create your food subscriptions website without any line of code!
+#### Fully-featured content management system for a daily food delivery subscription system and ready-to-use restaurant website.
 *The project is under development!*   
 Stage: ALPHA VERSION 
+## Setup
+1. Clone the GitHub repo in a separate folder:
+`git clone https://github.com/EVOL-food/Regular-Meals-CMS.git`  
+2. Go to the main directory of the project:
+`cd Regular-Meals-CMS`
+3. Create new superuser:
+`python manage.py createsuperuser`
+4. Create database migrations for the Django apps:
+`python manage.py makemigrations`
+NOTE: if 
+```
+python manage.py makemigrations menu
+python manage.py makemigrations delivery
+python manage.py makemigrations client
+```
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
