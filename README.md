@@ -12,7 +12,7 @@
   2.2. django-admin-numeric-filter  
   2.3. django-filter  
 
-3. *Internalization and localization*:  
+3. *Internationalization and localization*:  
   3.1. modeltranslation  
 
 4. *Django ORM Models*:  
