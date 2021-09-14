@@ -10,7 +10,9 @@
 `git clone https://github.com/EVOL-food/Regular-Meals-CMS.git`  
 2. Go to the main directory of the project:
 `cd Regular-Meals-CMS`
-3. Create new superuser:
+3. Install dependencies:
+`pip install -r requirements.txt`
+5. Create new superuser:
 `python manage.py createsuperuser`
 4. Create database migrations for the Django apps:
 `python manage.py makemigrations`
@@ -41,7 +43,6 @@ python manage.py makemigrations client
 5. *Social authentication*:  
   5.1. djoser  
   5.2. social-auth-app-django  
-  5.3. restframework-simplejwt  
 
 6. *Extra*:  
   6.1. unidecode  
