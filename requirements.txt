@@ -12,3 +12,4 @@ django-filter
 restframework-simplejwt
 djoser
 social-auth-app-django
+modeltranslation
