@@ -74,7 +74,7 @@ python manage.py runserver
 
 ## TODOs:
 ##### Backend:   
-1. Make buttons for switching the language in the admin panel.
+1. Make admin panel buttons for the language switching.
 2. Connect image hosting API like Imgur or Cloudinary.
 3. Make a celery task for the Order model, which will indicate the order status "Completed" after the subscription expires.
 4. Make OAuth 2.0 better.
