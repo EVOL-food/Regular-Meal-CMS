@@ -6,19 +6,26 @@
 1. *Global*:  
 1.1. Django  
 1.2. Django REST Framework  
+
 2. *Admin-panel*:  
 2.1. django-baton  
 2.2. django-admin-numeric-filter  
 2.3. django-filter  
-3. *Django ORM Models*:  
-3.1. model_mommy  
-3.2. django-imagekit  
-4. *Social authentication*:  
-4.1. djoser  
-4.2. social-auth-app-django  
-4.3. restframework-simplejwt  
-5. *Extra*:  
-5.1. unidecode  
-5.2. markdown  
-5.3. coverage  
-5.4. pillow  
+
+3. *Internalization and localization*:  
+3.1. modeltranslation  
+
+5. *Django ORM Models*:  
+6.1. model_mommy  
+7.2. django-imagekit  
+
+8. *Social authentication*:  
+9.1. djoser  
+10.2. social-auth-app-django  
+11.3. restframework-simplejwt  
+
+12. *Extra*:  
+13.1. unidecode  
+14.2. markdown  
+15.3. coverage  
+16.4. pillow  
