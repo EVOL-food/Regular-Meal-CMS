@@ -1,5 +1,5 @@
 # Regular Meal CMS - create your food subscriptions website without any line of code!
-#### Fully-featured restaurant content management system for the daily food delivery by a monthly or weekly subscriptions ordering, and the ready-to-use restaurant website.
+#### Fully-featured restaurant content management system for the daily food delivery by a monthly or weekly subscriptions ordering, and 
 *The project is under development!*   
 Stage: ALPHA VERSION 
 ## Setup
@@ -47,9 +47,12 @@ python manage.py makemigrations client
   6.4. pillow  
 
 ## TODOs:
+Backend:
 1. Make buttons for switching the language in the admin panel.
 2. Connect image hosting API like Imgur or Cloudinary.
 3. Make a celery task for the Order model, which will indicate the order status "Completed" after the subscription expires.
 4. Make OAuth 2.0 better.
 5. Make JWT Authentication better.
 6. Meke REST API search for menus by: menu name (strict), names of dishes in the menu (non-strict, that is, contains).
+Frontend:
+1. Create the ready-to-use restaurant website.
