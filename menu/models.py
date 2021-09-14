@@ -198,6 +198,8 @@ class Menu(models.Model):
 class IngredientDishesProxy(Dish.ingredients.through):
     class Meta:
         proxy = True
+        app_label = 'menu'
+        auto_created = True
 
     def __str__(self):
         self._meta.get_field('dish').verbose_name = _("Dish")
