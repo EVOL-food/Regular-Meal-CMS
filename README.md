@@ -47,12 +47,12 @@ python manage.py makemigrations client
   6.4. pillow  
 
 ## TODOs:
-Backend:   
+##### Backend:   
 1. Make buttons for switching the language in the admin panel.
 2. Connect image hosting API like Imgur or Cloudinary.
 3. Make a celery task for the Order model, which will indicate the order status "Completed" after the subscription expires.
 4. Make OAuth 2.0 better.
 5. Make JWT Authentication better.
 6. Meke REST API search for menus by: menu name (strict), names of dishes in the menu (non-strict, that is, contains).   
-Frontend:   
+##### Frontend:   
 1. Create the ready-to-use restaurant website.
