@@ -12,16 +12,15 @@
 `cd Regular-Meals-CMS`
 3. Install dependencies:
 `pip install -r requirements.txt`
-5. Create new superuser:
-`python manage.py createsuperuser`
 4. Create database migrations for the Django apps:
-`python manage.py makemigrations`
-NOTE: if 
 ```
 python manage.py makemigrations menu
 python manage.py makemigrations delivery
 python manage.py makemigrations client
+python manage.py makemigrations
 ```
+5. Create new superuser:
+`python manage.py createsuperuser`
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
