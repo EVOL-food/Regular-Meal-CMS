@@ -2,7 +2,7 @@ django
 pillow
 unidecode
 coverage
-django-baton 2.2.1
+django-baton
 django-admin-numeric-filter
 django-imagekit
 model_mommy
