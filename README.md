@@ -1,6 +1,5 @@
 # Regular Meal CMS - create your food subscriptions website without any line of code!
-#### The fully-featured restaurant content management system for the daily food delivery by a monthly or weekly subscriptions ordering.
-#### The ready-to-use restaurant website.
+#### Fully-featured restaurant content management system for the daily food delivery by a monthly or weekly subscriptions ordering, and the ready-to-use restaurant website.
 *The project is under development!*   
 Stage: ALPHA VERSION 
 ## Setup
