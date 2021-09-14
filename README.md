@@ -1,6 +1,6 @@
 # Regular Meal CMS 
 ### Create your daily food subscriptions restaurant website without any line of code! 
-#### Regular Meal CMS is a fully-featured restaurant content management system for the daily food delivery by a monthly or weekly subscriptions ordering.
+#### Regular Meal CMS is a fully-featured restaurant content management system for a daily food delivery by monthly or weekly subscriptions.
 *Project is under development!*   
 Stage: ALPHA VERSION 
 ## Setup
