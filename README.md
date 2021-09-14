@@ -8,21 +8,21 @@
 1.2. Django REST Framework  
 
 2. *Admin-panel*:  
-2.1. django-baton  
-2.2. django-admin-numeric-filter  
-2.3. django-filter  
+1. django-baton  
+2. django-admin-numeric-filter  
+3. django-filter  
 
 3. *Internalization and localization*:  
 3.1. modeltranslation  
 
 5. *Django ORM Models*:  
-6.1. model_mommy  
-7.2. django-imagekit  
+1. model_mommy  
+2. django-imagekit  
 
 8. *Social authentication*:  
-9.1. djoser  
-10.2. social-auth-app-django  
-11.3. restframework-simplejwt  
+1. djoser  
+2. social-auth-app-django  
+3. restframework-simplejwt  
 
 12. *Extra*:  
 13.1. unidecode  
