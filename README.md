@@ -46,7 +46,7 @@ python manage.py runserver
 10. **Congratulations!** You've actually done with the setup.  
 *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
-## Requirements:
+## Requirements
 ##### Project has been written on Python Django.
 1. *Global*:  
   1.1. Django  
@@ -74,7 +74,7 @@ python manage.py runserver
   6.3. coverage  
   6.4. pillow  
 
-## TODOs:
+## TODOs
 ##### Backend:   
 1. Make admin panel buttons for the language switching.
 2. Connect image hosting API like Imgur or Cloudinary.
