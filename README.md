@@ -4,28 +4,28 @@
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
-1.1. Django  
-1.2. Django REST Framework  
+  1.1. Django  
+  1.2. Django REST Framework  
 
 2. *Admin-panel*:  
-  1. django-baton  
-  2. django-admin-numeric-filter  
-  3. django-filter  
+  2.1. django-baton  
+  2.2. django-admin-numeric-filter  
+  2.3. django-filter  
 
 3. *Internalization and localization*:  
-3.1. modeltranslation  
+  3.1. modeltranslation  
 
-5. *Django ORM Models*:  
-1. model_mommy  
-2. django-imagekit  
+4. *Django ORM Models*:  
+  5.1. model_mommy  
+  5.2. django-imagekit  
 
-8. *Social authentication*:  
-1. djoser  
-2. social-auth-app-django  
-3. restframework-simplejwt  
+5. *Social authentication*:  
+  5.1. djoser  
+  5.2. social-auth-app-django  
+  5.3. restframework-simplejwt  
 
-12. *Extra*:  
-13.1. unidecode  
-14.2. markdown  
-15.3. coverage  
-16.4. pillow  
+6. *Extra*:  
+  6.1. unidecode  
+  6.2. markdown  
+  6.3. coverage  
+  6.4. pillow  
