@@ -13,10 +13,10 @@
 3. *Django ORM Models*:  
 3.1. model_mommy  
 3.2. django-imagekit  
-4.1. *Social authentication*:  
-4.2. djoser  
-4.3. social-auth-app-django  
-4.4. restframework-simplejwt  
+4. *Social authentication*:  
+4.1. djoser  
+4.2. social-auth-app-django  
+4.3. restframework-simplejwt  
 5. *Extra*:  
 5.1. unidecode  
 5.2. markdown  
