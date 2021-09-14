@@ -8,9 +8,9 @@
 1.2. Django REST Framework  
 
 2. *Admin-panel*:  
-1. django-baton  
-2. django-admin-numeric-filter  
-3. django-filter  
+  1. django-baton  
+  2. django-admin-numeric-filter  
+  3. django-filter  
 
 3. *Internalization and localization*:  
 3.1. modeltranslation  
