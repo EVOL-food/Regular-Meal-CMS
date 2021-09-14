@@ -10,10 +10,10 @@
 2.1. django-baton  
 2.2. django-admin-numeric-filter  
 2.3. django-filter  
-3. *Models*:  
+3. *Django ORM Models*:  
 3.1. model_mommy  
 3.2. django-imagekit  
-4.1. Social authentication:  
+4.1. *Social authentication*:  
 4.2. djoser  
 4.3. social-auth-app-django  
 4.4. restframework-simplejwt  
