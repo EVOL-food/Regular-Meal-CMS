@@ -1,7 +1,7 @@
 # Regular Meal CMS - create your own five-meals delivery subscription restaurant's website so fast and easy!
 ### *Regular Meal CMS* is a fully-featured content management system for a five-meals delivery subscription plans website. Ideal for a restaurant of healthy, medical and sports nutrition.
 #### If you want to expand the range of services provided by your restaurant using the website for ordering five meals a day delivery, write to the email specified in the team leader's [GitHub profile](https://github.com/imgVOID). 
-##### This software product uses only professional, save and reliable software technologies like Python Django, REST API, social authentication by JWT (Google Auth), any language internationalization and localization.
+##### FULL AND CONVENIENCE TESTS COVERAGE! This software product uses only professional, save and reliable software technologies like Python Django, REST API, social authentication by JWT (Google Auth) and any language internationalization and localization.
 
 *Project is under development!*   
 Stage: ALPHA VERSION 
