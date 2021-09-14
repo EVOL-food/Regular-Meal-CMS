@@ -17,7 +17,6 @@
 4.2. djoser  
 4.3. social-auth-app-django  
 4.4. restframework-simplejwt  
-4.5. social-auth-app-django  
 5. Extra:  
 5.1. unidecode  
 5.2. markdown  
