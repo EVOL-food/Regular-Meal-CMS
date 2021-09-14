@@ -26,14 +26,23 @@ python manage.py makemigrations client
 python manage.py makemigrations subscription
 python manage.py makemigrations
 ```
-4. Apply database migrations:
+5. Apply database migrations:
 ```
 python manage.py migrate
 ```
-6. Create new superuser:
+6. Run server on the localhost (127.0.0.1):
+```
+python manage.py runserver
+```
+7. Visit localhost port 8000 (127.0.0.1:8000). Setup has been done properly if you see this page:
+
+8. Create first superuser (admin profile), remember credentials:
 ```
 python manage.py createsuperuser
 ```
+9. After superuser creation visit `127.0.0.1:8000/en/admin/`. You will see admin panel login page:
+10. 
+11. 
 ## Requirements:
 ##### Project has been written on Python Django.
 1. *Global*:  
