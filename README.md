@@ -6,7 +6,7 @@
 </p>
 
 # About
-#### *Team needs a Front End React developer! If you're JavaScript or Python developer please look at the "TODOs" section and enjoy the team development.*
+#### *Team needs a Front End React developer! Please write an E-Mail and look at the "TODOs" section.*
 Regular Meal CMS contains only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about specifically and expensive website templates, online attacks, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 * ###### PROJECT DEVELOPMENT STAGE: ALPHA VERSION
 * ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE
@@ -98,4 +98,4 @@ python manage.py runserver
 6. Meke REST API search for menus by: menu name (strict), names of dishes in the menu (non-strict, that is, contains).
 7. Create docker image and docker setup instructions.
 ##### Frontend:   
-1. Create the ready-to-use restaurant website.
+1. Create a single page React application.
