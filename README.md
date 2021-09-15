@@ -9,13 +9,13 @@
 #### *Team needs a Front End React developer! Regular Meal CMS project is on the ALPHA version development stage now. If you're JavaScript or Python developer please look at the "TODOs" section and enjoy the team CMS development.*
 ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE! 
 
-*Regular Meal CMS* software product uses only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about hackers' attacks, specifically and expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
+**Regular Meal CMS** software product uses only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about hackers' attacks, specifically and expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 
 #### Business clients services:
 * Do you want to expand a range of the services that your restaurant provide?
 * Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
 
-In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail. The best price for high quality nutrition delivery websites!
+*In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail. The best price for high quality nutrition delivery websites!*
 
 
 # Easy restaurant website setup
