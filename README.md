@@ -13,8 +13,8 @@ Regular Meal CMS contains only professional and reliable software technologies l
 * ###### READY-TO-USE RUSSIAN LANGUAGE SUPPORT
 
 #### Business clients services:
-* Do you want to expand a range of the services that your restaurant provide?
-* Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
+* *Do you want to expand a range of the services that your restaurant provide?*
+* *Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans?*
 
 In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail. The best price for high quality nutrition delivery websites!
 
