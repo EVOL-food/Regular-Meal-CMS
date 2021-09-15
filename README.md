@@ -7,9 +7,8 @@
 
 # About
 #### *Team needs a Front End React developer! If you're JavaScript or Python developer please look at the "TODOs" section and enjoy the team CMS development.*
-###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE.
+###### PROJECT IS IN THE ALPHA VERSION DEVELOPMENT STAGE. FULL TESTS COVERAGE FOR YOUR CONVENIENCE!
 *Regular Meal CMS* software product uses only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about hackers' attacks, specifically and expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
-###### PROJECT IS IN THE ALPHA VERSION DEVELOPMENT STAGE.
 
 #### Business clients services:
 * Do you want to expand a range of the services that your restaurant provide?
