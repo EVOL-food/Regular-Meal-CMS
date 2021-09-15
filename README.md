@@ -57,10 +57,10 @@ python manage.py runserver
    ![Admin panel main page](docs/images/admin_page.png)
 10. ### *Congratulations,* you've actually done with the setup! 
 
-*Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
+##### *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
 # Requirements
-*Project has been written on Python Django.*
+##### *Project has been written on Python Django.*
 1. *Global*:  
   1.1. Django  
   1.2. Django REST Framework  
