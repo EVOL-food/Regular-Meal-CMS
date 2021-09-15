@@ -60,7 +60,7 @@ python manage.py runserver
 ##### *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
 # Requirements
-##### *Project has been written on Python Django.*
+##### Project has been written on Python Django.
 1. *Global*:  
   1.1. Django  
   1.2. Django REST Framework  
