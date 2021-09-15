@@ -47,7 +47,7 @@ python manage.py migrate
 ```
 python manage.py createsuperuser
 ```
-7. Run server on the localhost (127.0.0.1):
+7. Run server on the localhost:
 ```
 python manage.py runserver
 ```
