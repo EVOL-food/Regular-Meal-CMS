@@ -6,7 +6,7 @@
 </p>
 
 # About
-#### *Team needs a Front End React developer! *
+#### *Team needs a Front End React developer!*
 #### If you're JavaScript or Python developer please look at the "TODOs" section and enjoy the team CMS development.*
 * ###### PROJECT DEVELOPMENT STAGE: ALPHA VERSION
 * ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE
