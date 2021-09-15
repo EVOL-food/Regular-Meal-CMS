@@ -12,10 +12,9 @@
 ###### DEVELOPMENT STAGE: ALPHA VERSION
 
 ## Service order contacts
-Do you want to expand a range of the services that your restaurant provide?
-
-Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
-#### *In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail, the best price, the best quality.*
+* Do you want to expand a range of the services that your restaurant provide?
+* Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
+* *In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail, the best price, the best quality.*
 
 
 ## Easy restaurant website setup
