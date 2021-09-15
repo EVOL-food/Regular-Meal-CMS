@@ -51,7 +51,7 @@ python manage.py createsuperuser
 ```
 python manage.py runserver
 ```
-8. Now visit the admin panel by URL `127.0.0.1:8000/en/admin/`. You will see the login page:
+8. Now open an admin panel by visit URL `127.0.0.1:8000/en/admin/`. You will see the login page:
    ![Admin panel login page](docs/images/admin_sign_in_page.png)
 9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area:
    ![Admin panel main page](docs/images/admin_page.png)
