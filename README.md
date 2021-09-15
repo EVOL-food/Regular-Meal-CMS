@@ -18,7 +18,7 @@ Regular Meal CMS software product uses only professional and reliable software t
 *In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail. The best price for high quality nutrition delivery websites!*
 
 
-# Easy restaurant website setup!
+# Easy restaurant website setup
 1. Clone the GitHub repo in a separate folder:
 ```
 git clone https://github.com/EVOL-food/Regular-Meals-CMS.git
@@ -55,7 +55,7 @@ python manage.py runserver
    ![Admin panel login page](docs/images/admin_sign_in_page.png)
 9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area:
    ![Admin panel main page](docs/images/admin_page.png)
-10. ### *Congratulations,* you've actually done with the setup. 
+10. ### *Congratulations,* you've actually done with the setup! 
 
 *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
