@@ -61,7 +61,7 @@ python manage.py runserver
 # Requirements
 ##### Regular Meal CMS project has been written with the Python Django framework.
 1. *Global*:  
-  1.1. Django
+  1.1. Django   
   1.2. Django REST Framework  
 
 2. *Admin-panel*:  
