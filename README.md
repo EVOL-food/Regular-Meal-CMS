@@ -5,20 +5,20 @@
    <img src="docs/images/logo.png" alt="Regular Meal CMS logo"/>
 </p>
 
-## About
+# About
 #### *Team needs a Front End React developer! If you're JavaScript or Python developer please look at the "TODOs" section and enjoy the team CMS development.*
 ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE.
 *Regular Meal CMS* software product uses only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about hackers' attacks, specifically and expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 ###### DEVELOPMENT STAGE: ALPHA VERSION.
 
-## Service order contacts
+# Service order contacts
 * Do you want to expand a range of the services that your restaurant provide?
 * Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
 
 *In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail. The best price for high quality nutrition delivery websites!*
 
 
-## Easy restaurant website setup
+# Easy restaurant website setup
 1. Clone the GitHub repo in a separate folder:
 ```
 git clone https://github.com/EVOL-food/Regular-Meals-CMS.git
@@ -59,7 +59,7 @@ python manage.py runserver
 
 *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
-## Requirements
+# Requirements
 ##### Project has been written on Python Django.
 1. *Global*:  
   1.1. Django  
@@ -87,7 +87,7 @@ python manage.py runserver
   6.3. coverage  
   6.4. pillow  
 
-## TODOs
+# TODOs
 ##### Backend:   
 1. Make admin panel buttons for the language switching.
 2. Connect image hosting API like Imgur or Cloudinary.
