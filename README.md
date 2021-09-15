@@ -56,7 +56,7 @@ python manage.py runserver
 9. Enter your superuser credentials and press "Log in" button, so you will enter an admin area:
    ![Admin panel main page](docs/images/admin_page.png)
 10. ### Congratulations, you've done with the CMS setup!
-Now you can create new dishes and menus, categories, delivery regimes and subscription types.
+*Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
 # Requirements
 *Regular Meal CMS project has been written with the Python Django framework.*
