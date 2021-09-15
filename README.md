@@ -11,7 +11,7 @@
 *Regular Meal CMS* software product uses only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about hackers' attacks, specifically and expensive website templates, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 ###### DEVELOPMENT STAGE: ALPHA VERSION.
 
-#### Business clients services
+#### Business clients services:
 * Do you want to expand a range of the services that your restaurant provide?
 * Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans? 
 
