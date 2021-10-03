@@ -60,7 +60,7 @@ python manage.py runserver
 *Now you can create new dishes and menus, categories, delivery regimes and subscription types.*
 
 # Requirements
-*Regular Meal CMS project has been written with the Python Django framework.*
+Regular Meal CMS project has been written with the Python Django framework.
 
 1. *Global*:  
   1.1. Django   
