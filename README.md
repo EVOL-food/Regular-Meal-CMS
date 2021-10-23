@@ -6,7 +6,6 @@
 </p>
 
 # About
-#### *We need a Front End React developer, please send team lead an E-Mail and look at the "TODOs" section.*
 Regular Meal CMS contains only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about specifically and expensive website templates, online attacks, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 * ###### PROJECT DEVELOPMENT STAGE: ALPHA VERSION
 * ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE
