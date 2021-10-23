@@ -1,5 +1,5 @@
 # Regular Meal CMS
-### Content management system for a five-meals delivery subscription plans website. Ideal for a restaurant of healthy, medical and sports nutrition.
+### The content management system for a five-meals delivery subscription plans website. Ideal for a restaurant of healthy, medical and sports nutrition.
 
 <p align="center">
    <img src="docs/images/logo.png" alt="Regular Meal CMS logo"/>
