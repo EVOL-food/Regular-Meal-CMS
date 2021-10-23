@@ -1,5 +1,5 @@
-# Regular Meal CMS - create your own five-meals delivery subscription restaurant's website so fast and easy!
-### **Regular Meal CMS** is a fully-featured content management system for a five-meals delivery subscription plans website. Ideal for a restaurant of healthy, medical and sports nutrition.
+# Regular Meal CMS - create your own five-meals delivery subscription restaurant's website!
+### **Regular Meal CMS** is a content management system for a five-meals delivery subscription plans website. Ideal for a restaurant of healthy, medical and sports nutrition.
 
 <p align="center">
    <img src="docs/images/logo.png" alt="Regular Meal CMS logo"/>
