@@ -6,7 +6,7 @@
 </p>
 
 # About
-Regular Meal CMS contains only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about specifically and expensive website templates, online attacks, data losses and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
+Regular Meal CMS contains only professional and reliable software technologies like Python Django, Django REST framework and JWT social authentication. Now you can forget about specifically and expensive website templates and hard to fix SQL errors! Furthermore, Regular Meal CMS provide an any language localization and internationalization features.
 * ###### PROJECT DEVELOPMENT STAGE: ALPHA VERSION
 * ###### FULL TESTS COVERAGE FOR YOUR CONVENIENCE
 * ###### READY-TO-USE RUSSIAN LANGUAGE SUPPORT
