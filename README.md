@@ -18,7 +18,7 @@ Regular Meal CMS contains only professional and reliable software technologies l
 In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail.
 
 
-# Easy restaurant website setup
+# Easy restaurant management setup
 1. Clone the GitHub repo in a separate folder:
 ```
 git clone https://github.com/EVOL-food/Regular-Meals-CMS.git
