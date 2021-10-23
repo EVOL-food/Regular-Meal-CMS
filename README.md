@@ -13,7 +13,7 @@ Regular Meal CMS contains only professional and reliable software technologies l
 
 #### Clients services:
 * *Do you want to expand a range of the services that your restaurant provide?*
-* *Do you want to open a new business with the health or sport five-meals nutrition delivery by monthly/weekly subscription plans?*
+* *Do you want to develop a new asynchronous API?*
 
 In both cases you can send [team leader](https://github.com/imgVOID) an E-Mail.
 
